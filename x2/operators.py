@@ -54,7 +54,7 @@ class XTBuiltinOperators:
 
         val = ctx.args[1]
         val = val.content if val.isvar else val.value
-        if str(val)[0] not in string.ascii_letters:
+        if str(val)[0] not in string.ascii_letters + "-":
             raise InvalidArgument("variable name is invalid!")
 
         ctx.memory.vars[val] = ctx.args[0].value
