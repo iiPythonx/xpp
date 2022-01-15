@@ -306,3 +306,14 @@ class XTBuiltinOperators:
 
         ctx.args[0].set(str(ctx.args[0].value))
         return ctx.args[0].value
+
+    def rem(ctx) -> None:
+        """Deletes an item from internal variable memory"""
+        if not ctx.args:
+            raise MissingArguments("missing variable to delete!")
+
+        key = ctx.args[0].content if ctx.args[0].isvar else str(ctx.args[0].value)
+        if key not in ctx.memory.vars:
+            raise InvalidArgument("unknown or nonexistant variable provided!")
+
+        del ctx.memory.vars[key]
