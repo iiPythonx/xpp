@@ -6,6 +6,24 @@
 :reset
     ret "\33[0m"
 
+:bold
+    ret "\033[1m$(pop _a1)"
+
+:italic
+    ret "\033[3m$(pop _a1)"
+
+:underline
+    ret "\033[4m$(pop _a1)"
+
+:invert
+    ret "\033[7m$(pop _a1)"
+
+:hide
+    ret "\033[8m$(pop _a1)"
+
+:strike
+    ret "\033[9m$(pop _a1)"
+
 :: Colors
 :blackf
     ret "\033[30m$(pop _a1)"

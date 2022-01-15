@@ -1,0 +1,38 @@
+:: Array System Package
+:: Version x2.1 - x2.1
+:: Made by DmmD
+
+:arrNew
+    psh 0 "$(pop _a1)Len"
+    ret _a1
+
+:arrPsh
+    call arrLen _a1 -@
+    psh -@ --@
+    tstr --@
+    psh _a2 "$(pop _a1)$(pop --@)"
+    add -@ 1 -@
+    psh -@ "$(pop _a1)Len"
+    ret _a2
+
+:arrPop
+    call arrLen _a1 -@
+    sub -@ 1 -@
+    psh -@ --@
+    tstr --@
+    psh "$(pop _a1)$(pop --@)" -@
+    pop "$(pop -@)" -@
+    rem "$(pop _a1)$(pop --@)"
+    psh --@ "$(pop _a1)Len"
+    ret -@
+
+:arrGet
+    tstr _a2
+    psh "$(pop _a1)$(pop _a2)" -@
+    pop "$(pop -@)" -@
+    ret -@
+
+:arrLen
+    psh "$(pop _a1)Len" -@
+    pop "$(pop -@)" -@
+    ret -@
