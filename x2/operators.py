@@ -2,9 +2,10 @@
 
 # Modules
 import os
+import string
 import random
-from types import FunctionType
 from typing import Any
+from types import FunctionType
 
 # Exceptions
 class MissingArguments(Exception):
@@ -51,10 +52,12 @@ class XTBuiltinOperators:
         if len(ctx.args) != 2:
             raise MissingArguments("missing value or variable!")
 
-        if not ctx.args[1].isvar:
-            raise InvalidArgument("second argument cannot be a literal!")
+        val = ctx.args[1]
+        val = val.content if val.isvar else val.value
+        if str(val)[0] not in string.ascii_letters:
+            raise InvalidArgument("variable name is invalid!")
 
-        ctx.args[1].set(ctx.args[0].value)
+        ctx.memory.vars[val] = ctx.args[0].value
 
     def pop(ctx) -> Any:
         """Returns a variables value"""
