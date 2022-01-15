@@ -64,7 +64,19 @@ class XTBuiltinOperators:
         if not ctx.args:
             raise MissingArguments("missing value!")
 
-        return ctx.args[0].value
+        key = ctx.args[0].content if ctx.args[0].isvar else str(ctx.args[0].value)
+        if key not in ctx.memory.vars:
+            raise InvalidArgument("unknown or nonexistant variable provided!")
+
+        val = ctx.memory.vars[key]
+        if len(ctx.args) > 1:
+            dest = ctx.args[1]
+            if not dest.isvar:
+                raise InvalidArgument("last argument must be variable if provided!")
+
+            dest.set(val)
+
+        return val
 
     def jmp(ctx) -> None:
         """Jumps to a different section"""
