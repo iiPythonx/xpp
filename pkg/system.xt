@@ -1,0 +1,11 @@
+:: System Package
+:: Version x2.1 - x2.1
+:: Made by DmmD
+
+:cvrtNum
+    num _a1
+    ret _a1
+
+:cvrtStr
+    tstr _a1
+    ret _a1
