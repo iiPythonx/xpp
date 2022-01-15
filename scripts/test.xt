@@ -1,0 +1,65 @@
+:: x2.1 Testing File
+:: Copyright (c) 2022 iiPython + Dm123321_31mD Gaming
+
+psh "\033[31m" _clred
+psh "\033[32m" _clgreen
+psh "\033[33m" _clyellow
+psh "\033[34m" _clblue
+psh "\033[36m" _clcyan
+psh "\033[39m" _clreset
+
+:main
+    out "Hello, world!"
+    out "Jumping to honk section ..."
+    jmp honk
+
+    :: Perform some mathematics
+    jmp math
+    
+    :: Perform some string checks
+    jmp strcmp
+
+    :: Color tests
+    jmp colors
+
+:math
+    out
+    out "Performing math equiv checks ..."
+    evl 5 == 5 "out \"  5 == 5 ✓\"" "out \"  5 == 5 ✗\""
+    evl 1 != 2 "out \"  1 != 2 ✓\"" "out \"  1 != 2 ✗\""
+    evl 6 <= 9 "out \"  6 <= 9 ✓\"" "out \"  6 <= 9 ✗\""
+    evl 9 >= 6 "out \"  9 >= 6 ✓\"" "out \"  9 >= 6 ✗\""
+
+    out
+    out "Performing actual math ..."
+    out "  10 - 5: $(sub 10 5 -) (5)"
+    out "  9 + 10: $(sub 9 10 -) (19)"
+    out "  6 * 30: $(mul 6 30 -) (180)"
+    out "  10 / 2: $(div 10 2 -) (5)"
+    out
+    out "  rnd(5.7): $(rnd 5.7) (6)"
+    out "  rnd(5.3): $(rnd 5.3) (5)"
+    out
+    out "Extra math-related functions ..."
+    out "  rng(1 10): $(rng 1 10 -)"
+
+:strcmp
+    out
+    out "Performing string checks ..."
+    evl "hello" == "hello" "out \"  'hello' == 'hello' ✓\"" "out \"  'hello' == 'hello' ✗\""
+    evl "later" != "hello" "out \"  'later' != 'hello' ✓\"" "out \"  'later' != 'hello' ✗\""
+    out
+    out "  lwr('HeLLo'): $(lwr \"HeLLo\") (hello)"
+    out "  upr('HeLLo'): $(upr \"HeLLo\") (HELLO)"
+
+:colors
+    out
+    out "$(pop _clred)Red"
+    out "$(pop _clgreen)Green"
+    out "$(pop _clblue)Blue"
+    out "$(pop _clcyan)Cyan"
+    out "$(pop _clyellow)Yellow"
+    out _clreset
+
+:honk
+    out "Honk! Jump successful."
