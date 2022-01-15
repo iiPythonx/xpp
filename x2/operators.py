@@ -1,0 +1,285 @@
+# Copyright 2022 iiPython
+
+# Modules
+import os
+import random
+from types import FunctionType
+from typing import Any
+
+# Exceptions
+class MissingArguments(Exception):
+    pass
+
+class InvalidArgument(Exception):
+    pass
+
+# Operator handlers
+def expr_eval(ctx, a: Any, b: Any, op: str, ifcb: FunctionType = None, elsecb: FunctionType = None) -> bool:
+    _checkmap = {
+        "==": lambda a, b: a == b,
+        "!=": lambda a, b: a != b,
+        ">=": lambda a, b: a >= b,
+        "<=": lambda a, b: a <= b,
+        ">": lambda a, b: a > b,
+        "<": lambda a, b: a < b,
+        "in": lambda a, b: a in b,
+        "xin": lambda a, b: a not in b
+    }
+    if op not in _checkmap:
+        raise InvalidArgument("unknown operation!")
+
+    elif _checkmap[op](a, b):
+        if ifcb is not None:
+            ctx.memory._inter.execute(ctx.memory._parser.parse_lines(ifcb)[0])
+
+        return True
+
+    else:
+        if elsecb is not None:
+            ctx.memory._inter.execute(ctx.memory._parser.parse_lines(elsecb)[0])
+
+        return False
+
+# Built-in X2 operators
+class XTBuiltinOperators:
+    def out(ctx) -> None:
+        """Writes all provided arguments to the screen"""
+        print(*[str(a.value).encode("latin-1", "backslashreplace").decode("unicode-escape") for a in ctx.args])
+
+    def psh(ctx) -> None:
+        """Assigns a variable a value"""
+        if len(ctx.args) != 2:
+            raise MissingArguments("missing value or variable!")
+
+        if not ctx.args[1].isvar:
+            raise InvalidArgument("second argument cannot be a literal!")
+
+        ctx.args[1].set(ctx.args[0].value)
+
+    def pop(ctx) -> Any:
+        """Returns a variables value"""
+        if not ctx.args:
+            raise MissingArguments("missing value!")
+
+        return ctx.args[0].value
+
+    def jmp(ctx) -> None:
+        """Jumps to a different section"""
+        if not ctx.args:
+            raise MissingArguments("missing section to jump to!")
+
+        ctx.memory._inter.run_section(ctx.args[0].value or ctx.args[0].content)
+
+    def imp(ctx) -> None:
+        """Imports another x2 module"""
+        if not ctx.args:
+            raise MissingArguments("missing package to load!")
+
+        path = ctx.args[0].value
+        if not path.endswith(".xt"):
+            path += ".xt"
+
+        if not os.path.isfile(path):
+            raise InvalidArgument(f"no such package: '{path}'!")
+
+        sections = ctx.memory._parser.sectionize(ctx.memory._parser.parse_lines(open(path, "r", encoding = "utf-8").read()))
+        del sections["global"]
+
+        ctx.memory._inter.sections = ctx.memory._inter.sections | sections
+
+    def evl(ctx) -> None:
+        """Evaluates an expression"""
+        if len(ctx.args) < 4:
+            raise MissingArguments("required: a, operator, b, and callback!")
+
+        a, b, op, ifcb = ctx.args[0].value, ctx.args[2].value, ctx.args[1].content, ctx.args[3].value
+        try:
+            elsecb = ctx.args[4].value
+
+        except IndexError:
+            elsecb = None
+
+        expr_eval(ctx, a, b, op, ifcb, elsecb)
+
+    def ext(ctx) -> None:
+        """Exits the process"""
+        os._exit(0)
+
+    def add(ctx) -> Any:
+        """Adds two literals or variables together"""
+        if not len(ctx.args) == 3:
+            raise MissingArguments("required: a, b, and c!")
+
+        elif ctx.args[0].value is None or ctx.args[1].value is None:
+            raise InvalidArgument("a + b cannot be null!")
+
+        return ctx.args[2].set(ctx.args[0].value + ctx.args[1].value)
+
+    def sub(ctx) -> Any:
+        """Subtracts two literals or variables"""
+        if not len(ctx.args) == 3:
+            raise MissingArguments("required: a, b, and c!")
+
+        elif ctx.args[0].value is None or ctx.args[1].value is None:
+            raise InvalidArgument("a + b cannot be null!")
+
+        return ctx.args[2].set(ctx.args[0].value - ctx.args[1].value)
+
+    def mul(ctx) -> Any:
+        """Multiplies two literals or variables"""
+        if not len(ctx.args) == 3:
+            raise MissingArguments("required: a, b, and c!")
+
+        elif ctx.args[0].value is None or ctx.args[1].value is None:
+            raise InvalidArgument("a + b cannot be null!")
+
+        return ctx.args[2].set(ctx.args[0].value * ctx.args[1].value)
+
+    def div(ctx) -> Any:
+        """Divides two literals or variables"""
+        if not len(ctx.args) == 3:
+            raise MissingArguments("required: a, b, and c!")
+
+        elif ctx.args[0].value is None or ctx.args[1].value is None:
+            raise InvalidArgument("a + b cannot be null!")
+
+        return ctx.args[2].set(ctx.args[0].value / ctx.args[1].value)
+
+    def rnd(ctx) -> int:
+        """Rounds a number to a precision"""
+        if not ctx.args:
+            raise MissingArguments("missing number to round!")
+
+        elif len(ctx.args) > 1:
+            precision = ctx.args[1].value
+            if not isinstance(precision, int):
+                raise InvalidArgument("precision must be an integer!")
+
+        else:
+            precision = None
+
+        # Check value
+        val = ctx.args[0].value
+        if not isinstance(val, (int, float)):
+            raise InvalidArgument("must be a number-like value!")
+
+        return round(val, precision)  # Round
+
+    def lwr(ctx) -> str:
+        """Lowers a string"""
+        if not ctx.args:
+            raise MissingArguments("missing string to lower!")
+
+        return str(ctx.args[0].value).lower()
+
+    def upr(ctx) -> str:
+        """Uppercases a string"""
+        if not ctx.args:
+            raise MissingArguments("missing string to upper!")
+
+        return str(ctx.args[0].value).upper()
+
+    def rng(ctx) -> int:
+        """Generates a random number fron n1 to n2"""
+        try:
+            n1 = ctx.args[0].value
+            n2 = ctx.args[1].value
+            if not isinstance(n1, (int, float)):
+                raise InvalidArgument("n1 must be a number-like value!")
+
+            elif not isinstance(n2, (int, float)):
+                raise InvalidArgument("n2 must be a number-like value!")
+
+            # Check c
+            if len(ctx.args) > 2:
+                if not ctx.args[2].isvar:
+                    raise InvalidArgument("c must be a variable!")
+
+        except IndexError:
+            raise MissingArguments("required: n1, n2, and c!")
+
+        # Generate number
+        val = random.randint(n1, n2)
+        if len(ctx.args) > 2:
+            ctx.args[2].set(val)
+
+        return val
+
+    def cls(ctx) -> None:
+        """Clears the screen"""
+        os.system("cls" if os.name == "nt" else "clear")
+
+    def read(ctx) -> str:
+        """Reads a stream from stdin"""
+        prompt, var = "", None
+        if ctx.args:
+            prompt = str(ctx.args[0].value)
+            if len(ctx.args) > 1:
+                var = ctx.args[1]
+                if not var.isvar:
+                    raise InvalidArgument("2nd parameter must be a variable if specified!")
+
+        data = input(prompt)
+        if var is not None:
+            var.set(data)
+
+        return data
+
+    def call(ctx) -> Any:
+        """Calls a section with arguments"""
+        if not ctx.args:
+            raise MissingArguments("missing the section to call!")
+
+        ds = ctx.args[-1]
+        if not ds.isvar:
+            raise InvalidArgument("last parameter must not be a literal!")
+
+        fn = ctx.args[0].content
+        if not isinstance(fn, str):
+            raise InvalidArgument("section to call must be a string!")
+
+        ctx.args = ctx.args[:-1][1:]
+        for i, arg in enumerate(ctx.args):
+            ctx.memory.vars[f"_a{i + 1}"] = arg.value
+
+        # Call section and grab return value
+        val = ctx.memory._inter.run_section(fn)
+        ds.set(val)
+
+        # Clean up variables
+        for i in range(1, len(ctx.args)):
+            del ctx.memory.vars[f"_a{i}"]
+
+        return val
+
+    def ret(ctx) -> Any:
+        """Sets a sections return value"""
+        if not ctx.args:
+            raise MissingArguments("missing return value!")
+
+        ctx.memory._sectionret = ctx.args[0].value
+
+    def rep(ctx) -> None:
+        """Repeats a section call n amount of times"""
+        try:
+            amount = ctx.args[0].value
+            if not isinstance(amount, int):
+                raise InvalidArgument("amount must be an integer!")
+
+            section = ctx.args[1].content
+
+        except IndexError:
+            raise MissingArguments("required: amt + section!")
+
+        [ctx.memory._inter.run_section(section) for i in range(amount)]
+
+    def whl(ctx) -> None:
+        """Repeats a section call while the expression is True"""
+        if len(ctx.args) < 4:
+            raise MissingArguments("required: a, operator, b, and callback!")
+
+        a, b, op, ifcb = ctx.args[0], ctx.args[2], ctx.args[1].content, ctx.args[3].content
+        while expr_eval(ctx, a.value, b.value, op):
+            a.refresh()
+            b.refresh()
+            ctx.memory._inter.run_section(ifcb)
