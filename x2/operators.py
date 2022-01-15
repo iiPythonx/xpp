@@ -283,3 +283,23 @@ class XTBuiltinOperators:
             a.refresh()
             b.refresh()
             ctx.memory._inter.run_section(ifcb)
+
+    def num(ctx) -> int:
+        """Turns items into integers"""
+        if not ctx.args:
+            raise MissingArguments("missing item to convert!")
+
+        try:
+            ctx.args[0].set(int(ctx.args[0].value))
+            return ctx.args[0].value
+
+        except ValueError:
+            raise InvalidArgument("provided argument cannot be converted!")
+
+    def tstr(ctx) -> str:
+        """Turns items into strings"""
+        if not ctx.args:
+            raise MissingArguments("missing item to convert!")
+
+        ctx.args[0].set(str(ctx.args[0].value))
+        return ctx.args[0].value
