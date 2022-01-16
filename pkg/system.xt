@@ -18,10 +18,10 @@
     upr _a1
     ret _a1
 
-:inc
-    add _a1 1 _a1
+:sinc
+    inc _a1
     ret _a1
 
-:dec
-    sub _a1 1 _a1
+:sdec
+    dec _a1
     ret _a1
