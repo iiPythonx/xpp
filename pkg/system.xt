@@ -9,3 +9,19 @@
 :cvrtStr
     tstr _a1
     ret _a1
+
+:toLwr
+    lwr _a1
+    ret _a1
+
+:toUpr
+    upr _a1
+    ret _a1
+
+:inc
+    add _a1 1 _a1
+    ret _a1
+
+:dec
+    sub _a1 1 _a1
+    ret _a1
