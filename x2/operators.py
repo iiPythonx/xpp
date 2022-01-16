@@ -329,3 +329,27 @@ class XTBuiltinOperators:
             raise InvalidArgument("unknown or nonexistant variable provided!")
 
         del ctx.memory.vars[key]
+
+    def inc(ctx) -> int:
+        """Increases a variable by 1"""
+        if not ctx.args:
+            raise MissingArguments("variable missing!")
+
+        var = ctx.args[0] if ctx.args[0].isvar else None
+        val = ctx.args[0].value + 1
+        if var:
+            var.set(val)
+
+        return val
+
+    def dec(ctx) -> int:
+        """Decreases a variable by 1"""
+        if not ctx.args:
+            raise MissingArguments("variable missing!")
+
+        var = ctx.args[0] if ctx.args[0].isvar else None
+        val = ctx.args[0].value - 1
+        if var:
+            var.set(val)
+
+        return val
