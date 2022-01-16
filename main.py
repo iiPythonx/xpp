@@ -23,10 +23,6 @@ argv = sys.argv[1:]
 if argv:
     config["entrypoint"] = argv[0]
 
-if not os.path.isfile(config["entrypoint"]):
-    print("x2: no such file")
-    sys.exit(1)
-
 # Load built-in operators
 try:
 
@@ -217,13 +213,44 @@ class XTInterpreter(object):
 # Handler
 memory = XTMemory()
 parser = XTParser(memory)
-with open(config["entrypoint"], "r", encoding = "utf-8") as file:
-    sections = parser.sectionize(parser.parse_lines(file.read()))
-    inter = XTInterpreter(memory, sections, {f: getattr(operators, f) for f in dir(operators) if callable(getattr(operators, f)) and not f[0] == "_"})
+if "--live" not in sys.argv:
+    if not os.path.isfile(config["entrypoint"]):
+        print("x2: no such file")
+        sys.exit(1)
 
+    with open(config["entrypoint"], "r", encoding = "utf-8") as file:
+        sections = parser.sectionize(parser.parse_lines(file.read()))
+
+else:
+    sections = {"global": [], "main": []}
+
+inter = XTInterpreter(memory, sections, {f: getattr(operators, f) for f in dir(operators) if callable(getattr(operators, f)) and not f[0] == "_"})
 memory._parser, memory._inter = parser, inter
 try:
     inter.run()
+    if "--live" in sys.argv:
+        print("x2 Revision 2.1b1 - Copyright 2022 iiPython")
+        while True:
+            try:
+                command = parser.parse_lines(input("> "))
+                if not command:
+                    continue
+
+                inter.execute(command[0])
+
+            except KeyboardInterrupt:
+                break
+
+            except UnknownOperator as e:
+                if len(command[0]):
+                    if command[0][0] in memory.vars:
+                        print(memory.vars[command[0][0]])
+                        continue
+
+                print(f"<UnknownOperator> {e}")
+
+            except Exception as e:
+                print(f"<{type(e).__name__}> {e}")
 
 except KeyboardInterrupt:
     print("x2 exited: code 0")
