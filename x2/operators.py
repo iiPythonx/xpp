@@ -353,3 +353,7 @@ class XTBuiltinOperators:
             var.set(val)
 
         return val
+
+    def pause(ctx) -> None:
+        """Pauses until an enter keypress is received"""
+        input()
