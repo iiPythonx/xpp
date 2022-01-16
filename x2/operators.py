@@ -264,7 +264,8 @@ class XTBuiltinOperators:
 
         # Clean up variables
         for i in range(1, len(ctx.args)):
-            del ctx.memory.vars[f"_a{i}"]
+            if f"_a{i}" in ctx.memory.vars:
+                del ctx.memory.vars[f"_a{i}"]
 
         return val
 
