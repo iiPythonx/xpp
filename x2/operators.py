@@ -98,6 +98,7 @@ class XTBuiltinOperators:
             raise InvalidArgument(f"no such package: '{path}'!")
 
         sections = ctx.memory._parser.sectionize(ctx.memory._parser.parse_lines(open(path, "r", encoding = "utf-8").read()))
+        ctx.memory._inter.execute_lines(sections["global"])
         del sections["global"]
 
         ctx.memory._inter.sections = ctx.memory._inter.sections | sections
