@@ -1,6 +1,6 @@
 # Copyright 2022 iiPython
 # x2 - a minimalistic programming language
-# Revision 2.1b0
+# Revision 2.1b1
 
 # Modules
 import os
@@ -10,6 +10,23 @@ import json
 from typing import Any, Union
 from types import FunctionType
 
+# Load configuration
+config = {"entrypoint": "main.xt"}
+try:
+    with open("config.json", "r") as f:
+        config = json.loads(f.read())
+
+except Exception:
+    pass
+
+argv = sys.argv[1:]
+if argv:
+    config["entrypoint"] = argv[0]
+
+if not os.path.isfile(config["entrypoint"]):
+    print("x2: no such file")
+    sys.exit(1)
+
 # Load built-in operators
 try:
 
@@ -17,7 +34,7 @@ try:
     import importlib.util
     spec = importlib.util.spec_from_file_location(
         "operators",
-        os.path.abspath(os.path.join(os.path.dirname(__file__), "x2/operators.py"))
+        os.path.abspath(os.path.join(os.path.dirname(__file__), config["operators_file"]))
     )
 
     # Initialize the operators module
@@ -197,23 +214,6 @@ class XTInterpreter(object):
         self.execute_lines(self.sections[section])
         return self.memory._sectionret
 
-# Load configuration
-config = {"entrypoint": "main.xt"}
-try:
-    with open("config.json", "r") as f:
-        config = json.loads(f.read())
-
-except Exception:
-    pass
-
-argv = sys.argv[1:]
-if argv:
-    config["entrypoint"] = argv[0]
-
-if not os.path.isfile(config["entrypoint"]):
-    print("x2: no such file")
-    sys.exit(1)
-
 # Handler
 memory = XTMemory()
 parser = XTParser(memory)
@@ -222,4 +222,8 @@ with open(config["entrypoint"], "r", encoding = "utf-8") as file:
     inter = XTInterpreter(memory, sections, {f: getattr(operators, f) for f in dir(operators) if callable(getattr(operators, f)) and not f[0] == "_"})
 
 memory._parser, memory._inter = parser, inter
-inter.run()
+try:
+    inter.run()
+
+except KeyboardInterrupt:
+    print("x2 exited: code 0")
