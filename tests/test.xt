@@ -33,7 +33,7 @@ psh "\033[39m" _clreset
     out
     out "Performing actual math ..."
     out "  10 - 5: $(sub 10 5 -) (5)"
-    out "  9 + 10: $(sub 9 10 -) (19)"
+    out "  9 + 10: $(add 9 10 -) (19)"
     out "  6 * 30: $(mul 6 30 -) (180)"
     out "  10 / 2: $(div 10 2 -) (5)"
     out
