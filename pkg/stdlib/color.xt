@@ -2,6 +2,7 @@
 :: Version x2.1 - x2.1
 :: Made by DmmD
 
+:: Public Methods
 :: Styles
 :reset
     ret "\33[0m"

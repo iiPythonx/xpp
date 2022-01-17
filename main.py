@@ -1,6 +1,6 @@
 # Copyright 2022 iiPython
 # x2 - a minimalistic programming language
-# Revision 2.1b1
+# Revision 2.1b3
 
 # Modules
 import os
@@ -182,6 +182,9 @@ class XTInterpreter(object):
         self.sections = sections
         self.operators = operators
 
+        self._sectiontrk = []
+        self._sectionrets = []
+
     def run(self) -> None:
         self.run_section("global")
         self.run_section("main")
@@ -193,11 +196,16 @@ class XTInterpreter(object):
         return internal_cb
 
     def execute(self, tokens: list) -> Any:
-        operator = tokens[0]
-        if operator not in self.operators:
-            raise UnknownOperator(operator)
+        try:
+            operator = tokens[0]
+            if operator not in self.operators:
+                raise UnknownOperator(operator)
 
-        return self.operators[operator](XTContext(self.memory, [XTDataStore(self.memory, t) for t in tokens[1:]]))
+            return self.operators[operator](XTContext(self.memory, [XTDataStore(self.memory, t) for t in tokens[1:]]))
+
+        except Exception as e:
+            print(f"{type(e).__name__}: {e}\n  > {' '.join(tokens)}")
+            return sys.exit(1)
 
     def execute_lines(self, lines: list) -> None:
         [self.execute(line) for line in lines]
@@ -206,51 +214,27 @@ class XTInterpreter(object):
         if section not in self.sections:
             raise SectionConflict(f"no such section: '{section}'!")
 
-        self.memory._sectionret = None
+        self._sectiontrk.append(section)
+        self._sectionrets.append(None)
         self.execute_lines(self.sections[section])
-        return self.memory._sectionret
+        self._sectiontrk.pop()
+        retval = self._sectionrets.pop()
+        return retval
 
 # Handler
 memory = XTMemory()
 parser = XTParser(memory)
-if "--live" not in sys.argv:
-    if not os.path.isfile(config["entrypoint"]):
-        print("x2: no such file")
-        sys.exit(1)
+if not os.path.isfile(config["entrypoint"]):
+    print("x2: no such file")
+    sys.exit(1)
 
-    with open(config["entrypoint"], "r", encoding = "utf-8") as file:
-        sections = parser.sectionize(parser.parse_lines(file.read()))
-
-else:
-    sections = {"global": [], "main": []}
+with open(config["entrypoint"], "r", encoding = "utf-8") as file:
+    sections = parser.sectionize(parser.parse_lines(file.read()))
 
 inter = XTInterpreter(memory, sections, {f: getattr(operators, f) for f in dir(operators) if callable(getattr(operators, f)) and not f[0] == "_"})
 memory._parser, memory._inter = parser, inter
 try:
     inter.run()
-    if "--live" in sys.argv:
-        print("x2 Revision 2.1b1 - Copyright 2022 iiPython")
-        while True:
-            try:
-                command = parser.parse_lines(input("> "))
-                if not command:
-                    continue
-
-                inter.execute(command[0])
-
-            except KeyboardInterrupt:
-                break
-
-            except UnknownOperator as e:
-                if len(command[0]):
-                    if command[0][0] in memory.vars:
-                        print(memory.vars[command[0][0]])
-                        continue
-
-                print(f"<UnknownOperator> {e}")
-
-            except Exception as e:
-                print(f"<{type(e).__name__}> {e}")
 
 except KeyboardInterrupt:
     print("x2 exited: code 0")

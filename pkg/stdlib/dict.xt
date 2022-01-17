@@ -1,0 +1,39 @@
+:: Dictionary System Package
+:: Version x2.1 - x2.1
+:: Made by DmmD
+
+:: Imports
+imp "pkg/stdlib/arr"
+
+:: Public Methods
+:dictDel
+    psh _a1 ---@name
+    psh _a2 ---@key
+    rem "$(pop ---@name).$(pop ---@key)"
+    call arrRemAll "$(pop ---@name).keys" ---@key -@null
+    ret ---@name
+
+:dictGet
+    psh _a1 -@name
+    psh _a2 -@key
+    pop "$(pop -@name).$(pop -@key)" -@value
+    ret -@value
+
+:dictNew
+    psh _a1 --@name
+    psh "<dict $(pop --@name)>" "$(pop --@name)"
+    call arrNew "$(pop --@name).keys" -@null
+
+:dictSet
+    psh _a1 ---@name
+    psh _a2 ---@key
+    psh _a3 ---@value
+    psh ---@value "$(pop ---@name).$(pop ---@key)"
+    call arrRemAll "$(pop ---@name).keys" ---@key "$(pop ---@name).keys" -@null
+    call arrPsh "$(pop ---@name).keys" ---@key -@null
+    ret ---@name
+
+:dictSize
+    psh _a1 -@name
+    pop "$(pop -@name).keys.length" -@size
+    ret -@size
