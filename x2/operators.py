@@ -24,7 +24,8 @@ def expr_eval(ctx, a: Any, b: Any, op: str, ifcb: FunctionType = None, elsecb: F
         ">": lambda a, b: a > b,
         "<": lambda a, b: a < b,
         "in": lambda a, b: a in b,
-        "xin": lambda a, b: a not in b
+        "xin": lambda a, b: a not in b,
+        "is": lambda a, b: isinstance(a, {"int": int, "str": str, "float": float}[b])
     }
     if op not in _checkmap:
         raise InvalidArgument("unknown operation!")
@@ -186,14 +187,22 @@ class XTBuiltinOperators:
         if not ctx.args:
             raise MissingArguments("missing string to lower!")
 
-        return str(ctx.args[0].value).lower()
+        val = str(ctx.args[0].value).lower()
+        if ctx.args[0].isvar:
+            ctx.args[0].set(val)
+
+        return val
 
     def upr(ctx) -> str:
         """Uppercases a string"""
         if not ctx.args:
             raise MissingArguments("missing string to upper!")
 
-        return str(ctx.args[0].value).upper()
+        val = str(ctx.args[0].value).upper()
+        if ctx.args[0].isvar:
+            ctx.args[0].set(val)
+
+        return val
 
     def rng(ctx) -> int:
         """Generates a random number fron n1 to n2"""
