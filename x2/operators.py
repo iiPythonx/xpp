@@ -368,3 +368,33 @@ class XTBuiltinOperators:
     def pause(ctx) -> None:
         """Pauses until an enter keypress is received"""
         input()
+
+    def inm(ctx) -> int:
+        """Returns 1 if an object is a number, 0 otherwise"""
+        if not ctx.args:
+            raise MissingArguments("missing object to check!")
+
+        var = ctx.args[1] if len(ctx.args) > 1 else None
+        val = int(isinstance(ctx.args[0].value, int))
+        if var:
+            var.set(val)
+
+        return val
+
+    def inms(ctx) -> int:
+        """Returns 1 if an object is a number, 0 otherwise; this operator allows strings as well: eg. '5' -> 1"""
+        if not ctx.args:
+            raise MissingArguments("missing object to check!")
+
+        try:
+            int(ctx.args[0].value)
+            val = 1
+
+        except ValueError:
+            val = 0
+
+        var = ctx.args[1] if len(ctx.args) > 1 else None
+        if var:
+            var.set(val)
+
+        return val

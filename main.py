@@ -90,7 +90,7 @@ class XTDataStore(object):
             value = content[1:][:-1]
             for item in re.findall(re.compile(r"\$\([^)]*\)"), value):
                 evaluated = self.memory._inter.execute(self.memory._parser.parse_lines(item[2:][:-1])[0])
-                value = value.replace(item, str(evaluated or ""))
+                value = value.replace(item, str((evaluated or "") if evaluated != 0 else 0))
 
             return value
 
