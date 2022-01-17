@@ -2,26 +2,9 @@
 :: Version x2.1 - x2.1
 :: Made by DmmD
 
-:cvrtNum
-    num _a1
-    ret _a1
-
-:cvrtStr
-    tstr _a1
-    ret _a1
-
-:toLwr
-    lwr _a1
-    ret _a1
-
-:toUpr
-    upr _a1
-    ret _a1
-
-:sinc
-    inc _a1
-    ret _a1
-
-:sdec
-    dec _a1
-    ret _a1
+:: Public Methods
+:debug
+    psh _a1 -@arg
+    out -@arg
+    pause
+    ret -@arg

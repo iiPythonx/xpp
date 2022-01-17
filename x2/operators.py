@@ -274,7 +274,7 @@ class XTBuiltinOperators:
         if not ctx.args:
             raise MissingArguments("missing return value!")
 
-        ctx.memory._sectionret = ctx.args[0].value
+        ctx.memory._inter._sectionrets[-1] = ctx.args[0].value
 
     def rep(ctx) -> None:
         """Repeats a section call n amount of times"""
