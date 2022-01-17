@@ -133,3 +133,10 @@
 
 :rgbb
     ret "\033[48;2;$(pop _a2);$(pop _a3);$(pop _a4)m$(pop _a1)"
+
+:: Terminal
+:cursorHide
+    ret "\033[?25l"
+
+:cursorSide
+    ret "\033[?25h"
