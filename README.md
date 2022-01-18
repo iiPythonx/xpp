@@ -1315,7 +1315,7 @@ imp <path>
 For example:
 
 ```
-imp "pkg/stdlib/system
+imp "pkg/stdlib/system"
 ```
 
 Note that the extensions is unnecessary when importing another file.
