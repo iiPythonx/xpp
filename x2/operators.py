@@ -180,7 +180,11 @@ class XTBuiltinOperators:
         if not isinstance(val, (int, float)):
             raise InvalidArgument("must be a number-like value!")
 
-        return round(val, precision)  # Round
+        val = round(val, precision)  # Round
+        if ctx.args[0].isvar:
+            ctx.args[0].set(val)
+
+        return val
 
     def lwr(ctx) -> str:
         """Lowers a string"""
