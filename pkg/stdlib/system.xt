@@ -5,6 +5,5 @@
 :: Public Methods
 :debug
     psh _a1 -@arg
-    out -@arg
-    pause
+    read -@arg -@null
     ret -@arg
