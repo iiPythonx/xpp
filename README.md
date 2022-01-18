@@ -976,7 +976,7 @@ For example:
 -5
 ```
 
-All numbers, including integers, can be increased or decreased using mathimatical [**operators**](#operators):
+All numbers, including integers, can be increased or decreased using mathematical [**operators**](#operators):
 
 ```
 inc 5
@@ -1022,7 +1022,7 @@ For example:
 -5.0
 ```
 
-All numbers, including floating point numbers, can be increased or decreased using mathimatical [**operators**](#operators):
+All numbers, including floating point numbers, can be increased or decreased using mathematical [**operators**](#operators):
 
 ```
 inc 5.0
