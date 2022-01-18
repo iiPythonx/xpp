@@ -1295,7 +1295,7 @@ psh 5 number
 psh 10 number5Times2
 pop "number$(pop number)Times2" output
 out output
-:: 5
+:: 10
 ```
 
 The string template literal within the string grabs the `5` from the variable `number`. It then appends it with the rest of the string. The combined variable name is then popped out and stored in the variable `output`.
