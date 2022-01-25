@@ -1,9 +1,0 @@
-:: System Package
-:: Version x2.1 - x2.1
-:: Made by DmmD
-
-:: Public Methods
-:debug
-    psh _a1 -@arg
-    read -@arg -@null
-    ret -@arg
