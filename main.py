@@ -6,6 +6,7 @@ import os
 import re
 import sys
 import json
+import string
 from typing import Any
 
 # Initialization
@@ -43,6 +44,9 @@ class UnknownOperator(Exception):
     pass
 
 class InvalidSection(Exception):
+    pass
+
+class IllegalSectionName(Exception):
     pass
 
 # x2 Memory Handlers
@@ -127,7 +131,7 @@ class XTInterpreter(object):
             print("Exception occured in x2 thread!")
             for tracker in self.linetrk:
                 line = self.sections[tracker[1]]["lines"][tracker[2] - self.sections[tracker[1]]["start"] - 1].lstrip()
-                print(f"{tracker[0]} line {tracker[2]}, in {tracker[1][0]}:\n  > {line}")
+                print(f"{tracker[0]} line {tracker[2]}, in {tracker[1].split('.')[1]}:\n  > {line}")
 
             print(f"\n{type(e).__name__}: {e}")
             if not self._live:
@@ -164,55 +168,59 @@ class XTInterpreter(object):
         # Push lines
         return data["line"]
 
-    def load_sections(self, code: str, filename: str, external: bool = False) -> None:
+    def load_sections(self, code: str, filename: str, namespace: str = None, external: bool = False) -> None:
+        if not hasattr(self, "_entrypoint"):
+            self._entrypoint = filename
+
+        fileid = (namespace or filename).removesuffix(".xt")
         dt = {
             "active": "global",
             "code": [],
-            "sections": {("global", filename): {"lines": [], "file": filename, "start": 0, "args": [], "return": None, "private": False}}
+            "sections": {f"{fileid}.global": {"lines": [], "file": filename, "start": 0, "args": [], "ret": None, "as": fileid}}
         }
         for lno, line in enumerate(code.split("\n")):
             if line.strip():
-                if line[:2] != "::":
-                    if line[0] == ":":
-                        dt["sections"][(dt["active"], filename)]["lines"] = dt["code"]
-                        dt["active"] = line[1:].split(" ")[0]
-                        dt["sections"][(dt["active"], filename)] = {
-                            "lines": [],
-                            "file": filename,
-                            "start": lno + 1,
-                            "args": line[1:].split(" ")[1:],
-                            "return": None,
-                            "private": dt["active"][0] == "_"
-                        }
-                        dt["code"] = []
-                        continue
+                if line[0] == ":" and line[:2] != "::":
+                    ns, sid = f"{fileid}.{dt['active']}", line[1:].split(" ")[0]
+                    if [c for c in sid if c not in string.ascii_letters + string.digits + "_"]:
+                        raise IllegalSectionName(f"section '{sid}' contains invalid characters")
+
+                    elif "_" in sid and sid[0] != "_":
+                        raise IllegalSectionName("section names can only begin with a underscore if they contain one")
+
+                    dt["sections"][ns]["lines"] = dt["code"]
+                    dt["sections"][f"{fileid}.{sid}"] = {
+                        "file": filename, "start": lno + 1, "lines": [],
+                        "args": line.split(" ")[1:], "ret": None, "as": fileid
+                    }
+                    dt["code"] = []
+                    dt["active"] = sid
+                    continue
 
             dt["code"].append(line.lstrip())
 
-        dt["sections"][(dt["active"], filename)]["lines"] = dt["code"]
+        if dt["code"]:
+            dt["sections"][f"{fileid}.{dt['active']}"]["lines"] = dt["code"]
+
         self.sections = {**self.sections, **dt["sections"]}
         if external:
-            self.run_section(("global", filename))
+            self.run_section(f"{fileid}.global")
+            del self.sections[f"{fileid}.global"]  # Save memory
 
-    def find_section(self, section: str) -> tuple:
-        for name, data in self.sections.items():
-            if name[0] == section:
-                if name[1] != (self.linetrk or [(name[1])])[-1][0] and data["private"]:
-                    raise InvalidSection(section + " is a private section")
+    def run_section(self, section: str) -> Any:
+        current_file = (self.linetrk or [(self._entrypoint,)])[-1][-1].removesuffix(".xt")
+        if "." not in section:
+            section = f"{current_file}.{section}"
 
-                return name
-
-        raise InvalidSection(section)
-
-    def run_section(self, section: str | tuple) -> Any:
-        if isinstance(section, str):
-            section = self.find_section(section)
-
-        elif section not in self.sections:
+        if section not in self.sections:
             raise InvalidSection(section)
 
+        secdata = section.split(".")
+        if secdata[1][0] == "_" and secdata[0] != current_file:
+            raise InvalidSection(f"{secdata[1]} is a private section and cannot be called")
+
         s = self.sections[section]
-        self.linetrk.append([s["file"], section, s["start"], False])
+        self.linetrk.append([s["file"], section, s["start"], False, s["as"]])
         for line in s["lines"]:
             self.linetrk[-1][2] += 1
             if line.strip() and line[:2] != "::":
@@ -221,7 +229,7 @@ class XTInterpreter(object):
                     break
 
         self.linetrk.pop()
-        return s["return"]
+        return s["ret"]
 
 # Handler
 inter = XTInterpreter(opmap)

@@ -12,7 +12,6 @@ class InvalidArgument(Exception):
 
 # Handlers
 def _section_call(memory, section: str, args: list, output = None) -> Any:
-    section = memory.interpreter.find_section(section)
     sectionargs = memory.interpreter.sections[section]["args"]
     if len(args) < len(sectionargs):
         raise MissingArguments(f"section '{section}' takes {', '.join(sectionargs)}")
@@ -105,12 +104,19 @@ class XTOperators:
         if not path.endswith(".xt"):
             path += ".xt"
 
+        namespace = path.split("/")[-1]
+        if len(ctx.args) == 3:
+            action = ctx.args[1].raw
+            if action == "as":
+                namespace = ctx.args[2].value
+
         with open(path, "r", encoding = "utf-8") as f:
             code = f.read()
 
         ctx.memory.interpreter.load_sections(
             code,
             path.split("/")[-1],
+            namespace = namespace,
             external = True
         )
 
@@ -162,7 +168,7 @@ class XTOperators:
         if not ctx.args:
             raise MissingArguments("required: val")
 
-        ctx.memory.interpreter.sections[ctx.memory.interpreter.linetrk[-1][1]]["return"] = ctx.args[0].value
+        ctx.memory.interpreter.sections[ctx.memory.interpreter.linetrk[-1][1]]["ret"] = ctx.args[0].value
         XTOperators.end(ctx)
 
     def pvk(ctx) -> Any:
