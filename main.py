@@ -1,240 +1,273 @@
 # Copyright 2022 iiPython
-# x2 - a minimalistic programming language
-# Revision 2.1b3
+# x2.2b3 Codename Lightspeed
 
 # Modules
 import os
 import re
 import sys
 import json
-from typing import Any, Union
-from types import FunctionType
+from typing import Any
 
-# Load configuration
-config = {"entrypoint": "main.xt"}
+# Initialization
+__version__ = "x2.2b3"
+
+sys.argv = sys.argv[1:]
+xt_folder = os.path.join(os.path.dirname(__file__), "x2")
+
+# Load x2 operators
 try:
-    with open("config.json", "r") as f:
-        config = json.loads(f.read())
-
-except Exception:
-    pass
-
-argv = sys.argv[1:]
-if argv:
-    config["entrypoint"] = argv[0]
-
-# Load built-in operators
-try:
-
-    # Import from the full path of x2/operators.py
-    import importlib.util
-    spec = importlib.util.spec_from_file_location(
-        "operators",
-        os.path.abspath(os.path.join(os.path.dirname(__file__), config["operators_file"]))
+    from importlib.util import (
+        spec_from_file_location, module_from_spec
     )
 
-    # Initialize the operators module
-    opmodule = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(opmodule)
-    operators = opmodule.XTBuiltinOperators
+    def load_module(path: str) -> None:
+        spec = spec_from_file_location(f"x2.{path[:-3]}", os.path.join(xt_folder, path))
+        module = module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
 
-except ImportError:
+    opmap = load_module("__init__.py").__opmap
 
-    # Nice silent fail, you just won't have any operators
-    class operators:
-        pass
+except Exception as e:
+    opmap = {}
+    print(f"[WARN] x2: failed to load builtin operators ({type(e).__name__})")
+
+# Load x2 configuration
+config = {}
+if os.path.isfile("xtconfig.json"):
+    with open("xtconfig.json", "r") as f:
+        config = json.loads(f.read())
 
 # Exceptions
-class Immutable(Exception):
-    pass
-
-class SectionConflict(Exception):
-    pass
-
-class UnknownVariable(Exception):
-    pass
-
 class UnknownOperator(Exception):
     pass
 
-# Memory Handler
+class InvalidSection(Exception):
+    pass
+
+# x2 Memory Handlers
 class XTMemory(object):
     def __init__(self) -> None:
         self.vars = {}
-        self._sectionret = None
 
-# Context Handler
-class XTContext(object):
-    def __init__(self, memory: XTMemory, args: list) -> None:
-        self.args = args
-        self.memory = memory
+class XTDatastore(object):
+    def __init__(self, mem: XTMemory, raw: str) -> None:
+        self.mem = mem
+        self.raw = raw
+        self.flags = []
 
-    def __repr__(self) -> str:
-        return f"<XTContext args={repr(self.args)}>"
-
-# Datastore
-class XTDataStore(object):
-    def __init__(self, memory: XTMemory, content: str) -> None:
-        self.memory = memory
-        self.content = content
-
-        self.isvar = False
-        self.value = self._process(content)
+        self.refresh()
 
     def __repr__(self) -> str:
-        return f"""<XTDS {f"var name='{self.content}'" if self.isvar else "literal"} val={repr(self.value)}"""
+        return f"<XTDS val={repr(self.value)}>"
 
-    def _process(self, content: str) -> Union[str, int]:
-        content = content.replace("\\\"", "\"")
-        if content[0] == "\"" and content[-1] == "\"":
-            value = content[1:][:-1]
+    def _parse(self) -> Any:
+        if len(self.raw) > 1 and self.raw[0] == "\"" and self.raw[-1] == "\"":
+            value = self.raw[1:][:-1].replace("\\\"", "\"")
             for item in re.findall(re.compile(r"\$\([^)]*\)"), value):
-                evaluated = self.memory._inter.execute(self.memory._parser.parse_lines(item[2:][:-1])[0])
-                value = value.replace(item, str((evaluated or "") if evaluated != 0 else 0))
+                result = self.mem.interpreter.execute(item[2:][:-1])
+                value = value.replace(item, str(result if result is not None else ""))
 
-            return value
+            return value.encode("latin-1", "backslashreplace").decode("unicode-escape")  # String literal
 
-        try:
-            return int(content)
-
-        except ValueError:
+        # Integer/float literal
+        for check in [int, float]:
             try:
-                return float(content)
+                return check(self.raw)
 
             except ValueError:
-                self.isvar = True
-                return self.memory.vars.get(content, None)
+                pass
 
-    def refresh(self) -> None:
-        self.value = self._process(self.content)
+        # Provided variable
+        self.flags.append("var")
+        return self.mem.vars.get(self.raw)
 
-    def set(self, value: Union[str, int]) -> None:
-        if not self.isvar:
-            raise Immutable
-
+    def set(self, value: str) -> Any:
         self.value = value
-        self.memory.vars[self.content] = value
+        if "var" in self.flags:
+            self.mem.vars[self.raw] = value
+
         return value
 
-# Parser
-class XTParser(object):
-    def __init__(self, memory: XTMemory) -> None:
+    def refresh(self) -> None:
+        self.value = self._parse()
+
+class XTContext(object):
+    def __init__(self, memory: XTMemory, args: list) -> None:
         self.memory = memory
+        self.args = [XTDatastore(memory, a) for a in args]
 
-    def sectionize(self, tokens: list) -> dict:
-        dt = {"sections": {"global": []}, "active": "global"}
-        for line in tokens:
-            if line[0][0] != ":":
-                dt["sections"][dt["active"]].append(line)
-                continue
+    def __repr__(self) -> str:
+        return f"<XTCTX Arguments={repr(self.args)}>"
 
-            sid = line[0][1:]
-            if sid in dt["sections"]:
-                raise SectionConflict(f"section '{sid}' already exists!")
+# x2 Interpreter
+class XTInterpreter(object):
+    def __init__(self, opmap: dict = {}) -> None:
 
-            dt["active"], dt["sections"][sid] = sid, []
+        # Memory initialization
+        self.memory = XTMemory()
+        self.memory.interpreter = self
 
-        return dt["sections"]
+        self.linetrk = []
+        self.sections = {}
 
-    def parse_lines(self, code: str) -> list:
-        lines = []
-        for block in [line.lstrip() for line in code.split("\n")]:
-            if not block.strip() or block[:2] == "::":
-                continue
+        self._opmap = opmap
+        self._live = False
 
-            # Process block
-            data = {"val": "", "qt": False, "line": []}
-            for idx, char in enumerate(block):
-                if char == " " and not data["qt"]:
-                    if not data["val"]:
-                        continue
+    def execute(self, line: str) -> Any:
+        try:
+            tokens = self.parseline(line)
+            operator = tokens[0]
+            if operator not in self._opmap:
+                raise UnknownOperator(operator)
 
-                    data["line"].append(data["val"])
-                    data["val"] = ""
+            return self._opmap[operator](XTContext(self.memory, tokens[1:]))
 
-                elif char == "\"" and (idx > 0 and block[idx - 1] != "\\"):  # Enables quoting with backslash
-                    if data["qt"]:
-                        data["line"].append(data["val"] + "\"")
-                        data["val"] = ""
-                        data["qt"] = False
+        except Exception as e:
+            print("Exception occured in x2 thread!")
+            for tracker in self.linetrk:
+                line = self.sections[tracker[1]]["lines"][tracker[2] - self.sections[tracker[1]]["start"] - 1].lstrip()
+                print(f"{tracker[0]} line {tracker[2]}, in {tracker[1][0]}:\n  > {line}")
 
-                    else:
-                        data["qt"] = True
-                        data["val"] += "\""
+            print(f"\n{type(e).__name__}: {e}")
+            if not self._live:
+                os._exit(1)
 
-                else:
-                    data["val"] += char
+    def parseline(self, line: str) -> list:
+        data = {"val": "", "qt": False, "line": []}
+        for idx, char in enumerate(line):
+            if char == " " and not data["qt"]:
+                if not data["val"]:
+                    continue
 
-            # Construct missing data
-            if data["val"]:
                 data["line"].append(data["val"])
                 data["val"] = ""
 
-            # Push lines
-            lines.append(data["line"])
+            elif char == "\"" and (idx > 0 and line[idx - 1] != "\\"):  # Enables quoting with backslash
+                if data["qt"]:
+                    data["line"].append(data["val"] + "\"")
+                    data["val"] = ""
+                    data["qt"] = False
 
-        return lines
+                else:
+                    data["qt"] = True
+                    data["val"] += "\""
 
-# Interpreter
-class XTInterpreter(object):
-    def __init__(self, memory: XTMemory, sections: dict, operators: dict = {}) -> None:
-        self.memory = memory
-        self.sections = sections
-        self.operators = operators
+            else:
+                data["val"] += char
 
-        self._sectiontrk = []
-        self._sectionrets = []
+        # Construct missing data
+        if data["val"]:
+            data["line"].append(data["val"])
+            data["val"] = ""
 
-    def run(self) -> None:
-        self.run_section("global")
-        self.run_section("main")
+        # Push lines
+        return data["line"]
 
-    def operator(self, name: str) -> FunctionType:
-        def internal_cb(cb: FunctionType) -> None:
-            self.operators[name] = cb
+    def load_sections(self, code: str, filename: str, external: bool = False) -> None:
+        dt = {
+            "active": "global",
+            "code": [],
+            "sections": {("global", filename): {"lines": [], "file": filename, "start": 0, "args": [], "return": None, "private": False}}
+        }
+        for lno, line in enumerate(code.split("\n")):
+            if line.strip():
+                if line[:2] != "::":
+                    if line[0] == ":":
+                        dt["sections"][(dt["active"], filename)]["lines"] = dt["code"]
+                        dt["active"] = line[1:].split(" ")[0]
+                        dt["sections"][(dt["active"], filename)] = {
+                            "lines": [],
+                            "file": filename,
+                            "start": lno + 1,
+                            "args": line[1:].split(" ")[1:],
+                            "return": None,
+                            "private": dt["active"][0] == "_"
+                        }
+                        dt["code"] = []
+                        continue
 
-        return internal_cb
+            dt["code"].append(line.lstrip())
 
-    def execute(self, tokens: list) -> Any:
-        try:
-            operator = tokens[0]
-            if operator not in self.operators:
-                raise UnknownOperator(operator)
+        dt["sections"][(dt["active"], filename)]["lines"] = dt["code"]
+        self.sections = {**self.sections, **dt["sections"]}
+        if external:
+            self.run_section(("global", filename))
 
-            return self.operators[operator](XTContext(self.memory, [XTDataStore(self.memory, t) for t in tokens[1:]]))
+    def find_section(self, section: str) -> tuple:
+        for name, data in self.sections.items():
+            if name[0] == section:
+                if name[1] != (self.linetrk or [(name[1])])[-1][0] and data["private"]:
+                    raise InvalidSection(section + " is a private section")
 
-        except Exception as e:
-            print(f"{type(e).__name__}: {e}\n  > {' '.join(tokens)}")
-            return sys.exit(1)
+                return name
 
-    def execute_lines(self, lines: list) -> None:
-        [self.execute(line) for line in lines]
+        raise InvalidSection(section)
 
-    def run_section(self, section: str) -> Any:
-        if section not in self.sections:
-            raise SectionConflict(f"no such section: '{section}'!")
+    def run_section(self, section: str | tuple) -> Any:
+        if isinstance(section, str):
+            section = self.find_section(section)
 
-        self._sectiontrk.append(section)
-        self._sectionrets.append(None)
-        self.execute_lines(self.sections[section])
-        self._sectiontrk.pop()
-        retval = self._sectionrets.pop()
-        return retval
+        elif section not in self.sections:
+            raise InvalidSection(section)
+
+        s = self.sections[section]
+        self.linetrk.append([s["file"], section, s["start"], False])
+        for line in s["lines"]:
+            self.linetrk[-1][2] += 1
+            if line.strip() and line[:2] != "::":
+                self.execute(line)
+                if self.linetrk[-1][3]:
+                    break
+
+        self.linetrk.pop()
+        return s["return"]
 
 # Handler
-memory = XTMemory()
-parser = XTParser(memory)
-if not os.path.isfile(config["entrypoint"]):
-    print("x2: no such file")
-    sys.exit(1)
+inter = XTInterpreter(opmap)
+if not sys.argv:
+    print(f"{__version__} Copyright (c) 2022 iiPython")
+    inter._live, linedata = True, ""
+    inter.load_sections(":global\n", "<stdin>")
+    while True:
+        try:
+            line = input(f"{'>' if not linedata else ':'} ")
+            if line[:2] == "::":
+                continue
 
-with open(config["entrypoint"], "r", encoding = "utf-8") as file:
-    sections = parser.sectionize(parser.parse_lines(file.read()))
+            elif linedata and not line.strip():
+                inter.load_sections(linedata, "<stdin>")
+                linedata = ""
+                continue
 
-inter = XTInterpreter(memory, sections, {f: getattr(operators, f) for f in dir(operators) if callable(getattr(operators, f)) and not f[0] == "_"})
-memory._parser, memory._inter = parser, inter
-try:
-    inter.run()
+            elif not line.strip():
+                continue
 
-except KeyboardInterrupt:
-    print("x2 exited: code 0")
+            elif line[0] == ":" and line[:2] != "::":
+                linedata = line + "\n"
+                continue
+
+            elif linedata:
+                linedata += line + "\n"
+
+            else:
+                inter.execute(line)
+
+        except KeyboardInterrupt:
+            os._exit(0)
+
+else:
+    file = sys.argv[0]
+    if file == ".":
+        file = config.get("entrypoint", "main.xt")
+
+    try:
+        with open(file, "r", encoding = "utf-8") as f:
+            code = f.read()
+
+    except Exception:
+        print("x2: failed to load file")
+        os._exit(1)
+
+    inter.load_sections(code, file.replace("\\", "/").split("/")[-1])
+    [inter.run_section(s) for s in ["global", "main"]]
