@@ -1,2 +1,7 @@
 __pycache__/
 main.xt
+
+# Pyinstaller build files
+dist/
+build/
+*.spec
