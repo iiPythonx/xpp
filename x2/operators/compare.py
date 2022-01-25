@@ -1,8 +1,5 @@
 # Copyright 2022 iiPython
 
-# Modules
-from typing import Any
-
 # Exceptions
 class MissingArguments(Exception):
     pass
