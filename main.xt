@@ -1,8 +1,2 @@
-:: Imports
-imp "pkg/stdlib/arr"
-imp "pkg/stdlib/dict"
-imp "pkg/stdlib/system"
-
-:: Entry
 :main
-    out "Hello World"
+    out "Hello, world!"
