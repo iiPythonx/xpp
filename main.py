@@ -15,6 +15,10 @@ __version__ = "x2.2b3"
 sys.argv = sys.argv[1:]
 xt_folder = os.path.join(os.path.dirname(__file__), "x2")
 
+if "-h" in sys.argv or "--help" in sys.argv:
+    print("usage: x2 [-h] [file]\nflags:\n    -h  shows this message and exits\n\nif path is '.', tries to load entrypoint from xtconfig.json")
+    sys.exit(0)
+
 # Load x2 operators
 try:
     from importlib.util import (
