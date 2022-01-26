@@ -100,6 +100,9 @@ class XTOperators:
         if not ctx.args:
             raise MissingArguments("required: path")
 
+        elif not isinstance(ctx.args[0].value, str):
+            raise InvalidArgument("path must be a string")
+
         path = ctx.args[0].value.replace("\\", "/")
         if not path.endswith(".xt"):
             path += ".xt"
