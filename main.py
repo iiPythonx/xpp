@@ -247,17 +247,15 @@ if not sys.argv:
             if line[:2] == "::":
                 continue
 
-            elif linedata and not line.strip():
-                inter.load_sections(linedata, "<stdin>")
-                linedata = ""
-                continue
-
             elif not line.strip():
                 continue
 
+            elif linedata and not line.strip():
+                inter.load_sections(linedata, "<stdin>")
+                linedata = ""
+
             elif line[0] == ":" and line[:2] != "::":
                 linedata = line + "\n"
-                continue
 
             elif linedata:
                 linedata += line + "\n"
