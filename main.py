@@ -16,7 +16,7 @@ sys.argv = sys.argv[1:]
 xt_folder = os.path.join(os.path.dirname(__file__), "x2")
 
 if "-h" in sys.argv or "--help" in sys.argv:
-    print("usage: x2 [-h] [file]\nflags:\n    -h  shows this message and exits\n\nif path is '.', tries to load entrypoint from xtconfig.json")
+    print("usage: x2 [-h] [file]\nflags:\n    -h  shows this message and exits\n\nif path is '.', tries to load entrypoint from .xtconfig")
     sys.exit(0)
 
 # Load x2 operators
@@ -39,8 +39,8 @@ except Exception as e:
 
 # Load x2 configuration
 config = {}
-if os.path.isfile("xtconfig.json"):
-    with open("xtconfig.json", "r") as f:
+if os.path.isfile(".xtconfig"):
+    with open(".xtconfig", "r") as f:
         config = json.loads(f.read())
 
 # Exceptions
