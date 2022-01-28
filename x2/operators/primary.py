@@ -12,7 +12,7 @@ class InvalidArgument(Exception):
 
 # Handlers
 def _section_call(memory, section: str, args: list, output = None) -> Any:
-    sectionargs = memory.interpreter.sections[section]["args"]
+    sectionargs = memory.interpreter.sections[memory.interpreter.find_section(section)[0]]["args"]
     if len(args) < len(sectionargs):
         raise MissingArguments(f"section '{section}' takes {', '.join(sectionargs)}")
 
