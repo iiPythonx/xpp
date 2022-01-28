@@ -1,5 +1,5 @@
 # Copyright 2022 iiPython
-# x2.2b3 Codename Lightspeed
+# x2.2b4 Codename Lightspeed
 
 # Modules
 import os
@@ -7,10 +7,10 @@ import re
 import sys
 import json
 import string
-from typing import Any
+from typing import Any, Tuple
 
 # Initialization
-__version__ = "x2.2b3"
+__version__ = "x2.2b4"
 
 sys.argv = sys.argv[1:]
 xt_folder = os.path.join(os.path.dirname(__file__), "x2")
@@ -70,13 +70,19 @@ class XTDatastore(object):
         return f"<XTDS val={repr(self.value)}>"
 
     def _parse(self) -> Any:
-        if len(self.raw) > 1 and self.raw[0] == "\"" and self.raw[-1] == "\"":
-            value = self.raw[1:][:-1].replace("\\\"", "\"")
-            for item in re.findall(re.compile(r"\$\([^)]*\)"), value):
-                result = self.mem.interpreter.execute(item[2:][:-1])
-                value = value.replace(item, str(result if result is not None else ""))
+        if self.raw:
+            if self.raw[0] == "(" and self.raw[-1] == ")":
+                expression = self.raw[1:][:-1].replace("\\\"", "\"")
+                result = self.mem.interpreter.execute(expression)
+                return result if result is not None else ""
 
-            return value.encode("latin-1", "backslashreplace").decode("unicode-escape")  # String literal
+            elif self.raw[0] == "\"" and self.raw[-1] == "\"":
+                value = self.raw[1:][:-1].replace("\\\"", "\"")
+                for item in re.findall(re.compile(r"\$\([^)]*\)"), value):
+                    result = self.mem.interpreter.execute(item[2:][:-1])
+                    value = value.replace(item, str(result if result is not None else ""))
+
+                return value.encode("latin-1", "backslashreplace").decode("unicode-escape")  # String literal
 
         # Integer/float literal
         for check in [int, float]:
@@ -142,9 +148,31 @@ class XTInterpreter(object):
                 os._exit(1)
 
     def parseline(self, line: str) -> list:
-        data = {"val": "", "qt": False, "line": []}
+        data = {"val": "", "flags": [], "expridx": 0, "line": []}
         for idx, char in enumerate(line):
-            if char == " " and not data["qt"]:
+            if char == ")" and "expr" in data["flags"]:
+                if data["expridx"] > 1:
+                    data["val"] += ")"
+
+                elif data["expridx"] == 1:
+                    data["flags"].remove("expr")
+                    data["line"].append(f"({data['val']})")
+                    data["val"] = ""
+
+                data["expridx"] -= 1
+
+            elif char == "(" and "qt" not in data["flags"]:
+                if "expr" not in data["flags"]:
+                    data["flags"].append("expr")
+
+                data["expridx"] += 1
+                if data["expridx"] > 1:
+                    data["val"] += "("
+
+            elif "expr" in data["flags"]:
+                data["val"] += char
+
+            elif char == " " and "qt" not in data["flags"]:
                 if not data["val"]:
                     continue
 
@@ -152,13 +180,13 @@ class XTInterpreter(object):
                 data["val"] = ""
 
             elif char == "\"" and (idx > 0 and line[idx - 1] != "\\"):  # Enables quoting with backslash
-                if data["qt"]:
+                if "qt" in data["flags"]:
                     data["line"].append(data["val"] + "\"")
                     data["val"] = ""
-                    data["qt"] = False
+                    data["flags"].remove("qt")
 
                 else:
-                    data["qt"] = True
+                    data["flags"].append("qt")
                     data["val"] += "\""
 
             else:
@@ -211,7 +239,7 @@ class XTInterpreter(object):
             self.run_section(f"{fileid}.global")
             del self.sections[f"{fileid}.global"]  # Save memory
 
-    def run_section(self, section: str) -> Any:
+    def find_section(self, section: str) -> Tuple[str, str]:
         current_file = (self.linetrk or [(self._entrypoint,)])[-1][-1].removesuffix(".xt")
         if "." not in section:
             section = f"{current_file}.{section}"
@@ -219,6 +247,10 @@ class XTInterpreter(object):
         if section not in self.sections:
             raise InvalidSection(section)
 
+        return section, current_file
+
+    def run_section(self, section: str) -> Any:
+        section, current_file = self.find_section(section)
         secdata = section.split(".")
         if secdata[1][0] == "_" and secdata[0] != current_file:
             raise InvalidSection(f"{secdata[1]} is a private section and cannot be called")
