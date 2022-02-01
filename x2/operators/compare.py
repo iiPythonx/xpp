@@ -1,5 +1,8 @@
 # Copyright 2022 iiPython
 
+# Modules
+from types import NoneType
+
 # Exceptions
 class MissingArguments(Exception):
     pass
@@ -17,7 +20,7 @@ _expr_map = {
     "<": lambda a, b: a < b,
     "in": lambda a, b: a in b,
     "xin": lambda a, b: a not in b,
-    "is": lambda a, b: isinstance(a, {"str": str, "float": float, "int": int, "null": None}[b])
+    "is": lambda a, b: isinstance(a, {"str": str, "float": float, "bool": bool, "int": int, "null": NoneType}[b])
 }
 
 # x2 Operators

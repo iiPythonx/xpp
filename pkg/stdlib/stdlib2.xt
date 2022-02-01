@@ -1,0 +1,89 @@
+:: ! System Package
+:: ! x2.2
+:: ! Made by DmmD
+
+:: * Constants
+evl "_x2.memory.vars[\"tru\"] = True"
+evl "_x2.memory.vars[\"fal\"] = False"
+evl "_x2.memory.vars[\"nul\"] = None"
+
+:: * Methods
+:decrease _internal_increase_name _internal_increase_amount
+    pvk value _internal_increase_name "_internal_increase_number"
+    sub _internal_increase_number _internal_increase_amount _internal_increase_number
+    pvk define _internal_increase_name _internal_increase_number
+    ret _internal_increase_number
+
+:define _internal_define_key _internal_define_value
+    call typeof _internal_define_value _internal_define_type
+    cmp _internal_define_type == "str" "evl \"_x2.memory.vars[\\\"$(pop _internal_define_key)\\\"] = \\\"$(pop _internal_define_value)\\\"\""
+    cmp _internal_define_type == "bln" "evl \"_x2.memory.vars[\\\"$(pop _internal_define_key)\\\"] = $(pop _internal_define_value)\""
+    cmp _internal_define_type == "int" "evl \"_x2.memory.vars[\\\"$(pop _internal_define_key)\\\"] = $(pop _internal_define_value)\""
+    cmp _internal_define_type == "flt" "evl \"_x2.memory.vars[\\\"$(pop _internal_define_key)\\\"] = $(pop _internal_define_value)\""
+    cmp _internal_define_type == "nul" "evl \"_x2.memory.vars[\\\"$(pop _internal_define_key)\\\"] = None\""
+    ret _internal_define_value
+
+:has _internal_has_key
+    evl "\"$(pop _internal_has_key)\" in _x2.memory.vars" _internal_has_output
+    ret _internal_has_output
+
+:flush _internal_flush_name
+    pvk value "$(pop _internal_flush_name).type" "_internal_flush_type"
+    cmp _internal_flush_type == "array" "pvk _arrayFlush _internal_flush_name"
+    cmp _internal_flush_type == "dictionary" "pvk _dictionaryFlush _internal_flush_name"
+
+:increase _internal_increase_name _internal_increase_amount
+    pvk value _internal_increase_name "_internal_increase_number"
+    add _internal_increase_number _internal_increase_amount _internal_increase_number
+    pvk define _internal_increase_name _internal_increase_number
+    ret _internal_increase_number
+
+:new _internal_new_name _internal_new_type
+    lwr _internal_new_type
+    cmp _internal_new_type == "array" "pvk _arrayNew _internal_new_name"
+    cmp _internal_new_type == "dictionary" "pvk _dictionaryNew _internal_new_name"
+
+:pass
+    psh _internal_pass_nul _internal_pass_nul
+
+:pause
+    read "" _internal_pause_nul
+
+:release _internal_release_name
+    evl "_x2.memory.vars[(\"_internal_release_output\")] = _x2.memory.vars.pop(\"$(pop _internal_release_name)\")"
+    ret _internal_release_output
+
+:typeof _internal_typeof_value
+    cmp _internal_typeof_value is "str" "ret \"str\""
+    cmp _internal_typeof_value is "bool" "ret \"bln\""
+    cmp _internal_typeof_value is "int" "ret \"int\""
+    cmp _internal_typeof_value is "float" "ret \"flt\""
+    cmp _internal_typeof_value is "null" "ret \"nul\""
+
+:value _internal_value_name _internal_value_output
+    evl "_x2.memory.vars[\"$(pop _internal_value_output)\"] = _x2.memory.vars[\"$(pop _internal_value_name)\"]"
+    ret _internal_value_output
+
+:: * Array
+:arrayNew 
+:arrayPush _internal_arrayPush_name _internal_arrayPush_value
+    pvk value "$(pop _internal_append_name).length" "_internal_append_length"
+    pvk define "$(pop _internal_append_name)[$(pop _internal_append_length)]" _internal_append_value
+    pvk increase "$(pop _internal_append_name).length" 1
+    ret _internal_append_value
+
+:drop _internal_drop_name
+    pvk decrease "$(pop _internal_drop_name).length" 1
+    pvk value "$(pop _internal_drop_name).length" "_internal_drop_length"
+    ret (pvk release "$(pop _internal_drop_name)[$(pop _internal_drop_length)]")
+
+:_arrayNew _internal__arrayNew_name
+    pvk define "$(pop _internal__arrayNew_name)" "<object Array>"
+    pvk define "$(pop _internal__arrayNew_name).length" 0
+    pvk define "$(pop _internal__arrayNew_name).type" "array"
+
+:_arrayFlush _internal__arrayFlush_name
+    pvk release "$(pop _internal__arrayFlush_name)"
+    rep (pop "$(pop _internal__arrayFlush_name).length") "pvk drop _internal__arrayFlush_name"
+    pvk release "$(pop _internal__arrayFlush_name).length"
+    pvk release "$(pop _internal__arrayFlush_name).type"

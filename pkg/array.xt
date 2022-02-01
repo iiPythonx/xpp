@@ -1,0 +1,204 @@
+:: ! Array Extension (x2.2 - x2.2) - By DmmD
+
+:: * Imports
+imp "pkg/stdlib" as stdlib
+
+:: * Public Methods
+:at _internal_array_at_name _internal_array_at_index
+    cmp (pvk inRange _internal_array_at_name _internal_array_at_index) == fal "ret nul"
+    ret (pvk stdlib.get "$(pop _internal_array_at_name)[$(pop _internal_array_at_index)]")
+
+:clone _internal_array_clone_name _internal_array_clone_output
+    pvk new _internal_array_clone_output
+    psh 0 _internal_array_clone_index
+    rep (pvk length _internal_array_clone_name) "jmp _cloneLoop"
+    ret (pvk stdlib.get _internal_array_clone_output)
+
+:delete _internal_array_delete_name
+    call length _internal_array_delete_name _internal_array_delete_length
+    rep _internal_array_delete_length "pvk pop _internal_array_delete_name"
+    pvk stdlib.delete _internal_array_delete_name
+    pvk stdlib.delete "$(pop _internal_array_delete_name).length"
+    pvk stdlib.delete "$(pop _internal_array_delete_name).type"
+
+:displace _internal_array_displace_name _internal_array_displace_index
+    call length _internal_array_displace_name _internal_array_displace_length
+    cmp _internal_array_displace_index < 0 "add _internal_array_displace_length _internal_array_displace_index _internal_array_displace_index"
+    cmp (pvk inRange _internal_array_displace_name _internal_array_displace_index) == fal "ret -1" "ret _internal_array_displace_index"
+
+:has _internal_array_has_name _internal_array_has_value
+    call length _internal_array_has_name _internal_array_has_length
+    psh fal _internal_array_has_output
+    rep _internal_array_has_length "jmp _hasLoop"
+    ret _internal_array_has_output
+
+:index _internal_array_index_name _internal_array_index_value
+    call length _internal_array_index_name _internal_array_index_length
+    psh fal _internal_array_index_found
+    psh -1 _internal_array_index_index
+    rep _internal_array_index_length "jmp _indexLoop"
+    cmp _internal_array_index_found == fal "ret -1" "ret _internal_array_index_index"
+
+:indexLast _internal_array_indexLast_name _internal_array_indexLast_value
+    call length _internal_array_indexLast_name _internal_array_indexLast_length
+    psh fal _internal_array_indexLast_found
+    rep _internal_array_indexLast_length "jmp _indexLastLoop"
+    cmp _internal_array_indexLast_found == fal "ret -1" "ret _internal_array_indexLast_length"
+
+:insert _internal_array_insert_name _internal_array_insert_index _internal_array_insert_value
+    call length _internal_array_insert_name _internal_array_insert_length
+    cmp _internal_array_insert_index >= _internal_array_insert_length "ret (pvk push _internal_array_insert_name _internal_array_insert_value)"
+    cmp _internal_array_insert_index < 0 "psh 0 _internal_array_insert_index"
+    pvk stdlib.set "$(pop _internal_array_insert_name).length" (add _internal_array_insert_length 1)
+    rep (sub _internal_array_insert_length _internal_array_insert_index) "jmp _insertLoop"
+    pvk stdlib.set "$(pop _internal_array_insert_name)[$(pop _internal_array_insert_index)]" _internal_array_insert_value
+    ret _internal_array_insert_value
+
+:inRange _internal_array_inRange_name _internal_array_inRange_index
+    cmp _internal_array_inRange_index < 0 "ret fal"
+    cmp _internal_array_inRange_index >= (pvk length _internal_array_inRange_name) "ret fal"
+    ret tru
+
+:length _internal_array_length_name
+    ret (pvk stdlib.get "$(pop _internal_array_length_name).length")
+
+:limit _internal_array_limit_name _internal_array_limit_index
+    call length _internal_array_limit_name _internal_array_limit_length
+    cmp _internal_array_limit_length <= 0 "ret nul"
+    cmp _internal_array_limit_index < 0 "ret 0"
+    cmp _internal_array_limit_index >= _internal_array_limit_length "ret (sub _internal_array_limit_length 1)"
+    ret _internal_array_limit_index
+
+:new _internal_array_new_name
+    pvk stdlib.set _internal_array_new_name "<object Array $(pop _internal_array_new_name)>"
+    pvk stdlib.set "$(pop _internal_array_new_name).length" 0
+    pvk stdlib.set "$(pop _internal_array_new_name).type" "array"
+    ret (pvk stdlib.get _internal_array_new_name)
+
+:pop _internal_array_pop_name
+    call length _internal_array_pop_name _internal_array_pop_length
+    cmp _internal_array_pop_length <= 0 "ret nul"
+    dec _internal_array_pop_length
+    call splice _internal_array_pop_name _internal_array_pop_length _internal_array_pop_value
+    pvk stdlib.set "$(pop _internal_array_pop_name).length" _internal_array_pop_length
+    ret _internal_array_pop_value
+
+:purge _internal_array_purge_name _internal_array_purge_value
+    call index _internal_array_purge_name _internal_array_purge_value _internal_array_purge_index
+    cmp _internal_array_purge_index != -1 "pvk remove _internal_array_purge_name _internal_array_purge_index"
+
+:purgeLast _internal_array_purgeLast_name _internal_array_purgeLast_value
+    call indexLast _internal_array_purgeLast_name _internal_array_purgeLast_value _internal_array_purgeLast_index
+    cmp _internal_array_purgeLast_index != -1 "pvk remove _internal_array_purgeLast_name _internal_array_purgeLast_index"
+
+:purgeAll _internal_array_purgeAll_name _internal_array_purgeAll_value
+    call length _internal_array_purgeAll_name _internal_array_purgeAll_length
+    psh -1 _internal_array_purgeAll_counter
+    psh -1 _internal_array_purgeAll_index
+    rep _internal_array_purgeAll_length "jmp _purgeAllLoop"
+    sub _internal_array_purgeAll_index _internal_array_purgeAll_counter _internal_array_purgeAll_difference
+    rep _internal_array_purgeAll_difference "jmp _purgeAllLoop"
+    pvk stdlib.set "$(pop _internal_array_purgeAll_name).length" (sub _internal_array_purgeAll_length _internal_array_purgeAll_difference)
+
+:push _internal_array_push_name _internal_array_push_value
+    call length _internal_array_push_name _internal_array_push_length
+    pvk stdlib.set "$(pop _internal_array_new_name)[$(pop _internal_array_push_length)]" _internal_array_push_value
+    inc _internal_array_push_length
+    pvk stdlib.set "$(pop _internal_array_new_name).length" _internal_array_push_length
+    ret _internal_array_push_value
+
+:remove _internal_array_remove_name _internal_array_remove_index
+    cmp (pvk inRange _internal_array_remove_name _internal_array_remove_index) == fal "ret nul"
+    call length _internal_array_remove_name _internal_array_remove_length
+    call splice _internal_array_remove_name _internal_array_remove_index _internal_array_remove_value
+    dec _internal_array_remove_length
+    rep (sub _internal_array_remove_length _internal_array_remove_index) "jmp _removeLoop"
+    pvk stdlib.set "$(pop _internal_array_remove_name).length" _internal_array_remove_length
+    ret _internal_array_remove_value
+
+:shift _internal_array_shift_name
+    ret (pvk remove _internal_array_shift_name 0)
+
+:slice _internal_array_slice_name _internal_array_slice_start _internal_array_slice_end _internal_array_slice_output
+    pvk new _internal_array_slice_output
+    call length _internal_array_slice_name _internal_array_slice_length
+    cmp _internal_array_slice_length == 0 "ret (pvk stdlib.get _internal_array_slice_output)"
+    cmp _internal_array_slice_start < 0 "psh 0 _internal_array_slice_start"
+    cmp _internal_array_slice_start >= _internal_array_slice_length "psh _internal_array_slice_length _internal_array_slice_start"
+    cmp _internal_array_slice_end < 0 "psh 0 _internal_array_slice_end"
+    cmp _internal_array_slice_end >= _internal_array_slice_length "psh _internal_array_slice_length _internal_array_slice_end"
+    cmp _internal_array_slice_start > _internal_array_slice_end "psh _internal_array_slice_start _internal_array_slice_end"
+    rep (sub _internal_array_slice_end _internal_array_slice_start) "jmp _sliceLoop"
+    ret (pvk stdlib.get _internal_array_slice_output)
+
+:splice _internal_array_splice_name _internal_array_splice_index
+    cmp (pvk inRange _internal_array_splice_name _internal_array_splice_index) == fal "ret nul"
+    ret (pvk stdlib.delete "$(pop _internal_array_splice_name)[$(pop _internal_array_splice_index)]")
+
+:toString _internal_array_toString_name
+    psh "[ " _internal_array_toString_output
+    call length _internal_array_toString_name _internal_array_toString_length
+    psh 0 _internal_array_toString_index
+    rep _internal_array_toString_length "jmp _toStringLoop"
+    ret (add _internal_array_toString_output " ]")
+
+:unique _internal_array_unique_name _internal_array_unique_output
+    pvk new _internal_array_unique_output
+    psh 0 _internal_array_unique_index
+    rep (pvk length _internal_array_unique_name) "jmp _uniqueLoop"
+    ret (pvk stdlib.get _internal_array_unique_output)
+
+:unshift _internal_array_unshift_name _internal_array_unshift_value
+    ret (pvk insert _internal_array_shift_name 0 _internal_array_unshift_value)
+
+:: * Private Methods
+:_cloneLoop
+    pvk push _internal_array_clone_output (pvk at _internal_array_clone_name _internal_array_clone_index)
+    inc _internal_array_clone_index
+    
+:_hasLoop
+    dec _internal_array_has_length
+    cmp (pvk at _internal_array_has_name _internal_array_has_length) == _internal_array_has_value "psh tru _internal_array_has_output"
+    
+:_indexLoop
+    cmp _internal_array_index_found == tru "end"
+    inc _internal_array_index_index
+    cmp (pvk at _internal_array_index_name _internal_array_index_index) == _internal_array_index_value "psh tru _internal_array_index_found"
+
+:_indexLastLoop
+    cmp _internal_array_indexLast_found == tru "end"
+    dec _internal_array_indexLast_length
+    cmp (pvk at _internal_array_indexLast_name _internal_array_indexLast_length) == _internal_array_indexLast_value "psh tru _internal_array_indexLast_found"
+
+:_insertLoop
+    pvk stdlib.set "$(pop _internal_array_insert_name)[$(pop _internal_array_insert_length)]" (pvk at _internal_array_insert_name (sub _internal_array_insert_length 1))
+    dec _internal_array_insert_length
+
+:_purgeAllLoop
+    inc _internal_array_purgeAll_index
+    call at _internal_array_purgeAll_name _internal_array_purgeAll_index _internal_array_purgeAll_current
+    cmp _internal_array_purgeAll_current == _internal_array_purgeAll_value "end"
+    inc _internal_array_purgeAll_counter
+    pvk stdlib.set "$(pop _internal_array_purgeAll_name)[$(pop _internal_array_purgeAll_counter)]" _internal_array_purgeAll_current
+
+:_puregeAllRemove
+    inc _internal_array_puregeAll_counter
+    pvk splice _internal_array_purgeAll_name _internal_array_purgeAll_counter
+
+:_removeLoop
+    pvk stdlib.set "$(pop _internal_array_remove_name)[$(pop _internal_array_remove_index)]" (pvk at _internal_array_remove_name (add _internal_array_remove_index 1))
+    inc _internal_array_remove_index
+
+:_sliceLoop
+    pvk push _internal_array_slice_output (pvk at _internal_array_slice_name _internal_array_slice_start)
+    inc _internal_array_slice_start
+
+:_toStringLoop
+    add _internal_array_toString_output (str (pvk at _internal_array_toString_name _internal_array_toString_index)) _internal_array_toString_output
+    inc _internal_array_toString_index
+    cmp _internal_array_toString_index < _internal_array_toString_length "add _internal_array_toString_output \", \" _internal_array_toString_output"
+
+:_uniqueLoop
+    call at _internal_array_unique_name _internal_array_unique_index _internal_array_unique_current
+    cmp (pvk has _internal_array_unique_output _internal_array_unique_current) == fal "pvk push _internal_array_unique_output _internal_array_unique_current"
+    inc _internal_array_unique_index

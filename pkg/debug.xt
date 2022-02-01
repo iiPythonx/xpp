@@ -1,0 +1,25 @@
+:: ! Debug Package
+:: ! x2.2
+:: ! Made by DmmD
+
+:: * Methods
+:config
+    evl "_x2._config"
+
+:interpreter
+    evl "_x2"
+
+:memory
+    evl "_x2.memory"
+
+:operators
+    evl "_x2._opmap"
+
+:sections
+    evl "_x2.sections"
+
+:variables
+    evl "_x2.memory.vars"
+
+:version
+    evl "_x2._version"
