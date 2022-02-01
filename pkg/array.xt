@@ -102,9 +102,9 @@ imp "pkg/stdlib" as stdlib
 
 :push _internal_array_push_name _internal_array_push_value
     call length _internal_array_push_name _internal_array_push_length
-    pvk stdlib.set "$(pop _internal_array_new_name)[$(pop _internal_array_push_length)]" _internal_array_push_value
+    pvk stdlib.set "$(pop _internal_array_push_name)[$(pop _internal_array_push_length)]" _internal_array_push_value
     inc _internal_array_push_length
-    pvk stdlib.set "$(pop _internal_array_new_name).length" _internal_array_push_length
+    pvk stdlib.set "$(pop _internal_array_push_name).length" _internal_array_push_length
     ret _internal_array_push_value
 
 :remove _internal_array_remove_name _internal_array_remove_index
@@ -181,8 +181,8 @@ imp "pkg/stdlib" as stdlib
     inc _internal_array_purgeAll_counter
     pvk stdlib.set "$(pop _internal_array_purgeAll_name)[$(pop _internal_array_purgeAll_counter)]" _internal_array_purgeAll_current
 
-:_puregeAllRemove
-    inc _internal_array_puregeAll_counter
+:_purgeAllRemove
+    inc _internal_array_purgeAll_counter
     pvk splice _internal_array_purgeAll_name _internal_array_purgeAll_counter
 
 :_removeLoop
