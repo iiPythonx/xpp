@@ -135,6 +135,15 @@ class XTInterpreter(object):
     def execute(self, line: str) -> Any:
         try:
             tokens = self.parseline(line)
+            try:
+                trkdata = self.linetrk[-1]
+                prevline = self.sections[trkdata[1]]["lines"][trkdata[2] - self.sections[trkdata[1]]["start"] - 2]
+                if prevline[-2:] in [" \\", ".."]:
+                    return None
+
+            except IndexError:
+                pass
+
             operator = tokens[0]
             if operator not in self._opmap:
                 raise UnknownOperator(operator)
@@ -151,7 +160,7 @@ class XTInterpreter(object):
             if not self._live:
                 os._exit(1)
 
-    def parseline(self, line: str) -> list:
+    def parseline(self, line: str, multiline_offset: int = 0) -> list:
         data = {"val": "", "flags": [], "expridx": 0, "line": []}
         for idx, char in enumerate(line):
             if char == ")" and "expr" in data["flags"]:
@@ -183,7 +192,7 @@ class XTInterpreter(object):
                 data["line"].append(data["val"])
                 data["val"] = ""
 
-            elif char == "\"" and (idx > 0 and line[idx - 1] != "\\"):  # Enables quoting with backslash
+            elif char == "\"" and (line[idx - 1] != "\\" if idx > 0 else True):  # Enables quoting with backslash
                 if "qt" in data["flags"]:
                     data["line"].append(data["val"] + "\"")
                     data["val"] = ""
@@ -202,6 +211,15 @@ class XTInterpreter(object):
             data["val"] = ""
 
         # Push lines
+        if data["line"][-1] in ["\\", ".."]:
+            trkdata = self.linetrk[-1]
+            nextline = self.parseline(self.sections[trkdata[1]]["lines"][trkdata[2] - self.sections[trkdata[1]]["start"] + multiline_offset], multiline_offset + 1)
+            if data["line"][-1] == "..":
+                data["line"][-2], nextline = data["line"][-2][:-1] + "\n" + nextline[0][1:], nextline[1:]
+
+            data["line"] = data["line"][:-1]
+            data["line"] = data["line"] + nextline
+
         return data["line"]
 
     def load_sections(self, code: str, filename: str, namespace: str = None, external: bool = False) -> None:
