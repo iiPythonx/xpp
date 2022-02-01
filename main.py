@@ -125,8 +125,10 @@ class XTInterpreter(object):
         self.linetrk = []
         self.sections = {}
 
+        self._config = config
         self._opmap = opmap
         self._live = False
+        self._version = __version__
 
     def execute(self, line: str) -> Any:
         try:
