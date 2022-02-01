@@ -31,21 +31,11 @@ evl "_x2.memory.vars[\"nul\"] = None"
     evl "_x2.memory.vars[\"_internal_stdlib_has_output\"] = \"$(pop _internal_stdlib_has_key)\" in _x2.memory.vars"
     ret _internal_stdlib_has_output
 
-:pass
-
-:pause
-    read ""
-
 :raise message
     evl "raise Exception(\"$(pop message)\")"
 
 :set _internal_stdlib_set_key _internal_stdlib_set_value
-    call typeof _internal_stdlib_set_value _internal_stdlib_set_type
-    cmp _internal_stdlib_set_type == "str" "evl \"_x2.memory.vars[\\\"$(pop _internal_stdlib_set_key)\\\"] = \\\"$(pop _internal_stdlib_set_value)\\\"\""
-    cmp _internal_stdlib_set_type == "bln" "evl \"_x2.memory.vars[\\\"$(pop _internal_stdlib_set_key)\\\"] = $(pop _internal_stdlib_set_value)\""
-    cmp _internal_stdlib_set_type == "int" "evl \"_x2.memory.vars[\\\"$(pop _internal_stdlib_set_key)\\\"] = $(pop _internal_stdlib_set_value)\""
-    cmp _internal_stdlib_set_type == "flt" "evl \"_x2.memory.vars[\\\"$(pop _internal_stdlib_set_key)\\\"] = $(pop _internal_stdlib_set_value)\""
-    cmp _internal_stdlib_set_type == "nul" "evl \"_x2.memory.vars[\\\"$(pop _internal_stdlib_set_key)\\\"] = None\""
+    evl "_x2.memory.vars[\"$(pop _internal_stdlib_set_key)\"] = _x2.memory.vars[\"_internal_stdlib_set_value\"]"
 
 :typeof _internal_stdlib_typeof_value
     cmp _internal_stdlib_typeof_value is "str" "ret \"str\""
