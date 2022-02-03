@@ -132,7 +132,7 @@ class XTInterpreter(object):
         self._config = config
         self._version = __version__
 
-    def execute(self, line: str) -> Any:
+    def execute(self, line: str, raise_error: bool = False) -> Any:
         try:
             tokens = self.parseline(line)
             try:
@@ -151,6 +151,9 @@ class XTInterpreter(object):
             return self._opmap[operator](XTContext(self.memory, tokens[1:]))
 
         except Exception as e:
+            if raise_error:
+                raise e
+
             print("Exception occured in x2 thread!")
             for tracker in self.linetrk:
                 line = self.sections[tracker[1]]["lines"][tracker[2] - self.sections[tracker[1]]["start"] - 1].lstrip()

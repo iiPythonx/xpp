@@ -190,8 +190,8 @@ class XTOperators:
 
         try:
             val = ctx.args[1].value[ctx.args[0].value]
-            if len(ctx.args) > 1:
-                ctx.args[1].set(val)
+            if len(ctx.args) > 2:
+                ctx.args[2].set(val)
 
             return val
 

@@ -38,7 +38,8 @@ class XTOperators:
         if len(ctx.args) < 2:
             raise MissingArguments("required: val + output")
 
-        ctx.args[1].set(ctx.args[0].value)
+        var = ctx.args[1]
+        ctx.memory.vars[var.raw if "var" in var.flags else var.value] = ctx.args[0].value
 
     def out(ctx) -> None:
         """
@@ -223,6 +224,24 @@ class XTOperators:
         """
         ctx.memory.interpreter.linetrk[-1][3] = True
 
+    def try_(ctx) -> None:
+        """
+        Tries to execute the provided branch, if execution fails it will run the second branch (if provided)
+
+        try <branch> [failure]
+        branch - str
+        failure - str
+        """
+        if not ctx.args:
+            raise MissingArguments("required: branch")
+
+        try:
+            ctx.memory.interpreter.execute(ctx.args[0].value, raise_error = True)
+
+        except Exception:
+            if len(ctx.args) > 1:
+                ctx.memory.interpreter.execute(ctx.args[1].value)
+
 # Operator map
 opmap = {
     "psh": XTOperators.psh, "pop": XTOperators.pop,
@@ -230,5 +249,6 @@ opmap = {
     "imp": XTOperators.imp, "rem": XTOperators.rem,
     "rep": XTOperators.rep, "ret": XTOperators.ret,
     "pvk": XTOperators.pvk, "skp": XTOperators.skp,
-    "end": XTOperators.end, "call": XTOperators.call
+    "end": XTOperators.end,
+    "try": XTOperators.try_, "call": XTOperators.call
 }
