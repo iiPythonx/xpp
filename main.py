@@ -163,6 +163,10 @@ class XTInterpreter(object):
     def parseline(self, line: str, multiline_offset: int = 0) -> list:
         data = {"val": "", "flags": [], "expridx": 0, "line": []}
         for idx, char in enumerate(line):
+            if char == ":" and "qt" not in data["flags"]:
+                if idx != len(line) - 1 and line[idx + 1] == ":":
+                    break
+
             if char == ")" and "expr" in data["flags"]:
                 if data["expridx"] > 1:
                     data["val"] += ")"
