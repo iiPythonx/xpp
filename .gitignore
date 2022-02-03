@@ -1,4 +1,5 @@
 __pycache__/
+priv/
 main.xt
 
 # Pyinstaller build files

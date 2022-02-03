@@ -149,14 +149,14 @@ class XTOperators:
         Rounds a float to the given precision
 
         rnd <num> [precision]
-        num - float
+        num - number
         precision - int
         """
         if len(ctx.args) < 1:
             raise MissingArguments("required: num")
 
-        elif not isinstance(ctx.args[0].value, float):
-            raise InvalidArgument("num must be a float")
+        elif not isinstance(ctx.args[0].value, (int, float)):
+            raise InvalidArgument("num must be a number-like value")
 
         precision = ctx.args[1].value if len(ctx.args) > 1 else None
         if not isinstance(precision, (int, NoneType)):
