@@ -80,7 +80,10 @@ class XTDatastore(object):
         self.keydict[self.raw[1:] if self.raw[0] in ["#", "@"] else self.raw] = (self._parse(), True)
 
     def delete(self) -> None:
-        if "var" in self.flags:
+        if "const" in self.flags:
+            raise ConstantVariable("cannot delete a constant variable")
+
+        elif "var" in self.flags:
             del self.keydict[self.raw[1:] if self.raw[0] in ["#", "@"] else self.raw]
 
     def refresh(self) -> None:
