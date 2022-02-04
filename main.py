@@ -51,8 +51,8 @@ class XTInterpreter(object):
     def setvar(self, name: str, value: Any, **kwargs) -> Any:
         return XTDatastore(self.memory, name, **kwargs).set(value)
 
-    def getvar(self, name: str) -> XTDatastore:
-        return XTDatastore(self.memory, name)
+    def getvar(self, name: str, **kwargs) -> XTDatastore:
+        return XTDatastore(self.memory, name, **kwargs)
 
     def execute(self, line: str, raise_error: bool = False) -> Any:
         try:
