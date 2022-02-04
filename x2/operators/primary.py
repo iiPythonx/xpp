@@ -1,6 +1,7 @@
 # Copyright 2022 iiPython
 
 # Modules
+from copy import copy
 from typing import Any
 
 # Exceptions
@@ -104,21 +105,31 @@ class XTOperators:
             raise InvalidArgument("path must be a string")
 
         path = ctx.args[0].value.replace("\\", "/")
-        if not path.endswith(".xt"):
-            path += ".xt"
+        original_path = copy(path)
+        if not path[-3:] == ".xt":
+            namespace = copy(path).split("/")[-1]
+            path = f"pkg/{path}/main.xt"
 
-        namespace = path.split("/")[-1]
-        if len(ctx.args) == 3:
+        else:
+            namespace = path.split("/")[-1]
+
+        if len(ctx.args) >= 2:
             action = ctx.args[1].raw
             if action == "as":
                 namespace = ctx.args[2].value
+
+            elif action == "relative":
+                if not original_path[-3:] == ".xt":
+                    original_path += ".xt"
+
+                path = f"pkg/{original_path}"
 
         with open(path, "r", encoding = "utf-8") as f:
             code = f.read()
 
         ctx.memory.interpreter.load_sections(
             code,
-            path.split("/")[-1],
+            path.replace("\\", "/").split("/")[-1],
             namespace = namespace,
             external = True
         )
