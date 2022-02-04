@@ -1,16 +1,21 @@
 # Copyright 2022 iiPython
-# x2.2b4 Codename Lightspeed
+# x2.3b0 Codename Goos
 
 # Modules
 import os
-import re
 import sys
 import json
 import string
 from typing import Any, Tuple
 
+from x2 import (
+    opmap,
+    XTMemory, XTDatastore, XTContext,
+    UnknownOperator, InvalidSection, IllegalSectionName
+)
+
 # Initialization
-__version__ = "x2.2b4"
+__version__ = "x2.3b0"
 
 sys.argv = sys.argv[1:]
 xt_folder = os.path.join(os.path.dirname(__file__), "x2")
@@ -19,100 +24,11 @@ if "-h" in sys.argv or "--help" in sys.argv:
     print("usage: x2 [-h] [file]\nflags:\n    -h  shows this message and exits\n\nif path is '.', tries to load entrypoint from .xtconfig")
     sys.exit(0)
 
-# Load x2 operators
-try:
-    from importlib.util import (
-        spec_from_file_location, module_from_spec
-    )
-
-    def load_module(path: str) -> None:
-        spec = spec_from_file_location(f"x2.{path[:-3]}", os.path.join(xt_folder, path))
-        module = module_from_spec(spec)
-        spec.loader.exec_module(module)
-        return module
-
-    opmap = load_module("__init__.py").__opmap
-
-except Exception as e:
-    opmap = {}
-    print(f"[WARN] x2: failed to load builtin operators ({type(e).__name__})")
-
 # Load x2 configuration
 config = {}
 if os.path.isfile(".xtconfig"):
     with open(".xtconfig", "r") as f:
         config = json.loads(f.read())
-
-# Exceptions
-class UnknownOperator(Exception):
-    pass
-
-class InvalidSection(Exception):
-    pass
-
-class IllegalSectionName(Exception):
-    pass
-
-# x2 Memory Handlers
-class XTMemory(object):
-    def __init__(self) -> None:
-        self.vars = {}
-
-class XTDatastore(object):
-    def __init__(self, mem: XTMemory, raw: str) -> None:
-        self.mem = mem
-        self.raw = raw
-        self.flags = []
-
-        self.refresh()
-
-    def __repr__(self) -> str:
-        return f"<XTDS val={repr(self.value)}>"
-
-    def _parse(self) -> Any:
-        if self.raw:
-            if self.raw[0] == "(" and self.raw[-1] == ")":
-                expression = self.raw[1:][:-1].replace("\\\"", "\"")
-                result = self.mem.interpreter.execute(expression)
-                return result if result is not None else ""
-
-            elif self.raw[0] == "\"" and self.raw[-1] == "\"":
-                value = self.raw[1:][:-1].replace("\\\"", "\"")
-                for item in re.findall(re.compile(r"\$\([^)]*\)"), value):
-                    result = self.mem.interpreter.execute(item[2:][:-1])
-                    value = value.replace(item, str(result if result is not None else ""))
-
-                return value.encode("latin-1", "backslashreplace").decode("unicode-escape")  # String literal
-
-        # Integer/float literal
-        for check in [int, float]:
-            try:
-                return check(self.raw)
-
-            except ValueError:
-                pass
-
-        # Provided variable
-        self.flags.append("var")
-        return self.mem.vars.get(self.raw)
-
-    def set(self, value: str) -> Any:
-        self.value = value
-        if "var" in self.flags:
-            self.mem.vars[self.raw] = value
-
-        return value
-
-    def refresh(self) -> None:
-        self.value = self._parse()
-
-class XTContext(object):
-    def __init__(self, memory: XTMemory, args: list) -> None:
-        self.memory = memory
-        self.args = [XTDatastore(memory, a) for a in args]
-
-    def __repr__(self) -> str:
-        return f"<XTCTX Arguments={repr(self.args)}>"
 
 # x2 Interpreter
 class XTInterpreter(object):
@@ -131,6 +47,12 @@ class XTInterpreter(object):
         # Data attributes
         self._config = config
         self._version = __version__
+
+    def setvar(self, name: str, value: Any) -> Any:
+        return XTDatastore(self.memory, name).set(value)
+
+    def getvar(self, name: str) -> XTDatastore:
+        return XTDatastore(self.memory, name)
 
     def execute(self, line: str, raise_error: bool = False) -> Any:
         try:
@@ -153,6 +75,9 @@ class XTInterpreter(object):
         except Exception as e:
             if raise_error:
                 raise e
+
+            elif config.get("quiet", False):
+                return None
 
             print("Exception occured in x2 thread!")
             for tracker in self.linetrk:
@@ -237,21 +162,24 @@ class XTInterpreter(object):
         dt = {
             "active": "global",
             "code": [],
-            "sections": {f"{fileid}.global": {"lines": [], "file": filename, "start": 0, "args": [], "ret": None, "as": fileid}}
+            "sections": {f"{fileid}.global": {"lines": [], "priv": False, "file": filename, "start": 0, "args": [], "ret": None, "as": fileid}}
         }
         for lno, line in enumerate(code.split("\n")):
             if line.strip():
                 if line[0] == ":" and line[:2] != "::":
-                    ns, sid = f"{fileid}.{dt['active']}", line[1:].split(" ")[0]
-                    if [c for c in sid if c not in string.ascii_letters + string.digits + "_"]:
+                    ns, sid, priv = f"{fileid}.{dt['active']}", line[1:].split(" ")[0], False
+                    if [c for c in sid if c not in string.ascii_letters + string.digits + "@"]:
                         raise IllegalSectionName(f"section '{sid}' contains invalid characters")
 
-                    elif "_" in sid and sid[0] != "_":
-                        raise IllegalSectionName("section names can only begin with a underscore if they contain one")
+                    elif "@" in sid:
+                        if sid[0] != "@":
+                            raise IllegalSectionName("section name cannot contain a '@' unless it indicates a private section")
+
+                        priv, sid = True, sid[1:]
 
                     dt["sections"][ns]["lines"] = dt["code"]
                     dt["sections"][f"{fileid}.{sid}"] = {
-                        "file": filename, "start": lno + 1, "lines": [],
+                        "file": filename, "start": lno + 1, "lines": [], "priv": priv,
                         "args": line.split(" ")[1:], "ret": None, "as": fileid
                     }
                     dt["code"] = []
@@ -281,10 +209,11 @@ class XTInterpreter(object):
     def run_section(self, section: str) -> Any:
         section, current_file = self.find_section(section)
         secdata = section.split(".")
-        if secdata[1][0] == "_" and secdata[0] != current_file:
+        s = self.sections[section]
+        if s["priv"] and current_file + ".xt" != s["file"]:
             raise InvalidSection(f"{secdata[1]} is a private section and cannot be called")
 
-        s = self.sections[section]
+        self.memory.vars["local"][section] = {}
         self.linetrk.append([s["file"], section, s["start"], False, s["as"]])
         for line in s["lines"]:
             self.linetrk[-1][2] += 1
@@ -292,6 +221,8 @@ class XTInterpreter(object):
                 self.execute(line)
                 if self.linetrk[-1][3]:
                     break
+
+        del self.memory.vars["local"][section]
 
         self.linetrk.pop()
         return s["ret"]
@@ -330,7 +261,7 @@ if not sys.argv:
 else:
     file = sys.argv[0]
     if file == ".":
-        file = config.get("entrypoint", "main.xt")
+        file = config.get("main", "main.xt")
 
     try:
         with open(file, "r", encoding = "utf-8") as f:

@@ -44,7 +44,11 @@ class XTOperators:
         if not ctx.args:
             raise MissingArguments("required: code")
 
-        eval(compile(ctx.args[0].value, "<x2evl>", mode = "exec"), {}, {"_x2": ctx.memory.interpreter})
+        _x2 = ctx.memory.interpreter
+        eval(compile(ctx.args[0].value, "<x2evl>", mode = "exec"), {}, {
+            "x2": _x2, "setvar": _x2.setvar, "getvar": _x2.getvar,
+            "config": _x2.config, "version": _x2._version
+        })
 
     def read(ctx) -> str:
         """

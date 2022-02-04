@@ -11,9 +11,9 @@ rootf = os.path.abspath(os.path.dirname(__file__))
 operator_files = [x[:-3] for x in os.listdir(rootf) if x[0] != "_" and x.endswith(".py")]
 
 # Load operators
-__opmap = {}
+opmap = {}
 for opf in operator_files:
     spec = spec_from_file_location(f"x2ops_{opf}", os.path.join(rootf, opf + ".py"))
     module = module_from_spec(spec)
     spec.loader.exec_module(module)
-    __opmap = {**__opmap, **module.opmap}
+    opmap = {**opmap, **module.opmap}

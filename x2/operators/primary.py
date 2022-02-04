@@ -39,7 +39,7 @@ class XTOperators:
             raise MissingArguments("required: val + output")
 
         var = ctx.args[1]
-        ctx.memory.vars[var.raw if "var" in var.flags else var.value] = ctx.args[0].value
+        ctx.memory.interpreter.setvar(var.raw if "var" in var.flags else var.value, ctx.args[0].value)
 
     def out(ctx) -> None:
         """
@@ -68,7 +68,7 @@ class XTOperators:
 
         val = ctx.args[0]
         if "var" not in val.flags:
-            val.value = ctx.memory.vars.get(val.value, None)
+            val.set(ctx.memory.interpreter.getvar(val).value or None)
             if val.value is None:
                 raise InvalidArgument("invalid or unknown variable")
 
@@ -88,8 +88,7 @@ class XTOperators:
         if not ctx.args:
             raise MissingArguments("required: section")
 
-        section = ctx.args[0].value or ctx.args[0].raw
-        ctx.memory.interpreter.run_section(section)
+        ctx.memory.interpreter.run_section(ctx.args[0].value or ctx.args[0].raw)
 
     def imp(ctx) -> None:
         """
@@ -134,13 +133,7 @@ class XTOperators:
         if not ctx.args:
             raise MissingArguments("required: val")
 
-        var = ctx.args[0]
-        if "var" not in var.flags:
-            if var.value in ctx.memory.vars:
-                del ctx.memory.vars[var.value]
-                return
-
-        del ctx.memory.vars[var.raw]
+        ctx.args[0].delete()
 
     def rep(ctx) -> None:
         """
@@ -242,6 +235,17 @@ class XTOperators:
             if len(ctx.args) > 1:
                 ctx.memory.interpreter.execute(ctx.args[1].value)
 
+    def cnst(ctx) -> None:
+        """
+        Creates a constant variable with the given value
+
+        cnst <val> <out>
+        val - any
+        out - variable
+        """
+        XTOperators.psh(ctx)
+        ctx.args[1].setconst()
+
 # Operator map
 opmap = {
     "psh": XTOperators.psh, "pop": XTOperators.pop,
@@ -249,6 +253,6 @@ opmap = {
     "imp": XTOperators.imp, "rem": XTOperators.rem,
     "rep": XTOperators.rep, "ret": XTOperators.ret,
     "pvk": XTOperators.pvk, "skp": XTOperators.skp,
-    "end": XTOperators.end,
-    "try": XTOperators.try_, "call": XTOperators.call
+    "end": XTOperators.end, "try": XTOperators.try_,
+    "cnst": XTOperators.cnst, "call": XTOperators.call
 }

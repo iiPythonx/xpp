@@ -20,7 +20,8 @@ _expr_map = {
     "<": lambda a, b: a < b,
     "in": lambda a, b: a in b,
     "xin": lambda a, b: a not in b,
-    "is": lambda a, b: isinstance(a, {"str": str, "float": float, "bool": bool, "int": int, "null": NoneType}[b])
+    "is": lambda a, b: isinstance(a, {"str": str, "float": float, "bool": bool, "int": int, "null": NoneType}[b]),
+    "from": lambda a, b: isinstance(a, b)
 }
 
 # x2 Operators
