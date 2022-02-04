@@ -47,7 +47,7 @@ class XTOperators:
         _x2 = ctx.memory.interpreter
         eval(compile(ctx.args[0].value, "<x2evl>", mode = "exec"), {}, {
             "x2": _x2, "setvar": _x2.setvar, "getvar": _x2.getvar,
-            "config": _x2.config, "version": _x2._version
+            "config": _x2._config, "version": _x2._version
         })
 
     def read(ctx) -> str:
