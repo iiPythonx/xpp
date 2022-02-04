@@ -17,7 +17,7 @@ def _section_call(memory, section: str, args: list, output = None) -> Any:
         raise MissingArguments(f"section '{section}' takes {', '.join(sectionargs)}")
 
     for i, arg in enumerate(sectionargs):
-        memory.vars[arg] = args[i].value
+        memory.interpreter.setvar(arg, args[i].value)
 
     retvalue = memory.interpreter.run_section(section)
     if output is not None:
@@ -68,7 +68,7 @@ class XTOperators:
 
         val = ctx.args[0]
         if "var" not in val.flags:
-            val.set(ctx.memory.interpreter.getvar(val).value or None)
+            val.set(ctx.memory.interpreter.getvar(val.raw).value or None)
             if val.value is None:
                 raise InvalidArgument("invalid or unknown variable")
 

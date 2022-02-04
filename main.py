@@ -158,6 +158,8 @@ class XTInterpreter(object):
         if not hasattr(self, "_entrypoint"):
             self._entrypoint = filename
 
+        self.memory.vars["file"][filename] = {}
+
         fileid = (namespace or filename).removesuffix(".xt")
         dt = {
             "active": "global",
