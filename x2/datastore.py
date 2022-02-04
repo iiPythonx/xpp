@@ -10,11 +10,11 @@ from .exceptions import ConstantVariable
 
 # Datastore class
 class XTDatastore(object):
-    def __init__(self, mem: XTMemory, raw: str) -> None:
+    def __init__(self, mem: XTMemory, raw: str, section_override: str = None) -> None:
         self.mem, self.raw, self.flags = mem, raw, []
 
         self.active_file = self.mem.interpreter.linetrk[-1][0]
-        self.active_section = self.mem.interpreter.linetrk[-1][1]
+        self.active_section = section_override or self.mem.interpreter.linetrk[-1][1]
 
         self.keydict = {
             "#": self.mem.vars["globals"],
