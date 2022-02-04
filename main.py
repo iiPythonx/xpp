@@ -48,8 +48,8 @@ class XTInterpreter(object):
         self._config = config
         self._version = __version__
 
-    def setvar(self, name: str, value: Any) -> Any:
-        return XTDatastore(self.memory, name).set(value)
+    def setvar(self, name: str, value: Any, **kwargs) -> Any:
+        return XTDatastore(self.memory, name, **kwargs).set(value)
 
     def getvar(self, name: str) -> XTDatastore:
         return XTDatastore(self.memory, name)
@@ -73,7 +73,7 @@ class XTInterpreter(object):
             return self._opmap[operator](XTContext(self.memory, tokens[1:]))
 
         except Exception as e:
-            if raise_error:
+            if raise_error or True:
                 raise e
 
             elif config.get("quiet", False):
@@ -215,7 +215,9 @@ class XTInterpreter(object):
         if s["priv"] and current_file + ".xt" != s["file"]:
             raise InvalidSection(f"{secdata[1]} is a private section and cannot be called")
 
-        self.memory.vars["local"][section] = {}
+        if section not in self.memory.vars["local"]:
+            self.memory.vars["local"][section] = {}
+
         self.linetrk.append([s["file"], section, s["start"], False, s["as"]])
         for line in s["lines"]:
             self.linetrk[-1][2] += 1

@@ -13,12 +13,14 @@ class InvalidArgument(Exception):
 
 # Handlers
 def _section_call(memory, section: str, args: list, output = None) -> Any:
-    sectionargs = memory.interpreter.sections[memory.interpreter.find_section(section)[0]]["args"]
+    section = memory.interpreter.find_section(section)[0]
+    sectionargs = memory.interpreter.sections[section]["args"]
     if len(args) < len(sectionargs):
         raise MissingArguments(f"section '{section}' takes {', '.join(sectionargs)}")
 
+    memory.vars["local"][section] = {}
     for i, arg in enumerate(sectionargs):
-        memory.interpreter.setvar(arg, args[i].value)
+        memory.interpreter.setvar(arg, args[i].value, section_override = section)
 
     retvalue = memory.interpreter.run_section(section)
     if output is not None:
