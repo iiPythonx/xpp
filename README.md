@@ -4,13 +4,13 @@
 - [**About**](#about)
 - [**Installation**](#installation)
 - [**Basics**](#basics)
-- [**Configurations**](#configurations)
-- [**Syntaxes**](#syntaxes)
+- [**Configuration**](#configuration)
+- [**Syntax**](#syntax)
     - [Operators](#operators)
     - [Sections](#sections)
     - [Data Types](#data-types)
     - [Expressions](#expressions)
-    - [Others](#others)
+    - [Other](#other)
 - [**Packages**](#packages)
 - [**Links**](#links)
     - [Github](https://github.com/ii-Python)
@@ -21,25 +21,24 @@
 
 ## About
 
-x2 is a miniminalistic, open-source language created by [**iiPython**](https://github.com/ii-Python), inspired by [**x86 assembly**](https://en.wikipedia.org/wiki/X86_assembly_language) and [**batch**](https://en.wikipedia.org/wiki/Batch_file). It is a [**high-level programming language**](https://en.wikipedia.org/wiki/High-level_programming_language) with low-level, easy-to-remember syntaxes, similar to [**x86 assembly**](https://en.wikipedia.org/wiki/X86_assembly_language).
+x2 is a miniminalistic, open-source programming language created by [**iiPython**](https://github.com/ii-Python), inspired by [**x86 assembly**](https://en.wikipedia.org/wiki/X86_assembly_language) and [**batch**](https://en.wikipedia.org/wiki/Batch_file). It is a [**high-level language**](https://en.wikipedia.org/wiki/High-level_programming_language) with low-level, easy-to-remember syntax, similar to [**assembly**](https://en.wikipedia.org/wiki/X86_assembly_language).
 
-An x2 file can have any name and should end with the extension `.xt`. It uses a [**Python**](https://python.org) interpreter to execute the x2 code.
-
+An x2 file can have any name and should end with the extension `.xt`. It uses a [**Python**](https://python.org) interpreter to execute the x2 code.  
 Check out [**how to install x2**](#installation) and [**the basics**](#basics) to get started with x2.
 
 ## Installation
 
-To get started, you must have an installation of [**Python**](https://python.org). [**Python 3.10**](https://www.python.org/downloads/release/python-3100/) or above is recommended, but the minimal requirement is [**Python 3.9.1**](https://www.python.org/downloads/release/python-391/).
+To get started, you must have an installation of [**Python**](https://python.org).  
+[**Python 3.11**](https://www.python.org/downloads/release/python-3110a5/) or above is recommended, but the minimal requirement is [**Python 3.10**](https://www.python.org/downloads/release/python-3100/).
 
-You can check the version of your [**Python**](https://python.org) installation by opening up a terminal and type:
+You can check the version of your [**Python**](https://python.org) installation by opening up a terminal and typing:
 
 ```
 python -V
 ```
 
-Next, go to the [**x2 repository**](https://github.com/ii-Python/x2) and clone it onto your device.
-
-Optionally, if you have [**git**](https://git-scm.com/) installed on your device, you can type the following into your terminal instead:
+Next, go to the [**x2 repository**](https://github.com/ii-Python/x2) and clone it onto your device.  
+or, if you have [**git**](https://git-scm.com/) installed on your device, you can type the following into your terminal instead:
 
 ```
 git clone https://github.com/ii-Python/x2
@@ -49,17 +48,11 @@ If you are using [**Visual Studio Code**](https://code.visualstudio.com/) as you
 
 ## Basics
 
-Once you finish installing the x2 interpreter, you should be able to find a file named `main.xt`. This is your default entry point in your project. You can edit the entry point by following the [**configuration guide**](#configurations).
+Once you finish installing the x2 interpreter, you should be able to find a file named `main.xt`. This is your default entry point for your project. You can edit the entry point by following the [**configuration guide**](#configuration).
 
-Inside the `main.xt` is the Hello World example of the x2 language.
+Inside the `main.xt` file is the Hello World example for the x2 language.
 
 ```
-:: Imports
-imp "pkg/stdlib/arr"
-imp "pkg/stdlib/dict"
-imp "pkg/stdlib/system"
-
-:: Entry
 :main
     out "Hello World"
 ```
@@ -78,18 +71,19 @@ In the example above, you should see the following output when executing the int
 Hello World
 ```
 
-## Configurations
+## Configuration
 
-Inside the x2 interpreter, you should also find a file called `config.json`. Inside are your configurations for the x2 interpreter. Below is the default configurations of the x2 interpreter:
+Inside the x2 interpreter, you should also find a file called `.xtconfig`. Inside is your configuration for the x2 interpreter.  
+Below is the default configurations of the x2 interpreter:
 
 ```json
 {
-    "entrypoint": "main.xt",
-    "operators_file": "x2/operators.py"
+    "main": "main.xt",
+    "quiet": false
 }
 ```
 
-The `entrypoint` field is the default entry point when executing the `main.py` file. The path is relative to the current working directory of your terminal.
+The `main` field is the default entry point when executing the `main.py` file. The path is relative to the current working directory of your terminal.
 
 Optionally, you can also type the following to ignore the default entry point:
 
@@ -103,11 +97,9 @@ For example:
 python main.py test.xt
 ```
 
-The `operators_file` field is the directory in where all the operators are located. It is suggested to leave it as is unless you wish to rename or move the files elsewhere.
+## Syntax
 
-## Syntaxes
-
-The syntaxes of the x2 language is fairly simple. Below you can find a list of all the operators and techniques with examples attached.
+The syntax of the x2 language is fairly simple. Below you can find a list of all the operators and techniques with examples attached.
 
 ---
 
@@ -117,7 +109,7 @@ The syntaxes of the x2 language is fairly simple. Below you can find a list of a
 - [Sections](#sections)
 - [Data Types](#data-types)
 - [Expressions](#expressions)
-- [Others](#others)
+- [Other](#other)
 
 ---
 
@@ -179,12 +171,39 @@ Example:
     out output
     :: "Hello World"
 
-:appendString
-    add _a1 _a2 result
-    ret result
+:appendString a b
+    ret (add a b)
 ```
 
 ---
+
+#### - **cmp**
+
+The `cmp` operator compares two variables and executes a branch.
+
+See [**expressions**](#expressions) in the expressions guide for more information.
+
+Syntax:
+
+```
+cmp <expression> <branch true> [branch false]
+```
+
+Example:
+
+```
+:main
+    psh 5 a
+    psh 10 b
+    cmp a == b "jmp true" "jmp false"
+    :: "The values are different!"
+
+:true
+    out "The values are equal!"
+
+:false
+    out "The values are different!"
+```
 
 #### - **cls**
 
@@ -209,7 +228,7 @@ Example:
 
 #### - **dec**
 
-The `dec` operator decreases a value or number by 1.
+The `dec` operator decreases a number by 1.
 
 Syntax:
 
@@ -231,7 +250,7 @@ Example:
 
 #### - **div**
 
-The `div` operator divides a number from another numbers.
+The `div` operator divides a number by another number.
 
 Syntax:
 
@@ -252,42 +271,33 @@ Example:
 
 #### - **evl**
 
-The `evl` operator compares two variables and executes a branch.
-
-See [**expressions**](#expressions) in the expressions guide for more information.
+The `evl` operator executes Python code in the context of the x2 interpreter.  
+It is recommended to not be used as it can be unreliable.
 
 Syntax:
 
 ```
-evl <expression> <branch true> [branch false]
+evl <expression>
 ```
 
 Example:
 
 ```
 :main
-    psh 5 a
-    psh 10 b
-    evl a == b "jmp true" "jmp false"
-    :: "The values are different!"
-
-:true
-    out "The values are equal!"
-
-:false
-    out "The values are different!"
+    evl "x2.setvar('a', 'b')"
+    out b  :: a
 ```
 
 ---
 
 #### - **ext**
 
-The `ext` operator ends and exits the x2 interpreter.
+The `ext` operator exits the x2 interpreter.
 
 Syntax:
 
 ```
-ext
+ext [status_code]
 ```
 
 Example:
@@ -303,7 +313,7 @@ Example:
 
 #### - **inc**
 
-The `inc` operator increases a variable or a number by 1.
+The `inc` operator increases a number by 1.
 
 Syntax:
 
@@ -332,7 +342,7 @@ See [**data types**](#data-types) in the data types guide for more information.
 Syntax:
 
 ```
-inm <variable> <0|1>
+inm <variable> <output>
 ```
 
 Example:
@@ -341,7 +351,7 @@ Example:
 :main
     psh "Hello World" number
     inm number output
-    evl output == 1 "out \"It is a number!\"" "out \"It is NOT a number!\""
+    cmp output == 1 "out \"It is a number!\"" "out \"It is NOT a number!\""
     :: "It is NOT a number!"
 ```
 
@@ -349,14 +359,15 @@ Example:
 
 #### - **inms**
 
-The `inms` operator is similar to the `inm` operator. It checks if a variable or a string is a number and outputs a 1 if it is true or 0 if it is not.
+The `inms` operator is similar to the `inm` operator.  
+It checks if a variable or a string is a number and outputs a 1 if it is true or 0 if it is not.
 
 See [**data types**](#data-types) in the data types guide for more information.
 
 Syntax:
 
 ```
-inms <variable> <0|1>
+inms <variable> <output>
 ```
 
 Example:
@@ -365,7 +376,7 @@ Example:
 :main
     psh "5" number
     inms number output
-    evl output == 1 "out \"It is a number!\"" "out \"It is NOT a number!\""
+    cmp output == 1 "out \"It is a number!\"" "out \"It is NOT a number!\""
     :: "It is a number"
 ```
 
@@ -386,7 +397,7 @@ imp <path>
 Example:
 
 ```
-imp "pkg/stdlib/system"
+imp "stdlib"
 
 :main
     out "Hello World"
@@ -396,8 +407,7 @@ imp "pkg/stdlib/system"
 
 #### - **jmp**
 
-The `jmp` operator allows the x2 interpreter to jump to another section.
-
+The `jmp` operator allows the x2 interpreter to jump to another section.  
 See [**sections**](#sections) in the sections guide for more information.
 
 Syntax:
@@ -421,7 +431,7 @@ Example:
 
 #### - **lwr**
 
-The `lwr` operator turns the string into all lowercase letters.
+The `lwr` operator turns the given string into all lowercase letters.
 
 Syntax:
 
@@ -495,7 +505,7 @@ The `out` operator prints a variable or a string into the terminal.
 Syntax:
 
 ```
-out <variable>
+out [argument(s)]
 ```
 
 Example:
@@ -504,27 +514,6 @@ Example:
 :main
     out "Hello World"
     :: "Hello World"
-```
-
----
-
-#### - **pause**
-
-The `pause` operator pauses the x2 interpreter until an `[ENTER]` key is pressed.
-
-Syntax:
-
-```
-pause
-```
-
-Example:
-
-```
-:main
-    out "Hello "
-    pause
-    out "World"
 ```
 
 ---
@@ -576,7 +565,7 @@ The `read` operator waits for an input and stores it as a variable.
 Syntax:
 
 ```
-read <prompt> <output>
+read [prompt] [output]
 ```
 
 Example:
@@ -646,8 +635,7 @@ Example:
 
 #### - **ret**
 
-The `ret` operator returns a value. It is usually used with the `call` operator.
-
+The `ret` operator returns a value. It is usually used with the `call` operator.  
 See [**sections**](#sections) in the sections guide for more information.
 
 Syntax:
@@ -664,8 +652,8 @@ Example:
     out output
     :: "Hello World"
 
-:appendString
-    add _a1 _a2 result
+:appendString a b
+    add a b result
     ret result
 ```
 
@@ -737,10 +725,9 @@ Example:
 
 ---
 
-#### - **tstr**
+#### - **str**
 
-The `tstr` operator turns a variable into a string.
-
+The `str` operator turns a variable into a string.  
 See [**data types**](#data-types) in the data types guide for more information.
 
 Syntax:
@@ -754,7 +741,7 @@ Example:
 ```
 :main
     psh 5 number
-    tstr number
+    str number
     out number
     :: "5"
 ```
@@ -763,7 +750,7 @@ Example:
 
 #### - **upr**
 
-The `upr` operator turns the string into all uppercase letters.
+The `upr` operator turns the given string into all uppercase letters.
 
 Syntax:
 
@@ -785,9 +772,9 @@ Example:
 
 #### - **whl**
 
-The `whl` operator would continuously call a section until the expression is false.
+The `whl` operator will continuously call a section until the expression is false.
 
-See [**expressions**](#expressions) in the expressions guide for more information.
+See [**expressions**](#expressions) in the expressions guide for more information.  
 See [**sections**](#sections) in the sections guide for more information.
 
 Syntax:
@@ -800,8 +787,8 @@ Example:
 
 ```
 :main
-    psh 0 number
-    whl number != 5 print
+    psh 0 @number
+    whl @number != 5 print
     :: "Hello World"
     :: "Hello World"
     :: "Hello World"
@@ -811,15 +798,14 @@ Example:
 
 :print
     out "Hello World"
-    inc number
+    inc @number
 ```
 
 ---
 
 ### Sections
 
-A section defines a chunk of code where it can then be executed separately multiple times.
-
+A section defines a chunk of code where it can then be executed separately multiple times.  
 To define a section, simply append a colon (`:`) at the beginning of the section name:
 
 ```
@@ -832,8 +818,7 @@ For example:
 :print
 ```
 
-The entry section is always called `main` and is necessary in all entry points.
-
+The entry section is always called `main` and is necessary in all entry points.  
 It is a good practice to always put your `main` section at the top with any user-defined sections at the bottom:
 
 ```
@@ -853,7 +838,7 @@ A section may be blank:
     out "Hello World"
 ```
 
-If a section is merged with another section, only the first one would be valid. The other sections would be ignored and not defined in the memory. 
+If a section is merged with another section, only the first one would be valid. The other sections would be ignored and not defined in memory. 
 
 ```
 :main :print
@@ -876,9 +861,9 @@ And a proper `ret` operator should look like this:
 ret <variable>
 ```
 
-Note that a `ret` operator is not always necessary in a `call-ret` pair if the section does not return a value. However, a return variable is still manditory in that situation.
+Note that a `ret` operator is not always necessary in a `call-ret` pair if the section does not return a value. However, a return variable is still mandatory in that situation.
 
-Arguments in a section are defined as `_a<number` with `_a1` being the first argument. Note that arguments are modified when using a nested `call-ret` section. Therefore it is a good practice to first define the arguments in a separate variable.
+Arguments in a section are defined after the section name, for example: `:hello arg1 arg2 arg3`. These arguments are in the local scope and garbage collected upon section end.
 
 Below is an example of a proper `call-ret` section.
 
@@ -888,9 +873,8 @@ Below is an example of a proper `call-ret` section.
     out output
     :: "Hello World!"
 
-:addExclamationMark
-    psh _a1 string
-    ret "$(pop string)!"
+:addExclamationMark text
+    ret "$(pop text)!"
 ```
 
 ---
@@ -966,7 +950,7 @@ The `int` data type is an number that can represent any integers. It, however, c
 
 ```
 <integer>
--<interger>
+-<integer>
 ```
 
 For example:
@@ -989,8 +973,7 @@ div 5 10 output
 
 See [**operators**](#operators) in the operators guide for more information.
 
-Integers can also be used a booleans, where 0 represents a false value and 1 represents a true value.
-
+Integers can also be used a booleans, where 0 represents a false value and 1 represents a true value.  
 All numbers, including integers, can also use the following comparators:
 
 ```
@@ -1036,7 +1019,7 @@ div 5.0 10.0 output
 It can also be rounded to an integer:
 
 ```
-rnd 5.0
+rnd 5.4  :: 5
 ```
 
 See [**operators**](#operators) in the operators guide for more information.
@@ -1254,6 +1237,26 @@ Example:
 :: true
 ```
 
+#### - **from**
+
+The `from` comparator checks if a value's type descends from another [**data type**](#data-types). This operator is very similar to `is`, however the second value is the datatype you wish to check, allowing for custom datatypes to be created by `evl` and checked using `cmp`.
+
+Syntax:
+
+```
+<variable> from <data type>
+```
+
+Example:
+
+```
+evl "x2.setvar('bool', bool)"
+evl "x2.setvar('areGeesEpik', True)"
+
+areGeesEpik from bool
+:: true
+```
+
 ---
 
 ### Other
@@ -1264,19 +1267,14 @@ Here are some techniques and other core features of the x2 language.
 
 #### - **Comments**
 
-You can define a comment by adding two colons (`::`) in front of any sentences:
+You can define a comment by adding two colons (`::`) in front of any line, for example:
 
 ```
-:: <Comment>
+:: Hello, world!
 ```
 
-For example:
-
-```
-:: Hello World
-```
-
-Currently, it is not possible to have an in-line comment or a block comment.
+You can also have an inline comment by adding the `::` after the line.  
+Currently, it is not possible to have a block comment.
 
 ---
 
@@ -1315,20 +1313,22 @@ imp <path>
 For example:
 
 ```
-imp "pkg/stdlib/system"
+imp "stdlib/system"
 ```
+will attempt to import `pkg/stdlib/system/main.xt` automatically.
 
-Note that the extensions is unnecessary when importing another file.
+Note that the file extension is unnecessary when importing a package, however it is required to indicate you are importing a relative file.
 
-It is a common practice to have a separate folder called `pkg/`. When first initializing your x2 interpreter, a `pkg/` folder should already be created with a `stdlib/` folder within it. These packages inside the `stdlib/` folder are the stardard libraries of the x2 language. They are pre-made packages created by the developers of the x2 language. Documentations of these standard libraries can be found on the [**official website**](https://local.iipython.cf/) of x2.
+It is a common practice to have a separate folder called `pkg/`. When first initializing your x2 interpreter, a `pkg/` folder should already be created with a `stdlib/` folder within it. These packages inside the `stdlib/` folder are the standard libraries of the x2 language. They are pre-made packages created by the developers of the x2 language. Documentations of these standard libraries can be found on the [**official website**](https://x2.iipython.cf/) of x2.
 
-Additional packages can be downloaded from the [**x2 stores**](https://local.iipython.cf/list?id=packages).
+Additional packages can be downloaded from the [**x2 marketplace**](https://x2.iipython.cf/list?id=packages).
 
 ## Links
 
-Here are some useful links for x2
-- [**Github**](https://github.com/ii-Python) - iiPython's Github Profile
-- [**Syntax Highlighter**](https://github.com/Dm12332131mD/x2-theme) - Syntax Highlighter for x2 on Visual Studio Code
-- [**Syntax Highlighter Extension**](https://marketplace.visualstudio.com/items?itemName=iiPython.x2) - Syntax Highlighter Extension on Visual Studio Code
+Here are some useful links for x2:
 - [**Repository**](https://github.com/ii-Python/x2) - Repository for x2
-- [**Website**](https://local.iipython.cf/) - Official Website of x2
+- [**Website**](https://x2.iipython.cf/) - Official Website of x2
+- [**Syntax Highlighter**](https://github.com/Dm12332131mD/x2-theme) - Syntax Highlighter for x2 on Visual Studio Code
+Extension on Visual Studio Code
+- [**Syntax Highlighter Extension**](https://marketplace.visualstudio.com/items?itemName=iiPython.x2) - Syntax Highlighter
+- [**Github**](https://github.com/ii-Python) - iiPython's Github Profile
