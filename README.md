@@ -17,7 +17,7 @@
     - [Syntax Highlighter](https://github.com/Dm12332131mD/x2-theme)
     - [Syntax Highlighter Extension](https://marketplace.visualstudio.com/items?itemName=iiPython.x2)
     - [Repository](https://github.com/ii-Python/x2)
-    - [Website](https://local.iipython.cf/)
+    - [Website](https://x2.iipython.cf/)
 
 ## About
 
