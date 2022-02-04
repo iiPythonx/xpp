@@ -733,7 +733,7 @@ See [**data types**](#data-types) in the data types guide for more information.
 Syntax:
 
 ```
-tstr <variable>
+str <variable>
 ```
 
 Example:
