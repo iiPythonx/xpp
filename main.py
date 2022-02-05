@@ -73,7 +73,7 @@ class XTInterpreter(object):
             return self._opmap[operator](XTContext(self.memory, tokens[1:]))
 
         except Exception as e:
-            if raise_error or True:
+            if raise_error:
                 raise e
 
             elif config.get("quiet", False):
