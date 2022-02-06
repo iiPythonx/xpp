@@ -1,0 +1,78 @@
+:: @ Standard Library Object Extension
+:: @ v1.0.0 (x2.3b0 - x2.3b0)
+:: @ DmmD
+
+:: ! Imports
+imp "stdlib"
+
+:: ! Methods
+:clear object
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "getvar('object').value.clear()"
+    ret object
+
+:clone object
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', getvar('object').value.copy())"
+    ret result
+
+:delete object key
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', getvar('object').value.pop(getvar('key').value, None))"
+    ret result
+
+:ensure object key value
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', getvar('object').value.setdefault(getvar('key').value, getvar('value').value))"
+    ret result
+
+:entries object
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', list(getvar('object').value.items()))"
+    ret result
+
+:from value
+    evl "setvar('result', dict(getvar('value').value))"
+    ret result
+    
+:get object key
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', getvar('object').value.get(getvar('key').value))"
+    ret result
+
+:has object key
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', getvar('key').value in getvar('object').value)"
+    ret result
+
+:isObject object
+    cmp (pvk stdlib.class object) == #object "ret #true" "ret #false"
+
+:keys object
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', list(getvar('object').value.keys()))"
+    ret result
+
+:new
+    evl "setvar('result', {})"
+    ret result
+
+:set object key value
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "getvar('object').value[getvar('key').value] = getvar('value').value"
+    ret value
+
+:size object
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', len(getvar('object').value))"
+    ret result
+
+:toString array
+    cmp (pvk stdlib.class array) != #array "thrw \"Package <stdlib/array> - Internal Runtime Error: First argument is not an array\""
+    evl "setvar('result', str(getvar('array').value))"
+    ret result
+
+:values object
+    cmp (pvk stdlib.class object) != #object "thrw \"Package <stdlib/object> - Internal Runtime Error: First argument is not an object\""
+    evl "setvar('result', list(getvar('object').value.values()))"
+    ret result

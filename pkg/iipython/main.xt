@@ -1,0 +1,22 @@
+:: ! iiPython x2 Package (c) 2022 iiPython
+:: ! x2.3b0+
+
+:: * Initialization
+evl "import iipython; x2.memory._ip = iipython"
+
+:: * Color wrappers
+:cprint text
+    evl "x2.memory._ip.cprint(\"$(pop text)\")"
+
+:color text
+    evl "x2.setvar('result', x2.memory._ip.color(x2.getvar('text').value))"
+    ret result
+
+:: * Debug handlers
+:printDebugInfo
+    evl "from rich import print" ..
+        "print('x2 version:', version)" ..
+        "print('x2 config:', config)" ..
+        "print('Sections loaded:', str(len(x2.sections)))" ..
+        "print('Section dump:', x2.sections)" ..
+        "print('Memory dump:', {k: v for k, v in vars(x2.memory).items() if k[:2] != '__'})"

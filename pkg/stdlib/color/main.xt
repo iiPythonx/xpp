@@ -1,0 +1,156 @@
+:: @ Standard Library Array Extension
+:: @ v1.0.0 (x2.3b0 - x2.3b0)
+:: @ DmmD
+
+:: ! Foreground (Normal) Colors
+:blackf string
+    ret "\033[30m$(pop string)\033[39m"
+
+:redf string
+    ret "\033[31m$(pop string)\033[39m"
+
+:greenf string
+    ret "\033[32m$(pop string)\033[39m"
+
+:yellowf string
+    ret "\033[33m$(pop string)\033[39m"
+
+:bluef string
+    ret "\033[34m$(pop string)\033[39m"
+    
+:magentaf string
+    ret "\033[35m$(pop string)\033[39m"
+    
+:cyanf string
+    ret "\033[36m$(pop string)\033[39m"
+    
+:whitef string
+    ret "\033[37m$(pop string)\033[39m"
+
+:resetf string
+    ret "$(pop string)\033[39m"
+
+:: ! Foreground (Bright) Colors
+:bblackf string
+    ret "\033[90m$(pop string)\033[39m"
+
+:bredf string
+    ret "\033[91m$(pop string)\033[39m"
+
+:bgreenf string
+    ret "\033[92m$(pop string)\033[39m"
+
+:byellowf string
+    ret "\033[93m$(pop string)\033[39m"
+
+:bbluef string
+    ret "\033[94m$(pop string)\033[39m"
+    
+:bmagentaf string
+    ret "\033[95m$(pop string)\033[39m"
+    
+:bcyanf string
+    ret "\033[96m$(pop string)\033[39m"
+    
+:bwhitef string
+    ret "\033[97m$(pop string)\033[39m"
+
+:: ! Background (Normal) Colors
+:blackb string
+    ret "\033[40m$(pop string)\033[49m"
+
+:redb string
+    ret "\033[41m$(pop string)\033[49m"
+
+:greenb string
+    ret "\033[42m$(pop string)\033[49m"
+
+:yellowb string
+    ret "\033[43m$(pop string)\033[49m"
+
+:blueb string
+    ret "\033[44m$(pop string)\033[49m"
+    
+:magentab string
+    ret "\033[45m$(pop string)\033[49m"
+    
+:cyanb string
+    ret "\033[46m$(pop string)\033[49m"
+    
+:whiteb string
+    ret "\033[47m$(pop string)\033[49m"
+
+:resetb string
+    ret "$(pop string)\033[49m"
+
+:: ! Background (Bright) Colors
+:bblackb string
+    ret "\033[100m$(pop string)\033[49m"
+
+:bredb string
+    ret "\033[101m$(pop string)\033[49m"
+
+:bgreenb string
+    ret "\033[102m$(pop string)\033[49m"
+
+:byellowb string
+    ret "\033[103m$(pop string)\033[49m"
+
+:bblueb string
+    ret "\033[104m$(pop string)\033[49m"
+    
+:bmagentab string
+    ret "\033[105m$(pop string)\033[49m"
+    
+:bcyanb string
+    ret "\033[106m$(pop string)\033[49m"
+    
+:bwhiteb string
+    ret "\033[107m$(pop string)\033[49m"
+
+:: ! Color Modes
+:bitf string bit
+    ret "\033[38;5;$(pop bit)m$(pop string)\033[0m"
+
+:bitb string bit
+    ret "\033[48;5;$(pop bit)m$(pop string)\033[0m"
+
+:rgbf string red green blue
+    ret "\033[38;2;$(pop red);$(pop green);$(pop blue)m$(pop string)\033[0m"
+    
+:rgbb string red green blue
+    ret "\033[48;2;$(pop red);$(pop green);$(pop blue)m$(pop string)\033[0m"
+
+:: ! Styles
+:reset string
+    ret "$(pop string)\033[0m"
+
+:bold string
+    ret "\033[1m$(pop string)\033[0m"
+    
+:dim string
+    ret "\033[2m$(pop string)\033[0m"
+
+:italic string
+    ret "\033[3m$(pop string)\033[0m"
+    
+:underline string
+    ret "\033[4m$(pop string)\033[0m"
+    
+:blink string
+    ret "\033[5m$(pop string)\033[0m"
+    
+:flash string
+    ret "\033[6m$(pop string)\033[0m"
+
+:invert string
+    ret "\033[7m$(pop string)\033[0m"
+    
+:hide string
+    ret "\033[8m$(pop string)\033[0m"
+    
+:strike string
+    ret "\033[9m$(pop string)\033[0m"
+
+:overline string
+    ret "\033[53m$(pop string)\033[0m"
