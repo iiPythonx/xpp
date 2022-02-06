@@ -1,9 +1,10 @@
 # Copyright 2022 iiPython
-# x2.3b0 Codename Goos
+# x2.3b1 Codename Goos
 
 # Modules
 import os
 import sys
+import time
 import json
 import string
 from typing import Any, Tuple
@@ -15,13 +16,18 @@ from x2 import (
 )
 
 # Initialization
-__version__ = "x2.3b0"
+__version__ = "x2.3b1"
 
 sys.argv = sys.argv[1:]
 xt_folder = os.path.join(os.path.dirname(__file__), "x2")
 
 if "-h" in sys.argv or "--help" in sys.argv:
-    print("usage: x2 [-h] [file]\nflags:\n    -h  shows this message and exits\n\nif path is '.', tries to load entrypoint from .xtconfig")
+    print("usage: x2 [-hv] [--help/version] [file]")
+    print("-h (--help)       shows this message and exits")
+    print("-v (--version)    prints the x2 version and exits")
+    print()
+    print("If file is not provided, it is loaded from .xtconfig")
+    print("Copyright (c) 2022 iiPython + Dm123321_31mD")
     sys.exit(0)
 
 # Load x2 configuration
@@ -46,6 +52,7 @@ class XTInterpreter(object):
 
         # Data attributes
         self._config = config
+        self._uptime = time.time()
         self._version = __version__
 
     def setvar(self, name: str, value: Any, **kwargs) -> Any:
