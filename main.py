@@ -3,6 +3,7 @@
 
 # Modules
 import os
+from re import M
 import sys
 import time
 import json
@@ -21,7 +22,10 @@ __version__ = "x2.3b1"
 sys.argv = sys.argv[1:]
 xt_folder = os.path.join(os.path.dirname(__file__), "x2")
 
-if "-h" in sys.argv or "--help" in sys.argv:
+def check_argv(matches: list) -> bool:
+    return bool([m for m in matches if m in sys.argv])
+
+if check_argv(["-h", "--help"]):
     print("usage: x2 [-hv] [--help/version] [file]")
     print("-h (--help)       shows this message and exits")
     print("-v (--version)    prints the x2 version and exits")
@@ -29,6 +33,9 @@ if "-h" in sys.argv or "--help" in sys.argv:
     print("If file is not provided, it is loaded from .xtconfig")
     print("Copyright (c) 2022 iiPython + Dm123321_31mD")
     sys.exit(0)
+
+elif check_argv(["-v", "--version"]):
+    sys.exit(__version__)
 
 # Load x2 configuration
 config = {}
