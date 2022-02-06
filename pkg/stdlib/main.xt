@@ -1,0 +1,65 @@
+:: @ Standard Libary v1.0.0 (x2.3b0 - x2.3b0) - DmmD
+
+:: ! Scripts
+evl "from pkg.stdlib.script import init; init(x2)"
+
+:: ! Methods
+:class value
+    evl "setvar('result', getvar('value').value.__class__)"
+    ret result
+
+:config
+    evl "setvar('result', config)"
+    ret result
+
+:convert value class
+    evl "setvar('result', getvar('class').value(getvar('value').value))"
+    ret result
+
+:constant key value
+    evl "from pkg.stdlib.script import setConstant; setConstant(getvar('key').value, getvar('value').value)"
+    ret value
+
+:delete key
+    evl "from pkg.stdlib.script import deleteVariable; setvar('result', deleteVariable(getvar('key').value))"
+    ret result
+
+:fetch key
+    evl "from pkg.stdlib.script import fetchVariable; setvar('result', fetchVariable(getvar('key').value))"
+    ret result
+
+:get key
+    evl "from pkg.stdlib.script import getVariable; setvar('result', getVariable(getvar('key').value))"
+    ret result
+
+:has key
+    evl "from pkg.stdlib.script import hasVariable; setvar('result', hasVariable(getvar('key').value))"
+    ret result
+    
+:isConstant key
+    evl "from pkg.stdlib.script import isConstant; setvar('result', isConstant(getvar('key').value))"
+    ret result
+
+:jsonDecode string
+    evl "import json; setvar('result', json.loads(getvar('string').value))"
+    ret result
+
+:jsonEncode value
+    evl "import json; setvar('result', json.dumps(getvar('value').value))"
+    ret result
+
+:set key value
+    evl "from pkg.stdlib.script import setVariable; setVariable(getvar('key').value, getvar('value').value)"
+    ret value
+
+:type value
+    evl "setvar('result', getvar('value').value.__class__.__name__)"
+    ret result
+
+:uptime
+    evl "import time; setvar('result', round((time.time() - x2._uptime_st) * 1000, 7))"
+    ret result
+
+:version
+    evl "setvar('result', version)"
+    ret result
