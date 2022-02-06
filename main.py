@@ -68,6 +68,9 @@ class XTInterpreter(object):
         return XTDatastore(self.memory, name, **kwargs)
 
     def execute(self, line: str, raise_error: bool = False) -> Any:
+        if self._live and ((self.linetrk and self.linetrk[-1][0] != "<stdin>") or not self.linetrk):
+            self.linetrk.append(["<stdin>", "<stdin>.global", 0, False, "<stdin>"])
+
         try:
             tokens = self.parseline(line)
             try:
@@ -250,6 +253,7 @@ if not sys.argv:
     print(f"{__version__} Copyright (c) 2022 iiPython")
     inter._live, linedata = True, ""
     inter.load_sections(":global\n", "<stdin>")
+    inter.memory.vars["local"]["<stdin>.global"] = {}
     while True:
         try:
             line = input(f"{'>' if not linedata else ':'} ")
