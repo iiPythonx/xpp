@@ -69,13 +69,13 @@ class XTInterpreter(object):
 
     def execute(self, line: str, raise_error: bool = False) -> Any:
         if self._live and ((self.linetrk and self.linetrk[-1][0] != "<stdin>") or not self.linetrk):
-            self.linetrk.append(["<stdin>", "<stdin>.global", 0, False, "<stdin>"])
+            self.linetrk.append({"file": "<stdin>", "path": "<stdin>", "section": "<stdin>.global", "start": 0, "ended": False, "as": "<stdin>"})
 
         try:
             tokens = self.parseline(line)
             try:
                 trkdata = self.linetrk[-1]
-                prevline = self.sections[trkdata[1]]["lines"][trkdata[2] - self.sections[trkdata[1]]["start"] - 2]
+                prevline = self.sections[trkdata["section"]]["lines"][trkdata["start"] - self.sections[trkdata["section"]]["start"] - 2]
                 if prevline[-2:] in [" \\", ".."]:
                     return None
 
@@ -89,7 +89,7 @@ class XTInterpreter(object):
             return self._opmap[operator](XTContext(self.memory, tokens[1:]))
 
         except Exception as e:
-            if raise_error:
+            if raise_error or True:
                 raise e
 
             elif config.get("quiet", False):
@@ -97,8 +97,8 @@ class XTInterpreter(object):
 
             print("Exception occured in x2 thread!")
             for tracker in self.linetrk:
-                line = self.sections[tracker[1]]["lines"][tracker[2] - self.sections[tracker[1]]["start"] - 1].lstrip()
-                print(f"{tracker[0]} line {tracker[2]}, in {tracker[1].split('.')[1]}:\n  > {line}")
+                line = self.sections[tracker['section']]["lines"][tracker['start'] - self.sections[tracker['section']]["start"] - 1].lstrip()
+                print(f"{tracker['file']} line {tracker['start']}, in {tracker['section'].split('.')[1]}:\n  > {line}")
 
             print(f"\n{type(e).__name__}: {e}")
             if not self._live:
@@ -170,17 +170,21 @@ class XTInterpreter(object):
 
         return data["line"]
 
-    def load_sections(self, code: str, filename: str, namespace: str = None, external: bool = False) -> None:
+    def load_sections(self, code: str, filepath: str, namespace: str = None, external: bool = False) -> None:
+        filename = filepath.replace("\\", "/").split("/")[-1]
         if not hasattr(self, "_entrypoint"):
             self._entrypoint = filename
 
-        self.memory.vars["file"][filename] = {}
+        self.memory.vars["file"][filepath] = {}
 
-        fileid = (namespace or filename).removesuffix(".xt")
+        fileid = (namespace or filepath.replace("/", ".")).removesuffix(".xt")
         dt = {
             "active": "global",
             "code": [],
-            "sections": {f"{fileid}.global": {"lines": [], "priv": False, "file": filename, "start": 0, "args": [], "ret": None, "as": fileid}}
+            "sections": {f"{fileid}.global": {
+                "lines": [], "priv": False, "file": filename, "path": filepath,
+                "start": 0, "args": [], "ret": None, "as": fileid
+            }}
         }
         for lno, line in enumerate(code.split("\n")):
             if line.strip():
@@ -198,7 +202,7 @@ class XTInterpreter(object):
                     dt["sections"][ns]["lines"] = dt["code"]
                     dt["sections"][f"{fileid}.{sid}"] = {
                         "file": filename, "start": lno + 1, "lines": [], "priv": priv,
-                        "args": line.split(" ")[1:], "ret": None, "as": fileid
+                        "args": line.split(" ")[1:], "ret": None, "as": fileid, "path": filepath
                     }
                     dt["code"] = []
                     dt["active"] = sid
@@ -215,7 +219,7 @@ class XTInterpreter(object):
             del self.sections[f"{fileid}.global"]  # Save memory
 
     def find_section(self, section: str) -> Tuple[str, str]:
-        current_file = (self.linetrk or [(self._entrypoint,)])[-1][-1].removesuffix(".xt")
+        current_file = (self.linetrk[-1]["path"] if self.linetrk else self._entrypoint).removesuffix(".xt").replace("/", ".")
         if "." not in section:
             section = f"{current_file}.{section}"
 
@@ -234,12 +238,12 @@ class XTInterpreter(object):
         if section not in self.memory.vars["local"]:
             self.memory.vars["local"][section] = {}
 
-        self.linetrk.append([s["file"], section, s["start"], False, s["as"]])
+        self.linetrk.append({"file": s["file"], "path": s["path"], "section": section, "start": s["start"], "ended": False, "as": s["as"]})
         for line in s["lines"]:
-            self.linetrk[-1][2] += 1
+            self.linetrk[-1]["start"] += 1
             if line.strip() and line[:2] != "::":
                 self.execute(line)
-                if self.linetrk[-1][3]:
+                if self.linetrk[-1]['ended']:
                     break
 
         del self.memory.vars["local"][section]
@@ -292,5 +296,6 @@ else:
         print("x2: failed to load file")
         os._exit(1)
 
-    inter.load_sections(code, file.replace("\\", "/").split("/")[-1])
-    [inter.run_section(s) for s in ["global", "main"]]
+    inter.load_sections(code, file)
+    file = file.replace("\\", "/").replace("/", ".").removesuffix(".xt")
+    [inter.run_section(s) for s in [f"{file}.global", f"{file}.main"]]
