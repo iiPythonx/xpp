@@ -131,7 +131,7 @@ class XTOperators:
 
         ctx.memory.interpreter.load_sections(
             code,
-            path.replace("\\", "/").split("/")[-1],
+            path,
             namespace = namespace,
             external = True
         )
@@ -178,7 +178,7 @@ class XTOperators:
         if not ctx.args:
             raise MissingArguments("required: val")
 
-        ctx.memory.interpreter.sections[ctx.memory.interpreter.linetrk[-1][1]]["ret"] = ctx.args[0].value
+        ctx.memory.interpreter.sections[ctx.memory.interpreter.linetrk[-1]["section"]]["ret"] = ctx.args[0].value
         XTOperators.end(ctx)
 
     def pvk(ctx) -> Any:
@@ -228,7 +228,7 @@ class XTOperators:
 
         end
         """
-        ctx.memory.interpreter.linetrk[-1][3] = True
+        ctx.memory.interpreter.linetrk[-1]["ended"] = True
 
     def try_(ctx) -> None:
         """
