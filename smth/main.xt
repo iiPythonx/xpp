@@ -1,8 +1,0 @@
-evl "setvar('@x', 5)"
-
-imp "stdlib"
-
-:main
-    evl "from rich import print; print(x2.sections)"
-    out @x
-    wait 999
