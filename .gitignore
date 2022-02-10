@@ -1,7 +1,10 @@
 __pycache__/
-priv/
 
 # Pyinstaller build files
 dist/
 build/
 *.spec
+
+# Installer data
+installer.py
+python/
