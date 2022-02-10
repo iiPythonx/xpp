@@ -297,5 +297,5 @@ else:
         os._exit(1)
 
     inter.load_sections(code, file)
-    file = file.replace("\\", "/").replace("/", ".").removesuffix(".xt")
+    file = file.replace("\\", "/").replace("/", ".").removesuffix(".xt").removeprefix("./")
     [inter.run_section(s) for s in [f"{file}.global", f"{file}.main"]]
