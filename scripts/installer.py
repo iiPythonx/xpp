@@ -3,6 +3,7 @@
 
 # Modules
 import os
+import sys
 import shutil
 import zipfile
 import subprocess
@@ -12,6 +13,7 @@ from datetime import datetime
 from iipython import readchar, keys
 
 from rich.live import Live
+from rich.align import Align
 from rich.panel import Panel
 from rich.console import Console
 from rich.progress import Progress
@@ -20,11 +22,13 @@ from rich.progress import Progress
 rcon = Console()
 rprint = rcon.print
 
+options = {"install_docs": True, "install_stdlib": True, "change_dir": False}
+
 def close(code: int, message: str = None) -> None:
     if message is not None:
         rprint(message)
 
-    return exit(code)
+    return sys.exit(code)
 
 def read(accept: list) -> Any:
     while True:
@@ -42,6 +46,56 @@ def show_slide(content: str) -> None:
     rcon.clear()
     rprint("\n" * (round((rcon.size.height - content.count("\n")) / 2) - 1), end = "")  # Vertically center
     rprint(Panel(content, title = "%%V Installer"), justify = "center")
+
+def make_menu(opts: list) -> dict:
+    idx = 0
+    def construct() -> str:  # noqa
+        ml = len(max(opts, key = lambda d: len(d["name"]))["name"])
+        return "\n".join([f"{'[ ]' if not opt['checked'] else '[[green]X[/]]'} {opt['name']}{' ' * (ml - len(opt['name']))} {'[yellow]:[/]' if i == idx else ':'}" for i, opt in enumerate(opts)])
+
+    while True:
+        show_slide("\n" + construct() + "\n\nPress [yellow][SPACE][/] to toggle options, [yellow][ENTER][/] to confirm.")
+
+        # Handle keypresses
+        kp = readchar()
+        if kp == keys.UP and idx > 0:
+            idx -= 1
+
+        elif kp == keys.DOWN and idx < (len(opts) - 1):
+            idx += 1
+
+        elif kp in [" ", keys.SPACE]:
+            opts[idx]["checked"] = not opts[idx]["checked"]
+
+        elif kp == keys.ENTER:
+            return {opt["ref"]: opt["checked"] for opt in opts}
+
+        elif kp == keys.CTRL_C:
+            break
+
+def select_menu(opts: list) -> str:
+    idx = 0
+    def construct() -> str:  # noqa
+        ml = len(max(opts, key = lambda d: len(d["name"]))["name"])
+        return "\n".join([f"{opt['name']}{' ' * (ml - len(opt['name']))} {'[yellow]:[/]' if i == idx else ':'}" for i, opt in enumerate(opts)])
+
+    while True:
+        show_slide("\n" + construct() + "\n\nPlease select an option and press [yellow][ENTER][/].")
+
+        # Handle keypresses
+        kp = readchar()
+        if kp == keys.UP and idx > 0:
+            idx -= 1
+
+        elif kp == keys.DOWN and idx < (len(opts) - 1):
+            idx += 1
+
+        elif kp == keys.ENTER:
+            return opts[idx]["ref"]
+
+        elif kp == keys.CTRL_C:
+            rcon.clear()
+            close(0)
 
 # File checks
 if not os.path.isfile("package.zip"):
@@ -64,14 +118,17 @@ def get_path_input() -> str:
             directory = directory[:-1]
 
 # Install handler
-def install(path: str) -> None:
+def install() -> None:
+    path = os.path.abspath(os.path.expanduser("~"))
+    if options["change_dir"]:
+        path = get_path_input()
+
     path = os.path.join(path, "x2")
     if os.path.isdir(path):
         show_slide(f"\n[red]The directory {path} already exists!\nRemove it and overwrite [/][yellow][Y/N][/][red]?[/]\n")
         kp = read(["y", "n"])
         if kp == "n":
-            rcon.clear()
-            close(0, "[yellow]Please make the appropriate directory changes then rerun the installer.")
+            return
 
         shutil.rmtree(path)
 
@@ -87,25 +144,41 @@ def install(path: str) -> None:
 
         # Extract files
         rprint("\n" * (round((rcon.size.height - 1) / 2) - 1), end = "")  # Vertically center
-        with Live(Panel(prg, title = "%%V Installer"), refresh_per_second = 1):
+        with Live(Align(Panel(prg, title = "%%V Installer"), align = "center"), refresh_per_second = 1 if os.name == "nt" else 10) as lv:
             for file in zf.infolist():
-                zf.extract(file.filename, path)
+                root = file.filename.split("/")[0]
+                if root == "md" and not options["install_docs"]:
+                    continue
+
+                elif root == "pkg" and not options["install_stdlib"]:
+                    continue
+
+                # Attempt to extract
+                try:
+                    zf.extract(file.filename, path)
+
+                except PermissionError:
+                    lv.stop()
+                    show_slide("[red]Failed to write to folder: permission denied\nPress any key to return to the main menu.")
+                    return readchar()
+
                 prg.update(ext_task, advance = 1)
 
     # Handle launcher + path
     show_slide("\n[cyan]Creating launcher and PATH entries ...\n")
-    with open(os.path.join(path, "x2.bat"), "w+") as f:
-        f.write("@echo off\n\"%~dp0python\python.exe\" \"%~dp0x2.py\" %*")  # noqa
+    if os.name == "nt":
+        with open(os.path.join(path, "x2.bat"), "w+") as f:
+            f.write("@echo off\n\"%~dp0python\python.exe\" \"%~dp0x2.py\" %*")  # noqa
 
-    shutil.move(os.path.join(path, "main.py"), os.path.join(path, "x2.py"))
+        shutil.move(os.path.join(path, "main.py"), os.path.join(path, "x2.py"))
 
-    userpath = subprocess.Popen(
-        "for /f \"usebackq tokens=2,*\" %A in (`reg query HKCU\Environment /v PATH`) do echo %B",  # noqa
-        stdout = subprocess.PIPE,
-        shell = True
-    ).communicate()[0].decode().strip("\r\n").split("\n")[1]
-    if path not in userpath:
-        os.system(f"setx PATH \"{userpath};{path}\"")
+        userpath = subprocess.Popen(
+            "for /f \"usebackq tokens=2,*\" %A in (`reg query HKCU\Environment /v PATH`) do echo %B",  # noqa
+            stdout = subprocess.PIPE,
+            shell = True
+        ).communicate()[0].decode().strip("\r\n").split("\n")[1]
+        if path not in userpath:
+            os.system(f"setx PATH \"{userpath};{path}\"")
 
     # We're done
     elapsed = round((datetime.now() - start).total_seconds(), 2)
@@ -114,19 +187,22 @@ def install(path: str) -> None:
     close(0)
 
 # Main menu
-show_slide("""[blue bold]Welcome to the x2 Installer![/]
+while True:
+    opt = select_menu([
+        {"name": "Install now", "ref": "install"},
+        {"name": "Install options", "ref": "options"},
+        {"name": "Exit installer", "ref": "exit"}
+    ])
+    if opt == "exit":
+        rcon.clear()
+        close(0)
 
-This executable will install x2 on your computer.
-Press [yellow][ENTER][/] to install now, or [yellow][E][/] to change the installation directory.
+    elif opt == "options":
+        options = make_menu([
+            {"name": "Install documentation", "ref": "install_docs", "checked": options["install_docs"]},
+            {"name": "Install standard library", "ref": "install_stdlib", "checked": options["install_stdlib"]},
+            {"name": "Change install directory", "ref": "change_dir", "checked": options["change_dir"]}
+        ])
 
-[red]Press [yellow][Q][/] or [yellow][^C][/] to quit the installer.""")
-kp = read([keys.ENTER, keys.CTRL_C, "e", "q"])
-if kp == keys.ENTER:
-    install(os.path.abspath(os.path.expanduser("~")))
-
-elif kp == "e":
-    install(get_path_input())
-
-elif kp == "q":
-    rcon.clear()
-    close(0)
+    elif opt == "install":
+        install()
