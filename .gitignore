@@ -6,5 +6,4 @@ build/
 *.spec
 
 # Installer data
-installer.py
 python/
