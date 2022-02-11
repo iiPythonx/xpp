@@ -8,13 +8,13 @@ import zipfile
 import subprocess
 
 # Initialization
-if not os.path.isdir("python"):
+if not os.path.isdir("python") and os.name == "nt":
     print("You need to have a 'python' directory containing the Python 3.10 runtime.")
     print("Download Python from https://python.org")
     exit(1)
 
 to_include = [f for f in os.listdir() if f not in [
-    ".git", "__pycache__", "md", "scripts", ".xtconfig", "main.xt",
+    ".git", "__pycache__", "scripts", ".xtconfig", "main.xt",
     "build", "dist", "installer.py", "installer.spec"
 ]]
 print("Including all of the following:\n", "\n\t-  ".join([""] + to_include).lstrip("\n"))
