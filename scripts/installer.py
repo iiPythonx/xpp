@@ -31,6 +31,9 @@ options = {"install_docs": True, "install_stdlib": True, "change_dir": False}
 github_repo = "ii-Python/x2"
 api_url = f"https://api.github.com/repos/{github_repo}"
 
+__version__ = "1.0.4"
+__copyright__ = "(c) 2022 iiPython + Dm123321_31mD"
+
 def close(code: int, message: str = None) -> None:
     if message is not None:
         rprint(message)
@@ -58,7 +61,7 @@ def make_menu(opts: list, **kwargs) -> dict:
     idx = 0
     def construct() -> str:  # noqa
         ml = len(max(opts, key = lambda d: len(d["name"]))["name"])
-        return "\n".join([f"{'[ ]' if not opt['checked'] else '[[green]X[/]]'} {opt['name']}{' ' * (ml - len(opt['name']))} {'[yellow]:[/]' if i == idx else ':'}" for i, opt in enumerate(opts)])
+        return "\n".join([f"{'[ ]' if not opt['checked'] else '[[green]X[/]]'} {opt['name']}{' ' * (ml - len(opt['name']))} {'[yellow]<[/]' if i == idx else '|'}" for i, opt in enumerate(opts)])
 
     while True:
         show_slide("\n" + construct() + "\n\nPress [yellow][SPACE][/] to toggle options, [yellow][ENTER][/] to confirm.", **kwargs)
@@ -84,7 +87,7 @@ def select_menu(opts: list, prompt: str = "", **kwargs) -> str:
     idx = 0
     def construct() -> str:  # noqa
         ml = len(max(opts, key = lambda d: len(d["name"]))["name"])
-        return "\n".join([f"{opt['name']}{' ' * (ml - len(opt['name']))} {'[yellow]:[/]' if i == idx else ':'}" for i, opt in enumerate(opts)])
+        return "\n".join([f"{opt['name']}{' ' * (ml - len(opt['name']))} {'[yellow]<[/]' if i == idx else '|'}" for i, opt in enumerate(opts)])
 
     while True:
         show_slide("\n" + prompt + construct() + "\n\nPlease select an option and press [yellow][ENTER][/].", **kwargs)
@@ -251,7 +254,7 @@ def install() -> None:
         pass  # Not a big deal
 
     elapsed = round((datetime.now() - start).total_seconds(), 2)
-    show_slide(f"\n[green]Install completed in [yellow]{elapsed}s[/].\nPress any key to exit the installer.[/]")
+    show_slide(f"\n[green]Install completed in [yellow]{elapsed}s[/].\nPress any key to exit the installer.[/]\n")
     readchar()
     close(0)
 
@@ -259,7 +262,8 @@ def install() -> None:
 while True:
     opt = select_menu([
         {"name": "Install now", "ref": "install"},
-        {"name": "Install options", "ref": "options"},
+        {"name": "Installer options", "ref": "options"},
+        {"name": "About installer", "ref": "about"},
         {"name": "Exit installer", "ref": "exit"}
     ])
     if opt == "exit":
@@ -272,6 +276,10 @@ while True:
             {"name": "Install standard library", "ref": "install_stdlib", "checked": options["install_stdlib"]},
             {"name": "Change install directory", "ref": "change_dir", "checked": options["change_dir"]}
         ], title = "Install Options")
+
+    elif opt == "about":
+        show_slide(f"\nInstaller version: {__version__}\n\n{__copyright__}\n[yellow]Press any key to return.[/]", title = "About")
+        readchar()
 
     elif opt == "install":
         install()
