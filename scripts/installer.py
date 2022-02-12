@@ -164,6 +164,7 @@ def install() -> None:
     rcon.clear()
     if download:
         download_url = get_download_url()
+        rcon.clear()
 
         # Remove existing package.zip
         if os.path.isfile("package.zip"):
