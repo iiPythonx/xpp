@@ -149,7 +149,7 @@ def get_download_url() -> str:
         {"name": f"Beta ({beta_ver})", "ref": "beta"}
     ], title = "Select Version")
     if version == "stable":
-        return stable_data["assets"][0]["browser_download_url"]
+        return [a for a in stable_data["assets"] if a["name"] == "package.zip"][0]["browser_download_url"]
 
     elif version == "beta":
         return f"https://github.com/{github_repo}/archive/refs/heads/master.zip"
