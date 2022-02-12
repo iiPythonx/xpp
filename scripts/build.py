@@ -22,7 +22,6 @@ if not input("\nIs this correct (y/N)? ").lower() == "y":
     exit(1)
 
 python = "py" if os.name == "nt" else "python3"
-x2_version = input("x2 version: ")
 
 # Handle build dir
 if os.path.isdir("build"):
@@ -72,17 +71,10 @@ install_file = "installer.exe" if os.name == "nt" else "installer"
 shutil.move(f"dist/{install_file}", f"./{install_file}")
 print("  ..done!")
 
-# Build zip file
-print("\nBuilding x2.zip ...")
-with zipfile.ZipFile("x2.zip", "w") as zf:
-    [zf.write(f) for f in ["package.zip", install_file]]
-
-print("  ..done!")
-
 # Clean up build directory
 print("\nCleaning build directory ...")
 for item in os.listdir():
-    if item == "x2.zip":
+    if item in ["installer", "installer.exe", "package.zip"]:
         continue
 
     elif os.path.isfile(item):
