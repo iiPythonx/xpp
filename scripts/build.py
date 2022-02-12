@@ -52,8 +52,6 @@ print("  ..done!")
 # Copy installer.py
 print("\nCopying installer.py ...")
 shutil.copy("scripts/installer.py", "build/installer.py")
-installer = open("build/installer.py", "r").read()
-open("build/installer.py", "w").write(installer.replace("%%V", x2_version))
 print("  ..done!")
 
 # Build with pyinstaller
