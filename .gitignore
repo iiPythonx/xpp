@@ -7,3 +7,5 @@ build/
 
 # Installer data
 python/
+package.zip
+.installer_cache
