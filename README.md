@@ -1,10 +1,11 @@
+As of 03/17/22, x2 is discontinued in favor of [Calcium](https://github.com/dm12332131md/calcium).
+This repository will stay active for future reference.
+
 # x2
 
 ## Welcome
 
 Welcome to the official documentation of x2! This documentation will get you started in the development of your first x2 project or will help you learn more about x2 in general with in-depth explanations and tutorials.
-
-**! PLEASE NOTE: x2 development is currently on hold, check out [DmmD's OOP version](https://github.com/x2-dmmd/object) in the meantime. !**
 
 ## Table of Contents
 
