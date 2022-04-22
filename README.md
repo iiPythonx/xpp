@@ -1,17 +1,16 @@
-As of 03/17/22, x2 is discontinued in favor of [Calcium](https://github.com/dm12332131md/calcium).
-This repository will stay active for future reference.
-
 # x2
 
-## Welcome
+## Introduction
 
-Welcome to the official documentation of x2! This documentation will get you started in the development of your first x2 project or will help you learn more about x2 in general with in-depth explanations and tutorials.
+Welcome to the official documentation for x2! This documentation will get you started in the development of your first x2 project or will help you learn more about x2 in general with in-depth explanations and tutorials.  
+
+If you're looking for a faster alternative to x2, check out [Calcium](https://github.com/Dm12332131mD/calcium). It's based around the same principles as x2, but written in C++ and fully OOP-compliant.
 
 ## Table of Contents
 
 - **Home ▾**
-    - [Welcome](#welcome)
-    - [Table of Contents](#table-of-contents)
+    - [Introduction](#introduction)
+    - [ToC](#table-of-contents)
     - [About](#about)
     - [Getting Started ▾](#getting-started)
         - [Step 1: Installation](#step-1-installation)
@@ -26,19 +25,20 @@ Welcome to the official documentation of x2! This documentation will get you sta
 - [Python API](./md/pythonAPI.md)
 - [Standard Library](./md/standardLibrary.md)
 
+***Please note: current x2 documentation is likely invalid due to the release of x2.3r1!**
+
 ## About
 
-x2 (Pronounced "ex-two") is a high-level, interpreted language written in Python by [iiPython](https://github.com/ii-Python/) with low-level programming language syntax, such as [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) or [Batch](https://en.wikipedia.org/wiki/Batch_file).
+x2 (Pronounced "ex-two") is a high-level, interpreted language written in Python by [iiPython](https://github.com/ii-Python/) with low-level programming language syntax, similar to that of [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) or [Batch](https://en.wikipedia.org/wiki/Batch_file).
 
 x2 contains features such as:
 - Automatic Garbage Collection
-- Scoped/Global Variables
-- Public/Private Sections
-- Functions and Methods
+- Scoped/global Variables
+- Sectioning/function system
 - Python Integration
-- Working Import/Export System
-- Package System
-- ...And more!
+- Import/Export System
+- Package Management System ([xpm](https://github.com/ii-Python/xpm); coming soon!)
+- ... many more!
 
 ## Getting Started
 
@@ -62,21 +62,20 @@ If you are choosing Visual Studio Code as your Integrated Development Environmen
 
 ### Step 2: Set-Up
 
-Once you open up your x2 project, you should be able to find a file named `main.xt`. By default, this is your main entry file and is where you will be writing your x2 code. Within the file, you should see:
+Once you open up your x2 project, you should be able to find a file named `main.x2`. By default, this is your main entry file and is where you will be writing your x2 code. Within the file, you should see an example program similar to:
 
 ```xt
 :: Main
-:main
-    out "Hello, world!"
+prt "Hello, world!"
 ```
 
-Any x2 files should always end in the `.xt` extension. The main entry file should also always contain a `:main` section.
+Any x2 files should always end in the `.x2` extension.
 
-You can edit the main entry file by editing the configuration in `.xtconfig`. It is a JSON-like file that contains all the configurations for your x2 project. Within it, you should see:
+You can edit the main entry file by editing the configuration in `.x2config`. It is a JSON-like file that contains all the configurations for your x2 project. Within it, you should see:
 
 ```xtconfig
 {
-    "main": "main.xt"
+    "main": "main.x2"
 }
 ```
 
@@ -115,7 +114,7 @@ You can publish your games and packages at [our website](https://x2.iipython.cf/
 ### Contributors
 
 - [iiPython](https://github.com/ii-Python/) - Lead Developer
-- [Dm123321_31mD](https://github.com/Dm12332131mD) - Contributor
+- [Dm123321_31mD](https://github.com/Dm12332131mD) - Developer + moral support
 
 ### Resouces
 
@@ -125,6 +124,6 @@ You can publish your games and packages at [our website](https://x2.iipython.cf/
 
 ---
 
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: April 22nd, 2022 by iiPython
 
 [↑ Go To Top](#x2)
