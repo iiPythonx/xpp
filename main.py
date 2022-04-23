@@ -1,301 +1,36 @@
 # Copyright 2022 iiPython
-# x2.3b1 Codename Goos
 
 # Modules
 import os
 import sys
-import time
-import json
-import string
-from typing import Any, Tuple
-
 from x2 import (
-    opmap,
-    XTMemory, XTDatastore, XTContext,
-    UnknownOperator, InvalidSection, IllegalSectionName
+    load_sections, load_cli, config,
+    Interpreter
 )
 
 # Initialization
-__version__ = "x2.3b1"
-
-sys.argv = sys.argv[1:]
-xt_folder = os.path.join(os.path.dirname(__file__), "x2")
-
-def check_argv(matches: list) -> bool:
-    return bool([m for m in matches if m in sys.argv])
-
-if check_argv(["-h", "--help"]):
-    print("usage: x2 [-hv] [--help/version] [file]")
-    print("-h (--help)       shows this message and exits")
-    print("-v (--version)    prints the x2 version and exits")
-    print()
-    print("If file is not provided, it is loaded from .xtconfig")
-    print("Copyright (c) 2022 iiPython + Dm123321_31mD")
-    sys.exit(0)
-
-elif check_argv(["-v", "--version"]):
-    sys.exit(__version__)
-
-# Load x2 configuration
-config = {}
-if os.path.isfile(".xtconfig"):
-    with open(".xtconfig", "r") as f:
-        config = json.loads(f.read())
-
-# x2 Interpreter
-class XTInterpreter(object):
-    def __init__(self, opmap: dict = {}) -> None:
-
-        # Memory initialization
-        self.memory = XTMemory()
-        self.memory.interpreter = self
-
-        self.linetrk = []
-        self.sections = {}
-
-        self._live = False
-        self._opmap = opmap
-
-        # Data attributes
-        self._config = config
-        self._uptime = time.time()
-        self._version = __version__
-
-    def setvar(self, name: str, value: Any, **kwargs) -> Any:
-        return XTDatastore(self.memory, name, **kwargs).set(value)
-
-    def getvar(self, name: str, **kwargs) -> XTDatastore:
-        return XTDatastore(self.memory, name, **kwargs)
-
-    def execute(self, line: str, raise_error: bool = False) -> Any:
-        if self._live and ((self.linetrk and self.linetrk[-1][0] != "<stdin>") or not self.linetrk):
-            self.linetrk.append({"file": "<stdin>", "path": "<stdin>", "section": "<stdin>.global", "start": 0, "ended": False, "as": "<stdin>"})
-
-        try:
-            tokens = self.parseline(line)
-            try:
-                trkdata = self.linetrk[-1]
-                prevline = self.sections[trkdata["section"]]["lines"][trkdata["start"] - self.sections[trkdata["section"]]["start"] - 2]
-                if prevline[-2:] in [" \\", ".."]:
-                    return None
-
-            except IndexError:
-                pass
-
-            operator = tokens[0]
-            if operator not in self._opmap:
-                raise UnknownOperator(operator)
-
-            return self._opmap[operator](XTContext(self.memory, tokens[1:]))
-
-        except Exception as e:
-            if raise_error or True:
-                raise e
-
-            elif config.get("quiet", False):
-                return None
-
-            print("Exception occured in x2 thread!")
-            for tracker in self.linetrk:
-                line = self.sections[tracker['section']]["lines"][tracker['start'] - self.sections[tracker['section']]["start"] - 1].lstrip()
-                print(f"{tracker['file']} line {tracker['start']}, in {tracker['section'].split('.')[1]}:\n  > {line}")
-
-            print(f"\n{type(e).__name__}: {e}")
-            if not self._live:
-                os._exit(1)
-
-    def parseline(self, line: str, multiline_offset: int = 0) -> list:
-        data = {"val": "", "flags": [], "expridx": 0, "line": []}
-        for idx, char in enumerate(line):
-            if char == ":" and "qt" not in data["flags"]:
-                if idx != len(line) - 1 and line[idx + 1] == ":":
-                    break
-
-            if char == ")" and "expr" in data["flags"]:
-                if data["expridx"] > 1:
-                    data["val"] += ")"
-
-                elif data["expridx"] == 1:
-                    data["flags"].remove("expr")
-                    data["line"].append(f"({data['val']})")
-                    data["val"] = ""
-
-                data["expridx"] -= 1
-
-            elif char == "(" and "qt" not in data["flags"]:
-                if "expr" not in data["flags"]:
-                    data["flags"].append("expr")
-
-                data["expridx"] += 1
-                if data["expridx"] > 1:
-                    data["val"] += "("
-
-            elif "expr" in data["flags"]:
-                data["val"] += char
-
-            elif char == " " and "qt" not in data["flags"]:
-                if not data["val"]:
-                    continue
-
-                data["line"].append(data["val"])
-                data["val"] = ""
-
-            elif char == "\"" and (line[idx - 1] != "\\" if idx > 0 else True):  # Enables quoting with backslash
-                if "qt" in data["flags"]:
-                    data["line"].append(data["val"] + "\"")
-                    data["val"] = ""
-                    data["flags"].remove("qt")
-
-                else:
-                    data["flags"].append("qt")
-                    data["val"] += "\""
-
-            else:
-                data["val"] += char
-
-        # Construct missing data
-        if data["val"]:
-            data["line"].append(data["val"])
-            data["val"] = ""
-
-        # Push lines
-        if data["line"][-1] in ["\\", ".."]:
-            trkdata = self.linetrk[-1]
-            nextline = self.parseline(self.sections[trkdata[1]]["lines"][trkdata[2] - self.sections[trkdata[1]]["start"] + multiline_offset], multiline_offset + 1)
-            if data["line"][-1] == "..":
-                data["line"][-2], nextline = data["line"][-2][:-1] + "\n" + nextline[0][1:], nextline[1:]
-
-            data["line"] = data["line"][:-1]
-            data["line"] = data["line"] + nextline
-
-        return data["line"]
-
-    def load_sections(self, code: str, filepath: str, namespace: str = None, external: bool = False) -> None:
-        filename = filepath.replace("\\", "/").split("/")[-1]
-        if not hasattr(self, "_entrypoint"):
-            self._entrypoint = filename
-
-        self.memory.vars["file"][filepath] = {}
-
-        fileid = (namespace or filepath.replace("/", ".")).removesuffix(".xt")
-        dt = {
-            "active": "global",
-            "code": [],
-            "sections": {f"{fileid}.global": {
-                "lines": [], "priv": False, "file": filename, "path": filepath,
-                "start": 0, "args": [], "ret": None, "as": fileid
-            }}
-        }
-        for lno, line in enumerate(code.split("\n")):
-            if line.strip():
-                if line[0] == ":" and line[:2] != "::":
-                    ns, sid, priv = f"{fileid}.{dt['active']}", line[1:].split(" ")[0], False
-                    if [c for c in sid if c not in string.ascii_letters + string.digits + "@"]:
-                        raise IllegalSectionName(f"section '{sid}' contains invalid characters")
-
-                    elif "@" in sid:
-                        if sid[0] != "@":
-                            raise IllegalSectionName("section name cannot contain a '@' unless it indicates a private section")
-
-                        priv, sid = True, sid[1:]
-
-                    dt["sections"][ns]["lines"] = dt["code"]
-                    dt["sections"][f"{fileid}.{sid}"] = {
-                        "file": filename, "start": lno + 1, "lines": [], "priv": priv,
-                        "args": line.split(" ")[1:], "ret": None, "as": fileid, "path": filepath
-                    }
-                    dt["code"] = []
-                    dt["active"] = sid
-                    continue
-
-            dt["code"].append(line.lstrip())
-
-        if dt["code"]:
-            dt["sections"][f"{fileid}.{dt['active']}"]["lines"] = dt["code"]
-
-        self.sections = {**self.sections, **dt["sections"]}
-        if external:
-            self.run_section(f"{fileid}.global")
-            del self.sections[f"{fileid}.global"]  # Save memory
-
-    def find_section(self, section: str) -> Tuple[str, str]:
-        current_file = (self.linetrk[-1]["path"] if self.linetrk else self._entrypoint).removesuffix(".xt").replace("/", ".")
-        if "." not in section:
-            section = f"{current_file}.{section}"
-
-        if section not in self.sections:
-            raise InvalidSection(section)
-
-        return section, current_file
-
-    def run_section(self, section: str) -> Any:
-        section, current_file = self.find_section(section)
-        secdata = section.split(".")
-        s = self.sections[section]
-        if s["priv"] and current_file + ".xt" != s["file"]:
-            raise InvalidSection(f"{secdata[1]} is a private section and cannot be called")
-
-        if section not in self.memory.vars["local"]:
-            self.memory.vars["local"][section] = {}
-
-        self.linetrk.append({"file": s["file"], "path": s["path"], "section": section, "start": s["start"], "ended": False, "as": s["as"]})
-        for line in s["lines"]:
-            self.linetrk[-1]["start"] += 1
-            if line.strip() and line[:2] != "::":
-                self.execute(line)
-                if self.linetrk[-1]['ended']:
-                    break
-
-        del self.memory.vars["local"][section]
-
-        self.linetrk.pop()
-        return s["ret"]
-
-# Handler
-inter = XTInterpreter(opmap)
-if not sys.argv:
-    print(f"{__version__} Copyright (c) 2022 iiPython")
-    inter._live, linedata = True, ""
-    inter.load_sections(":global\n", "<stdin>")
-    inter.memory.vars["local"]["<stdin>.global"] = {}
-    while True:
-        try:
-            line = input(f"{'>' if not linedata else ':'} ")
-            if line[:2] == "::":
-                continue
-
-            elif linedata and not line.strip():
-                inter.load_sections(linedata, "<stdin>")
-                linedata = ""
-
-            elif not line.strip():
-                continue
-
-            elif line[0] == ":" and line[:2] != "::":
-                linedata = line + "\n"
-
-            elif linedata:
-                linedata += line + "\n"
-
-            else:
-                inter.execute(line)
-
-        except KeyboardInterrupt:
-            os._exit(0)
-
-else:
-    file = sys.argv[0]
-    if file == ".":
-        file = config.get("main", "main.xt")
-
-    try:
-        with open(file, "r", encoding = "utf-8") as f:
-            code = f.read()
-
-    except Exception:
-        print("x2: failed to load file")
-        os._exit(1)
-
-    inter.load_sections(code, file)
-    file = file.replace("\\", "/").replace("/", ".").removesuffix(".xt").removeprefix("./")
-    [inter.run_section(s) for s in [f"{file}.global", f"{file}.main"]]
+cli = load_cli()  # Render CLI
+
+# Load filepath
+filepath = cli.filepath
+if filepath is None:
+    cli.show_help()
+
+elif filepath == ".":
+    filepath = config.get("main", "main.x2")
+
+if not os.path.isfile(filepath):
+    sys.exit("x2 Exception: no such file")
+
+# Load file content
+with open(filepath, "r") as f:
+    data = f.read()
+
+# Run file
+sections = load_sections(data, filepath)
+interpreter = Interpreter(
+    filepath, sections,
+    config = config,
+    cli_vals = cli.vals
+)
+interpreter.run_section("main")
