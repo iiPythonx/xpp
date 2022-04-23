@@ -1,14 +1,18 @@
 # Copyright 2022 iiPython
 
-# Exceptions
-class UnknownOperator(Exception):
+# Master class
+class x2Exception(Exception):
     pass
 
-class ConstantVariable(Exception):
+# Subexceptions
+class UnknownSection(x2Exception):
     pass
 
-class InvalidSection(Exception):
+class UnknownOperator(x2Exception):
     pass
 
-class IllegalSectionName(Exception):
+class SectionConflict(x2Exception):
+    pass
+
+class InvalidSyntax(x2Exception):
     pass
