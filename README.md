@@ -29,7 +29,7 @@ If you're looking for a faster alternative to x2, check out [Calcium](https://gi
 
 ## About
 
-x2 (Pronounced "ex-two") is a high-level, interpreted language written in Python by [iiPython](https://github.com/ii-Python/) with low-level programming language syntax, similar to that of [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) or [Batch](https://en.wikipedia.org/wiki/Batch_file).
+x2 (Pronounced "ex-two") is a high-level, interpreted language written in Python by [iiPython](https://github.com/iiPythonx) with low-level programming language syntax, similar to that of [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) or [Batch](https://en.wikipedia.org/wiki/Batch_file).
 
 x2 contains features such as:
 - Automatic Garbage Collection
@@ -37,7 +37,7 @@ x2 contains features such as:
 - Sectioning/function system
 - Python Integration
 - Import/Export System
-- Package Management System ([xpm](https://github.com/ii-Python/xpm); coming soon!)
+- Package Management System ([xpm](https://github.com/iiPythonx/xpm); coming soon!)
 - ... many more!
 
 ## Getting Started
@@ -52,10 +52,10 @@ python -V
 
 It is extremely recommended to have a text editor or Integrated Development Environment, such as [Visual Studio Code](https://code.visualstudio.com/), as its built-in development tools and add-ons will speed up and facilitate your development process. However, a simple text editor like notepad is sufficient.
 
-Next, visit our [github repository](https://github.com/ii-Python/x2/) and download a clone of the repository by clicking on the green `Code ▾` button and the `Download ZIP` option. Optionally, if you have [git](https://git-scm.com/) installed on your device, you can also clone the repository by opening up a terminal and typing:
+Next, visit our [github repository](https://github.com/iiPythonx/x2/) and download a clone of the repository by clicking on the green `Code ▾` button and the `Download ZIP` option. Optionally, if you have [git](https://git-scm.com/) installed on your device, you can also clone the repository by opening up a terminal and typing:
 
 ```
-git clone https://github.com/ii-Python/x2/
+git clone https://github.com/iiPythonx/x2
 ```
 
 If you are choosing Visual Studio Code as your Integrated Development Environment, you can also install the [x2 extension](https://marketplace.visualstudio.com/items?itemName=iiPython.x2) on the marketplace to get syntax highlighting on your x2 files.
@@ -113,14 +113,13 @@ You can publish your games and packages at [our website](https://x2.iipython.cf/
 
 ### Contributors
 
-- [iiPython](https://github.com/ii-Python/) - Lead Developer
+- [iiPython](https://github.com/iiPythonx) - Lead Developer
 - [Dm123321_31mD](https://github.com/Dm12332131mD) - Developer + moral support
 
-### Resouces
+### Resources
 
-- [Github Repository](https://github.com/ii-Python/x2)
+- [Github Repository](https://github.com/iiPythonx/x2)
 - [Visual Studio Code x2 Extension](https://marketplace.visualstudio.com/items?itemName=iiPython.x2)
-- [Website](https://x2.iipython.cf/)
 
 ---
 
