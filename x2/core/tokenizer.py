@@ -12,21 +12,25 @@ def tokenize(line: str) -> list:
     dt = {"mode": None, "depth": 0, "val": [], "tokens": []}
     for block in line.split(" "):
         dt["val"].append(block)
-        if block[0] in block_starts:
-            if not dt["depth"]:
-                dt["mode"] = block[0]
+        if (
+            block[0] in block_starts or
+            dt["mode"] is not None and block[-1] == block_ends[block_starts.index(dt["mode"])]
+        ):
+            if block[0] in block_starts:
+                if not dt["depth"]:
+                    dt["mode"] = block[0]
 
-            if block[0] == dt["mode"]:
-                dt["depth"] += 1
+                if block[0] == dt["mode"]:
+                    dt["depth"] += 1
 
-        elif dt["mode"] is not None and block[-1] == block_ends[block_starts.index(dt["mode"])]:
-            if dt["depth"] > 1:
-                dt["depth"] -= 1
+            if dt["mode"] is not None and block[-1] == block_ends[block_starts.index(dt["mode"])]:
+                if dt["depth"] > 1:
+                    dt["depth"] -= 1
 
-            else:
-                dt["mode"], dt["depth"] = None, 0
-                dt["tokens"].append(" ".join(dt["val"]))
-                dt["val"] = []
+                else:
+                    dt["mode"], dt["depth"] = None, 0
+                    dt["tokens"].append(" ".join(dt["val"]))
+                    dt["val"] = []
 
         elif dt["mode"] is None:
             dt["val"] = []

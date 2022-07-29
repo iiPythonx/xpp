@@ -62,6 +62,7 @@ class Interpreter(object):
         self.stack.append(section)
         for line in section.lines:
             if not line.strip() or line[:2] == "::":
+                section.current_line += 1
                 continue
 
             self.execute(line)

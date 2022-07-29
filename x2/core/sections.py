@@ -53,7 +53,7 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
 
     # Calculate file name
     filepath = filepath.replace("\\", "/")
-    filename = filepath.split("/")[-1].removesuffix(".x2") or namespace
+    filename = namespace or filepath.split("/")[-1].removesuffix(".x2")
 
     # Initialization
     data = {"sections": [{"sid": f"{filename}.main", "path": filepath, "lines": [], "start": 1}]}

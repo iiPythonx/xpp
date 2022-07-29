@@ -1,10 +1,1 @@
-:: Simple x2 program
-
-:: This will run just fine
 prt "Hello, world!"
-
-:: This will output color if you use -c
-prt "[green]Hello, world![/]"
-
-:: Nice note
-prt "\nNo color? Run the interpreter with the -c flag."
