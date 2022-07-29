@@ -2,15 +2,9 @@
 
 # Modules
 import os
-from x2 import load_sections, config
 from copy import copy as copyobj
-
-# Exceptions
-class MissingArguments(Exception):
-    pass
-
-class InvalidArgument(Exception):
-    pass
+from x2 import load_sections, config
+from x2.modules.ops.shared import MissingArguments, InvalidArgument
 
 # Initialization
 pkgs_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../pkgs"))
@@ -18,6 +12,9 @@ main_namespace = config.get("main", "main").replace("\\", "/").split("/")[-1].re
 
 # Operators class
 class XTOperators:
+    overrides = {}
+
+    # Handlers
     def imp(ctx) -> None:
         if not ctx.args:
             raise MissingArguments("required: module")
@@ -80,8 +77,3 @@ class XTOperators:
 
         if not loaded:
             raise InvalidArgument(f"referenced non-existant package '{orig_module}'")
-
-# Operator map
-opmap = {
-    "imp": XTOperators.imp
-}

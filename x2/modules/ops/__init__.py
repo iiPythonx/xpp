@@ -7,6 +7,11 @@ from importlib.util import (
     module_from_spec, spec_from_file_location
 )
 
+# Class handler
+def generate_opmap(ops) -> dict:
+    overrides = getattr(ops, "overrides", {})
+    return {overrides.get(obj, obj): getattr(ops, obj) for obj in dir(ops) if obj[0] != "_"}
+
 # Initialization
 opmap = {}
 for path, _, files in os.walk(os.path.abspath(os.path.dirname(__file__))):
@@ -22,4 +27,10 @@ for path, _, files in os.walk(os.path.abspath(os.path.dirname(__file__))):
         spec = spec_from_file_location(f"x2ops_{file[:-3]}", fp)
         module = module_from_spec(spec)
         spec.loader.exec_module(module)
-        opmap = opmap | module.opmap
+
+        # Sanity checks
+        if hasattr(module, "XTOperators"):
+            opmap = opmap | generate_opmap(module.XTOperators)
+
+        else:
+            del spec, module

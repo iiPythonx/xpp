@@ -21,7 +21,7 @@ class Interpreter(object):
         self.entrypoint = entrypoint.replace("\\", "/").split("/")[-1].removesuffix(".x2")
         self.sections = sections
 
-        self.stack, self.memory = [], Memory(self, **kwargs)
+        self.stack, self.memory = [], Memory(**{"interpreter": self} | kwargs)
         self.operators = opmap
 
     def execute(self, line: str) -> Any:

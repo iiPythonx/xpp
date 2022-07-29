@@ -4,19 +4,16 @@
 import re
 from typing import Any
 
-from ..modules import iipython
-
 # Initialization
 _format_regex = re.compile(r"\$\([^)]*\)")
 
 # Memory class
 class Memory(object):
-    def __init__(self, interpreter, **kwargs) -> None:
+    def __init__(self, **kwargs) -> None:
         self.sections = {}
         self.variables = {"global": {
             "true": True, "false": False, "null": None
         }, "file": {}, "scope": {}}
-        self.interpreter = interpreter
 
         # Garbage attributes
         [setattr(self, name, kwarg) for name, kwarg in kwargs.items()]
