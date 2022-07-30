@@ -34,9 +34,11 @@ class Datastore(object):
         return f"<DS value={repr(self.value)} raw='{self.raw}'>"
 
     def _parse(self) -> Any:
+        if not self.raw:
+            return
 
         # Check for strings
-        if self.raw and self.raw[0] in ["\"", "("]:
+        if self.raw[0] in ["\"", "("]:
             if self.raw[0] == "\"" and self.raw[-1] == "\"":
                 value = self.raw[1:][:-1].replace("\\\"", "\"")
                 for item in re.findall(_format_regex, value):
@@ -53,12 +55,11 @@ class Datastore(object):
                 return self.mem.interpreter.execute(expr.replace("\\\"", "\""))
 
         # Check for ints/floats
-        for c in [int, float]:
-            try:
-                return c(self.raw)
+        if self.raw[0].isdigit() or self.raw[0] in "+-":
+            if "." in self.raw:
+                return float(self.raw)
 
-            except ValueError:
-                pass
+            return int(self.raw)
 
         # Handle variable
         return self.store.get(self.raw.lstrip("@"))

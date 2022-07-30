@@ -1,6 +1,7 @@
 # Copyright 2022 iiPython
 
 # Modules
+import sys
 from typing import Any
 
 from .sections import Section
@@ -44,6 +45,10 @@ class Interpreter(object):
                 print(f"  > {s.lines[s.current_line - s.start]}\n")
 
             print(f"{type(e).__name__}: {e}")
+            if "-D" in sys.argv:
+                print("\nPython traceback:")
+                raise e
+
             return exit(1)
 
     def find_section(self, section: str) -> str:
