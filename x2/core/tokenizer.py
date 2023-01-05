@@ -38,9 +38,10 @@ def tokenize(line: str) -> list:
             dt["val"] = ""
 
     if dt["val"]:
-        closing_tag = block_ends[block_starts.index(dt["mode"])]
-        if not dt["val"][-1].endswith(closing_tag):
-            raise InvalidSyntax(f"expected a closing '{closing_tag}', found nothing.")
+        if dt["mode"] is not None:
+            closing_tag = block_ends[block_starts.index(dt["mode"])]
+            if not dt["val"][-1].endswith(closing_tag):
+                raise InvalidSyntax(f"expected a closing '{closing_tag}', found nothing.")
 
         dt["tokens"].append(dt["val"])
         dt["val"] = ""
