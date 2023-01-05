@@ -1,4 +1,4 @@
-# Copyright 2022 iiPython
+# Copyright 2022-2023 iiPython
 
 # Modules
 import os
@@ -20,7 +20,7 @@ class CLI(object):
         ]
 
         self.usage = f"""{__version__} Interpreter
-(c) 2021-22 iiPython; (c) 2022-22 Dm123321_31mD "DmmD" Gaming
+(c) 2021-23 iiPython; (c) 2022-23 Dm123321_31mD "DmmD" Gaming
 
 Usage:
     x2 [options] [flags] <file>

@@ -1,5 +1,5 @@
-# Copyright 2022 iiPython
-# Build the installer.zip file
+# Copyright 2022-2023 iiPython
+# Create installation binaries for different systems
 
 # Modules
 import os

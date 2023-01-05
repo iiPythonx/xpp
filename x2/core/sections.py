@@ -1,4 +1,4 @@
-# Copyright 2022 iiPython
+# Copyright 2022-2023 iiPython
 
 # Modules
 import os

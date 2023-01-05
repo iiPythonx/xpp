@@ -1,4 +1,4 @@
-# Copyright 2022 iiPython
+# Copyright 2022-2023 iiPython
 # Shared x2 operator classes and functions
 
 # Exceptions
