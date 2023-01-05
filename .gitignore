@@ -6,7 +6,6 @@ build/
 *.spec
 
 # Installer data
-python/
 package.zip
 .installer_cache
 
