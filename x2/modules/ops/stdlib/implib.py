@@ -51,7 +51,7 @@ class XTOperators:
         # Check additional arguments
         if len(ctx.args) >= 2:
             operation = ctx.args[1].raw
-            value = ctx.args[2].raw if len(ctx.args) == 3 else None
+            value = (ctx.args[2].value or ctx.args[2].raw) if len(ctx.args) == 3 else None
 
             # Check operations
             if operation == "as":
