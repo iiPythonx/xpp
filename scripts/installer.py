@@ -230,6 +230,12 @@ def install() -> None:
 
                 prg.update(ext_task, advance = 1)
 
+        folder = os.listdir(path)[0]
+        for p in os.listdir(os.path.join(path, folder)):
+            shutil.move(os.path.join(path, folder, p), os.path.join(path, p))
+
+        shutil.rmtree(os.path.join(path, folder))
+
     # Handle launcher + path
     show_slide("\n[cyan]Creating launcher and PATH entries ...\n")
     if os.name == "nt":
