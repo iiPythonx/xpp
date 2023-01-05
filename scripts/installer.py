@@ -1,5 +1,5 @@
-# Copyright 2022 iiPython
-# x2 Installer
+# Copyright 2022-2023 iiPython
+# x2 Python Installer
 
 # Modules
 import os
@@ -28,11 +28,11 @@ rprint = rcon.print
 
 # Configuration
 options = {"install_docs": True, "install_stdlib": True, "change_dir": False}
-github_repo = "ii-Python/x2"
+github_repo = "iiPythonx/x2"
 api_url = f"https://api.github.com/repos/{github_repo}"
 
-__version__ = "1.0.4"
-__copyright__ = "(c) 2022 iiPython + Dm123321_31mD"
+__version__ = "1.0.5"
+__copyright__ = "(c) 2022 iiPython + DmmD Gaming"
 
 def close(code: int, message: str = None) -> None:
     if message is not None:
@@ -127,7 +127,7 @@ def get_path_input() -> str:
 def get_version(text: str) -> str:
     for line in text.split("\n"):
         if line.startswith("__version__"):
-            return line.split(" = ")[1][1:][:-2]
+            return line.split(" = ")[1][1:][:-1]
 
 def get_download_url() -> str:
     refresh_data = True
@@ -142,7 +142,7 @@ def get_download_url() -> str:
     # Grab versioning info
     if refresh_data:
         stable_data = requests.get(f"{api_url}/releases").json()[0]
-        beta_ver = get_version(b64decode(requests.get(f"{api_url}/contents/main.py").json()["content"]).decode("utf-8"))
+        beta_ver = get_version(b64decode(requests.get(f"{api_url}/contents/x2/__init__.py").json()["content"]).decode("utf-8"))
         with open(".installer_cache", "w+") as cache:
             cache.write(f"{time.time()}\n{json.dumps(stable_data)}\n{beta_ver}")
 
@@ -152,7 +152,7 @@ def get_download_url() -> str:
         {"name": f"Beta ({beta_ver})", "ref": "beta"}
     ], title = "Select Version")
     if version == "stable":
-        return [a for a in stable_data["assets"] if a["name"] == "package.zip"][0]["browser_download_url"]
+        return f"{api_url}/zipball/{stable_data['tag_name']}"
 
     elif version == "beta":
         return f"https://github.com/{github_repo}/archive/refs/heads/master.zip"
