@@ -14,6 +14,7 @@ class Section(object):
     Holds all section data: id, path, lines, etc.
     """
     def __init__(self, sid: str, path: str, lines: list, start: int, args: list) -> None:
+        self.active = True
         self.sid = sid
         self.path = os.path.abspath(path)
         self.lines = lines

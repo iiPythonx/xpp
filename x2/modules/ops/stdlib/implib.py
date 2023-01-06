@@ -77,3 +77,9 @@ class XTOperators:
 
         if not loaded:
             raise InvalidArgument(f"referenced non-existant package '{orig_module}'")
+
+    def ret(ctx) -> None:
+        section = ctx.mem.interpreter.stack[-1]
+        section.active = False  # Make it return next line tick
+        if ctx.args:
+            section.return_value = ctx.args[0].value

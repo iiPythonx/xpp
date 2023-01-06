@@ -76,6 +76,9 @@ class Interpreter(object):
             raise MissingParameter(f"'{section.sid}' requires argument '{a}' which was not provided")
 
         for line in section.lines:
+            if not section.active:
+                break
+
             if not line.strip() or line[:2] == "::":
                 section.current_line += 1
                 continue
