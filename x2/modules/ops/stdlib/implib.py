@@ -82,4 +82,4 @@ class XTOperators:
         section = ctx.mem.interpreter.stack[-1]
         section.active = False  # Make it return next line tick
         if ctx.args:
-            section.return_value = ctx.args[0].value
+            section.return_value = [a.value for a in ctx.args]

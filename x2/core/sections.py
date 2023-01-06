@@ -21,7 +21,7 @@ class Section(object):
         self.start = start
         self.args = args
 
-        self.return_value = None
+        self.return_value = [None]
         self.current_line = start
 
     def __repr__(self) -> str:

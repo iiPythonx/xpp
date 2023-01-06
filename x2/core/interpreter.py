@@ -61,7 +61,7 @@ class Interpreter(object):
 
         return section
 
-    def run_section(self, section: str, args: List[Datastore] = []) -> Any:
+    def run_section(self, section: str, args: List[Datastore] = []) -> List[Any]:
         section = Section(**[s for s in self.sections if s["sid"] == self.find_section(section)][0])
         section.initialize(self.memory)
         self.stack.append(section)

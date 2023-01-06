@@ -3,7 +3,10 @@
 # Modules
 from copy import copy
 from x2.modules.iipython import cprint
-from x2.modules.ops.shared import MissingArguments
+from x2.modules.ops.shared import (
+    fetch_io_args,
+    MissingArguments
+)
 
 # Initialization
 print_ = copy(print)
@@ -26,16 +29,11 @@ class XTOperators:
         if not ctx.args:
             raise MissingArguments("[x2 built-in jmp]\njmp <section> [args...] [?output]")
 
-        cargs, has_out = ctx.args[1:], False
-        if str(ctx.args[-1].raw)[0] == "?":
-            ctx.args[-1].raw = ctx.args[-1].raw[1:]
-            cargs = cargs[:-1]
-            has_out = True
+        ain, aout = fetch_io_args(ctx.args)
+        results = ctx.mem.interpreter.run_section(ain[0].value if isinstance(ain[0].value, str) else ain[0].raw, [a.value for a in ain[1:]])
+        outn = len(aout)
+        for i, r in enumerate(results):
+            if i > outn:
+                break
 
-        args = []
-        for a in cargs:
-            args.append(a.value)
-
-        result = ctx.mem.interpreter.run_section(ctx.args[0].raw, args)
-        if has_out:
-            ctx.args[-1].set(result)
+            ctx.args[-(outn - i)].set(r)
