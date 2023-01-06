@@ -2,12 +2,12 @@
 
 # Modules
 import sys
-from typing import Any
+from typing import Any, List
 
 from .sections import Section
 from .tokenizer import tokenize
 from .datastore import Memory, Datastore
-from ..exceptions import UnknownSection, UnknownOperator
+from ..exceptions import UnknownSection, UnknownOperator, MissingParameter
 
 from ..modules.ops import opmap
 
@@ -61,10 +61,20 @@ class Interpreter(object):
 
         return section
 
-    def run_section(self, section: str) -> Any:
+    def run_section(self, section: str, args: List[Datastore] = []) -> Any:
         section = Section(**[s for s in self.sections if s["sid"] == self.find_section(section)][0])
         section.initialize(self.memory)
         self.stack.append(section)
+        try:
+            for i, a in enumerate(section.args):
+                self.memory.variables["scope"][section.sid][a] = args[i]
+
+            if (len(args) > len(section.args)) and not self.memory.cli_vals["no-extra-params-warn"]:
+                print(f"[WARN]: Section {section.sid} takes {len(section.args)} arguments and was given {len(args)}")
+
+        except IndexError:
+            raise MissingParameter(f"'{section.sid}' requires argument '{a}' which was not provided")
+
         for line in section.lines:
             if not line.strip() or line[:2] == "::":
                 section.current_line += 1

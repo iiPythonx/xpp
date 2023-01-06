@@ -16,3 +16,6 @@ class SectionConflict(x2Exception):
 
 class InvalidSyntax(x2Exception):
     pass
+
+class MissingParameter(x2Exception):
+    pass

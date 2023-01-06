@@ -24,6 +24,18 @@ class XTOperators:
 
     def jmp(ctx) -> None:
         if not ctx.args:
-            raise MissingArguments("required: section")
+            raise MissingArguments("[x2 built-in jmp]\njmp <section> [args...] [?output]")
 
-        ctx.mem.interpreter.run_section(ctx.args[0].raw)
+        cargs, has_out = ctx.args[1:], False
+        if str(ctx.args[-1].raw)[0] == "?":
+            ctx.args[-1].raw = ctx.args[-1].raw[1:]
+            cargs = cargs[:-1]
+            has_out = True
+
+        args = []
+        for a in cargs:
+            args.append(a.value)
+
+        result = ctx.mem.interpreter.run_section(ctx.args[0].raw, args)
+        if has_out:
+            ctx.args[-1].set(result)

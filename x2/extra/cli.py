@@ -10,7 +10,8 @@ class CLI(object):
     def __init__(self) -> None:
         self.argv, self.vals = sys.argv[1:], {}
         self.flags = [
-            {"args": ["-c", "--color"], "name": "color", "desc": "Colorize the print function where applicable"}
+            {"args": ["-c", "--color"], "name": "color", "desc": "Colorize the print function where applicable"},
+            {"args": ["-nx100", "--no-extra-params-warn"], "name": "no-extra-params-warn", "desc": "Hide warning produced by giving a function too many arguments"}
         ]
         self.options = [
             {"args": ["-h", "--help"], "fn": self.show_help, "desc": "Displays the help menu"},
