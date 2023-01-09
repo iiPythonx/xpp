@@ -27,7 +27,7 @@ class XTOperators:
 
     def jmp(ctx) -> None:
         if not ctx.args:
-            raise MissingArguments("[x2 built-in jmp]\njmp <section> [args...] [?output]")
+            raise MissingArguments("[x2 built-in jmp]\njmp <section> [args...] [?output]\nmissing required argument: section")
 
         ain, aout = fetch_io_args(ctx.args)
         results = ctx.mem.interpreter.run_section(ain[0].value if isinstance(ain[0].value, str) else ain[0].raw, [a.value for a in ain[1:]])

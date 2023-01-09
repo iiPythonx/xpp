@@ -28,4 +28,8 @@ def fetch_io_args(args: list) -> Tuple[List, List]:
             arg.raw = arg.raw[1:]
             out.append(arg)
 
-    return args[:-len(out)], out
+    nout = len(out)
+    if nout:
+        return args[:-nout], out
+
+    return args, []
