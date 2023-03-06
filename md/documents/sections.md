@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Documents](../documents.md) / Sections
+# [x++](../../README.md) / [Documents](../documents.md) / Sections
 
 ## Table of Contents
 
@@ -27,13 +27,13 @@ A section is a set of statements that get executed when using the operators `cal
 
 Sections always start with a colon `:`, and their name can only contain alphabetical letters:
 
-```xt
+```xpp
 :mySection
 ```
 
 By default, a section is public, which means other files can import and use the section. To define a private section, append an at symbol (`@`) at the beginning of the section name. A private section can only be used by other sections within the file:
 
-```xt
+```xpp
 :@mySection
 ```
 
@@ -41,17 +41,17 @@ Statements that are not within a section are located in the global section prede
 
 A section can also take arguments. Any variables separated by space and placed directly after the section name are considered arguments:
 
-```xt
+```xpp
 :myMethod argument0 argument1
 ```
 
 > All arguments of a method or a function must be passed. An error is thrown if an argument is missing.
 
-Three types of sections exist in x2.
+Three types of sections exist in x++.
 
 A section that does not take any additional arguments nor return a value is considered a `section` and generally invoked using the `jmp` operator:
 
-```xt
+```xpp
 jmp mySection
 
 :mySection
@@ -60,7 +60,7 @@ jmp mySection
 
 A section that does take additional arguments but does not return a value is considered a `method` and generally invoked using the `pvk` operator.
 
-```xt
+```xpp
 pvk myMethod
 
 :myMethod a b
@@ -70,7 +70,7 @@ pvk myMethod
 
 A section that does take additional arguments and returns a value is considered a `function` and can be invoked using either the `pvk` or `call` operator. The `pvk` operator is used when the returned value is not wanted and the opposite is true for `call`:
 
-```xt
+```xpp
 call myFunction a b output
 out output
 
@@ -83,4 +83,4 @@ out output
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--documents--sections)
+[↑ Go To Top](#x--documents--sections)

@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Documents](../documents.md) / Comparators
+# [x++](../../README.md) / [Documents](../documents.md) / Comparators
 
 ## Table of Contents
 
@@ -55,9 +55,9 @@
 
 ## About
 
-Comparators are symbols or keywords that compare two different variables or values and trigger a branch in the x2 thread. Each comparator has its functionality.
+Comparators are symbols or keywords that compare two different variables or values and trigger a branch in the x++ thread. Each comparator has its functionality.
 
-Expressions are segments in the code that creates a branch in the x2 thread. They are always made up of three components: the `source`, the `comparator`, and the `target`, and they are arranged like so:
+Expressions are segments in the code that creates a branch in the x++ thread. They are always made up of three components: the `source`, the `comparator`, and the `target`, and they are arranged like so:
 
 ```xt
 <source> <comparator> <target>
@@ -302,4 +302,4 @@ cmp 5 from int "out \"true\""
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--documents--comparators)
+[↑ Go To Top](#x--documents--comparators)

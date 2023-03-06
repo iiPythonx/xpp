@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Tutorials](../tutorials.md) / 1. Hello, world!
+# [x++](../../README.md) / [Tutorials](../tutorials.md) / 1. Hello, world!
 
 ## Table of Contents
 
@@ -19,9 +19,9 @@
 
 ## Lesson
 
-Welcome to the first lesson of the tutorials! In this lesson, you will be learning how to write your first x2 project, how to define and use a variable, and how to print a value into the terminal.
+Welcome to the first lesson of the tutorials! In this lesson, you will be learning how to write your first x++ project, how to define and use a variable, and how to print a value into the terminal.
 
-First, make sure you properly installed x2 to your device if you haven't done so already. You can follow the guide in the [getting started](../../README.md#getting-started) section for additional help.
+First, make sure you properly installed x++ to your device if you haven't done so already. You can follow the guide in the [getting started](../../README.md#getting-started) section for additional help.
 
 Once you are done, open up the `main.xt` file. Inside, you should find something like this:
 
@@ -31,7 +31,7 @@ Once you are done, open up the `main.xt` file. Inside, you should find something
     out "Hello, world!"
 ```
 
-This is the default template when you first installed x2. It is important for you to know what the code is doing. Let's break it down.
+This is the default template when you first installed x++. It is important for you to know what the code is doing. Let's break it down.
 
 The first line in the file is a comment. A comment is a text that provides information to the developer, such as you. It is ignored by the interpreter as it is intended for only developers to read.
 
@@ -39,7 +39,7 @@ The second line defines a section. A section is a region of code that will be ex
 
 The third line prints out a string with the value `"Hello, world!"`. A string is a series of characters wrapped around by double-quotes (`"`). You can think of it like a character, word, phrase, or a sentence. The `out` is an operator, which means it takes arguments, processes them, and does a specific action based on what the arguments are. In the case, the `out` operator simply takes the arguments and prints them in the terminal.
 
-Although indentations in x2 aren't necessary, it is a good practice to use indentation to group the statements, so you or other developers won't get confused.
+Although indentations in x++ aren't necessary, it is a good practice to use indentation to group the statements, so you or other developers won't get confused.
 
 Now that you understand what your code is doing, let's try it out. Using what you've learned, try printing out your name and age in the format `My name is <name> and I am <age> years old` in the terminal.
 
@@ -87,7 +87,7 @@ Let's try it!
     out "My name is $(pop name) and I am $(pop age) years old"
 ```
 
-You did it! You made your first ever x2 project.
+You did it! You made your first ever x++ project.
 
 In the next lesson, you will learn how to get user inputs and how to manupulate strings and numbers.
 
@@ -95,4 +95,4 @@ In the next lesson, you will learn how to get user inputs and how to manupulate 
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--tutorials--1-hello-world)
+[↑ Go To Top](#x--tutorials--1-hello-world)

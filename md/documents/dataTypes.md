@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Documents](../documents.md) / Data Types
+# [x++](../../README.md) / [Documents](../documents.md) / Data Types
 
 ## Table of Contents
 
@@ -50,9 +50,9 @@
 
 Data types are classifications of variables or values. Each data type can only store a specific type of value. For example, a string cannot contain an integer value, or a boolean cannot contain a string value.
 
-Because x2 is a dynamic programming language, you can change the data type of a variable or a value during run-time.
+Because x++ is a dynamic programming language, you can change the data type of a variable or a value during run-time.
 
-x2 is also a weakly-typed programming language. You do not (and cannot) directly specify what the data type of a variable or value is. The interpreter will read the value and determine the data type during run-time.
+x++ is also a weakly-typed programming language. You do not (and cannot) directly specify what the data type of a variable or value is. The interpreter will read the value and determine the data type during run-time.
 
 Strongly-typed language, such as [Java](https://en.wikipedia.org/wiki/Java_(programming_language)):
 
@@ -66,7 +66,7 @@ Weakly-typed language, such as [JavaScript](https://en.wikipedia.org/wiki/JavaSc
 let myInteger = 5;
 ```
 
-Similarly, in x2, you define a variable with a data type of an integer like so:
+Similarly, in x++, you define a variable with a data type of an integer like so:
 
 ```xt
 psh 5 myInteger
@@ -78,7 +78,7 @@ psh 5 myInteger
 
 A boolean value represents either `true` or `false`.
 
-Currently, it is impossible to get a boolean value within vanilla x2. Because of that, integers are used instead to represent a true or false value, where `1` represents `true` and `0` represents `false`.
+Currently, it is impossible to get a boolean value within vanilla x++. Because of that, integers are used instead to represent a true or false value, where `1` represents `true` and `0` represents `false`.
 
 ---
 
@@ -130,7 +130,7 @@ psh 05 myInteger
 out myInteger
 ```
 
-In vanilla x2, it can also be used as a boolean value, where `1` represents `true` and `0` represents `false`:
+In vanilla x++, it can also be used as a boolean value, where `1` represents `true` and `0` represents `false`:
 
 ```xt
 psh 0 hamburgerIsEaten
@@ -143,7 +143,7 @@ evl hamburgerIsEaten == 1 "out \"Someone ate my hamburger\""
 
 Null is a data type that represents nothing.
 
-It cannot be defined normally in x2 and acts as the default value to undefined variables:
+It cannot be defined normally in x++ and acts as the default value to undefined variables:
 
 ```xt
 out nonexistingVariable
@@ -207,7 +207,7 @@ Below is a list of all the escape codes for reference:
 
 > Source: [Python DS - Python 3 Escape Sequences](https://www.python-ds.com/python-3-escape-sequences)
 
-You can also string interpolation within an x2 string. All string interpolations must be a valid x2 statement and be surrounded by `$()`:
+You can also string interpolation within an x++ string. All string interpolations must be a valid x++ statement and be surrounded by `$()`:
 
 ```xt
 psh 5 myInteger
@@ -226,4 +226,4 @@ cmp "abc" < "cba" "out \"true\""
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--documents--data-types)
+[↑ Go To Top](#x--documents--data-types)

@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Documents](../documents.md) / Variables
+# [x++](../../README.md) / [Documents](../documents.md) / Variables
 
 ## Table of Contents
 
@@ -27,13 +27,13 @@ A variable is a label that stores a value that can be referenced and modified at
 
 Even though a variable can contain any character besides spaces, it is recommended to use only alphabetical letters. A variable is defined using the `psh` operator:
 
-```xt
+```xpp
 psh 5 myInteger
 ```
 
 A variable can then be referenced using the variable name:
 
-```xt
+```xpp
 out myInteger
 ```
 
@@ -43,31 +43,31 @@ There are two other types of variables, `file variable` and `global variable`. A
 
 A file variable is defined by appending an at symbol (`@`) in front of the variable name:
 
-```xt
+```xpp
 psh 5 @myInteger
 ```
 
 A global variable is defined by appending a hashtag (`#`) in front of the variable name:
 
-```xt
+```xpp
 psh 5 #myInteger
 ```
 
 Both file and global are not garbage collected and must be manually deleted from the memory using the `rem` operator:
 
-```xt
+```xpp
 rem 5 @myInteger
 ```
 
 Or:
 
-```xt
+```xpp
 rem 5 #myInteger
 ```
 
 A variable can also be constant, which means it cannot be deleted using the `rem` operator. A constant variable can be defined using the `cnst` operator:
 
-```xt
+```xpp
 cnst 5 myInteger
 ```
 
@@ -77,4 +77,4 @@ Attempting to delete the variable will cause an error to be thrown. Note that ev
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--documents--variables)
+[↑ Go To Top](#x--documents--variables)

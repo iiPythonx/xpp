@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Documents](../documents.md) / Operators
+# [x++](../../README.md) / [Documents](../documents.md) / Operators
 
 ## Table of Contents
 
@@ -125,19 +125,19 @@ Operators are keywords that process arguments.
 
 A statement is a line of code that tells the interpreter what to do. They are always made up of two components: the `operator` and the `arguments`, and they are arranged like so:
 
-```xt
+```xpp
 <operator> [...arguments]
 ```
 
 For example:
 
-```xt
+```xpp
 out "Hello, world!"
 ```
 
 Or:
 
-```xt
+```xpp
 add 1 2 sum
 ```
 
@@ -145,7 +145,7 @@ A statement can also be wrapped around parentheses (`()`) to group them.
 
 Some statements return values, which can be stored in a variable:
 
-```xt
+```xpp
 psh (add 1 2) sum
 ```
 
@@ -153,7 +153,7 @@ psh (add 1 2) sum
 
 ### Add
 
-```xt
+```xpp
 add <addend A> <addend B> [sum]
 ```
 
@@ -169,7 +169,7 @@ Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) or [
 
 Example:
 
-```xt
+```xpp
 add 5 10 sum
 out sum
 ```
@@ -178,7 +178,7 @@ out sum
 
 ### Call
 
-```xt
+```xpp
 call <section> [...arguments] <output>
 ```
 
@@ -194,7 +194,7 @@ Returns: Any
 
 Example:
 
-```xt
+```xpp
 call mySection 5 10 output
 out output
 
@@ -207,7 +207,7 @@ out output
 
 ### Character
 
-```xt
+```xpp
 char <index> <string> [output]
 ```
 
@@ -223,7 +223,7 @@ Returns: [String](./dataTypes.md#string)
 
 Example:
 
-```xt
+```xpp
 char 3 "Hello, world!" output
 out output
 ```
@@ -232,7 +232,7 @@ out output
 
 ### Clear
 
-```xt
+```xpp
 cls
 ```
 
@@ -242,7 +242,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 out "Hello, world!"
 cls
 out "Hello, world!"
@@ -252,7 +252,7 @@ out "Hello, world!"
 
 ### Compare
 
-```xt
+```xpp
 cmp <expression> <true branch> [false branch]
 ```
 
@@ -268,7 +268,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 cmp 5 == 5 "jmp true" "jmp false"
 
 :true
@@ -282,7 +282,7 @@ cmp 5 == 5 "jmp true" "jmp false"
 
 ### Constant
 
-```xt
+```xpp
 cnst <value> <variable>
 ```
 
@@ -297,7 +297,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 cnst 5 myInteger
 out myInteger
 ```
@@ -306,7 +306,7 @@ out myInteger
 
 ### Decrement
 
-```xt
+```xpp
 dec <value> [output]
 ```
 
@@ -323,7 +323,7 @@ Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 psh 5 myInteger
 dec myInteger
 out myInteger
@@ -333,7 +333,7 @@ out myInteger
 
 ### Divide
 
-```xt
+```xpp
 div <dividend> <divisor> [quotient]
 ```
 
@@ -349,7 +349,7 @@ Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 div 10 5 quotient
 out quotient
 ```
@@ -358,7 +358,7 @@ out quotient
 
 ### End
 
-```xt
+```xpp
 end
 ```
 
@@ -368,7 +368,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 :main
     out "Hello, world!"
     end
@@ -379,7 +379,7 @@ Example:
 
 ### Evaluate
 
-```xt
+```xpp
 evl <code>
 ```
 
@@ -393,7 +393,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 evl "print('Hello, world!')"
 ```
 
@@ -401,8 +401,8 @@ evl "print('Hello, world!')"
 
 ### Exit
 
-```xt
-ext
+```xpp
+expp
 ```
 
 Exits the process.
@@ -411,9 +411,9 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 out "Hello, world!"
-ext
+expp
 out "Hello, world!"
 ```
 
@@ -421,7 +421,7 @@ out "Hello, world!"
 
 ### Float
 
-```xt
+```xpp
 flt <string> [output]
 ```
 
@@ -438,7 +438,7 @@ Returns: [Float](./dataTypes.md#float)
 
 Example:
 
-```xt
+```xpp
 flt "5" myFloat
 out myFloat
 ```
@@ -447,7 +447,7 @@ out myFloat
 
 ### Import
 
-```xt
+```xpp
 imp <package/file> [as <name>]
 ```
 
@@ -464,15 +464,15 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
-imp "myFile.xt" as "myPackage"
+```xpp
+imp "myFile.xpp" as "myPackage"
 ```
 
 ---
 
 ### Index
 
-```xt
+```xpp
 idx <substring> <string> [output]
 ```
 
@@ -488,7 +488,7 @@ Returns: [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 idx "ello" "Hello, world!" output
 out output
 ```
@@ -497,7 +497,7 @@ out output
 
 ### Increment
 
-```xt
+```xpp
 inc <value> [output]
 ```
 
@@ -514,7 +514,7 @@ Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 psh 5 myInteger
 inc myInteger
 out myInteger
@@ -524,7 +524,7 @@ out myInteger
 
 ### Is A Number
 
-```xt
+```xpp
 inm <value> [output]
 ```
 
@@ -539,7 +539,7 @@ Returns: [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 inm 5 output
 out output
 ```
@@ -548,7 +548,7 @@ out output
 
 ### Is Any Number
 
-```xt
+```xpp
 inms <value> [output]
 ```
 
@@ -563,7 +563,7 @@ Returns: [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 inms "5" output
 out output
 ```
@@ -572,7 +572,7 @@ out output
 
 ### Jump
 
-```xt
+```xpp
 jmp <section>
 ```
 
@@ -586,7 +586,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 jmp mySection
 
 :mySection
@@ -597,7 +597,7 @@ jmp mySection
 
 ### Length
 
-```xt
+```xpp
 len <string> [output]
 ```
 
@@ -612,7 +612,7 @@ Returns: [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 len "Hello, world!" output
 out output
 ```
@@ -621,7 +621,7 @@ out output
 
 ### Load
 
-```xt
+```xpp
 load <path> [output]
 ```
 
@@ -636,17 +636,17 @@ Returns: [String](./dataTypes.md#string)
 
 Example:
 
-In `file.xt`:
+In `file.xpp`:
 
-```xt
+```xpp
 :mySection
     out "Hello, world!"
 ```
 
-In `main.xt`:
+In `main.xpp`:
 
-```xt
-load "file.xt" output
+```xpp
+load "file.xpp" output
 out output
 ```
 
@@ -654,7 +654,7 @@ out output
 
 ### Lowercase
 
-```xt
+```xpp
 lwr <string> [output]
 ```
 
@@ -671,7 +671,7 @@ Returns: [String](./dataTypes.md#string)
 
 Example:
 
-```xt
+```xpp
 lwr "Hello, world!" output
 out output
 ```
@@ -680,7 +680,7 @@ out output
 
 ### Multiply
 
-```xt
+```xpp
 mul <factor A> <factor B> [product]
 ```
 
@@ -696,7 +696,7 @@ Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) or [
 
 Example:
 
-```xt
+```xpp
 mul 5 10 product
 out product
 ```
@@ -705,7 +705,7 @@ out product
 
 ### Number
 
-```xt
+```xpp
 num <string> [output]
 ```
 
@@ -722,7 +722,7 @@ Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 num "5" myInteger
 out myInteger
 ```
@@ -731,7 +731,7 @@ out myInteger
 
 ### Output
 
-```xt
+```xpp
 out [...value]
 ```
 
@@ -745,7 +745,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 out "Hello, world!"
 ```
 
@@ -753,7 +753,7 @@ out "Hello, world!"
 
 ### Pop
 
-```xt
+```xpp
 pop <variable> [output]
 ```
 
@@ -768,7 +768,7 @@ Returns: Any
 
 Example:
 
-```xt
+```xpp
 psh 5 myInteger
 pop "myInterger" output
 out output
@@ -778,7 +778,7 @@ out output
 
 ### Provoke
 
-```xt
+```xpp
 pvk <section> [...arguments]
 ```
 
@@ -793,7 +793,7 @@ Returns: Any
 
 Example:
 
-```xt
+```xpp
 pvk mySection 5 10
 
 :mySection a b
@@ -805,7 +805,7 @@ pvk mySection 5 10
 
 ### Push
 
-```xt
+```xpp
 psh <value> <variable>
 ```
 
@@ -820,7 +820,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 psh 5 myInteger
 out myInteger
 ```
@@ -829,7 +829,7 @@ out myInteger
 
 ### Random Number Generator
 
-```xt
+```xpp
 rng <minimum> <maximum> [output]
 ```
 
@@ -845,7 +845,7 @@ Returns: [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 rng 0 5 myInteger
 out myInteger
 ```
@@ -854,7 +854,7 @@ out myInteger
 
 ### Read
 
-```xt
+```xpp
 read [prompt] [output]
 ```
 
@@ -869,7 +869,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 read "What is your name: " name
 out name
 ```
@@ -878,7 +878,7 @@ out name
 
 ### Remove
 
-```xt
+```xpp
 rem <variable>
 ```
 
@@ -892,7 +892,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 psh 5 myInteger
 out myInteger
 rem myInteger
@@ -903,7 +903,7 @@ out myInteger
 
 ### Repeat
 
-```xt
+```xpp
 rep <amount> <statement>
 ```
 
@@ -918,7 +918,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 rep 5 "out \"Hello, world!\""
 ```
 
@@ -926,7 +926,7 @@ rep 5 "out \"Hello, world!\""
 
 ### Return
 
-```xt
+```xpp
 ret <value>
 ```
 
@@ -940,7 +940,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 :mySection
     ret 5
 ```
@@ -949,7 +949,7 @@ Example:
 
 ### Round
 
-```xt
+```xpp
 rnd <number> [precision]
 ```
 
@@ -966,7 +966,7 @@ Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 psh 5.5 myInteger
 rnd myInteger
 out myInteger
@@ -976,7 +976,7 @@ out myInteger
 
 ### Save
 
-```xt
+```xpp
 save <path> [output]
 ```
 
@@ -991,15 +991,15 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
-save "file.xt" "Hello, world!"
+```xpp
+save "file.xpp" "Hello, world!"
 ```
 
 ---
 
 ### Skip
 
-```xt
+```xpp
 skp
 ```
 
@@ -1009,7 +1009,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 skp
 ```
 
@@ -1017,7 +1017,7 @@ skp
 
 ### Slice
 
-```xt
+```xpp
 slc <start> <end> <string> [output]
 ```
 
@@ -1034,7 +1034,7 @@ Returns: [String](./dataTypes.md#string)
 
 Example:
 
-```xt
+```xpp
 slc 0 5 "Hello, world!" output
 out output
 ```
@@ -1043,7 +1043,7 @@ out output
 
 ### String
 
-```xt
+```xpp
 str <value> [output]
 ```
 
@@ -1060,7 +1060,7 @@ Returns: [String](./dataTypes.md#string)
 
 Example:
 
-```xt
+```xpp
 str 5 myString
 out myString
 ```
@@ -1069,7 +1069,7 @@ out myString
 
 ### Subtract
 
-```xt
+```xpp
 sub <minuend> <subtrahend> [difference]
 ```
 
@@ -1085,7 +1085,7 @@ Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
 
 Example:
 
-```xt
+```xpp
 sub 10 5 difference
 out difference
 ```
@@ -1094,7 +1094,7 @@ out difference
 
 ### Throw
 
-```xt
+```xpp
 thrw <message>
 ```
 
@@ -1110,7 +1110,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 out "Hello, world!"
 thrw "Error message!"
 out "Hello, world!"
@@ -1120,7 +1120,7 @@ out "Hello, world!"
 
 ### Try
 
-```xt
+```xpp
 try <statement> [error statement]
 ```
 
@@ -1135,7 +1135,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 try "thrw \"Error message!\"" "out \"An error has occurred\""
 ```
 
@@ -1143,7 +1143,7 @@ try "thrw \"Error message!\"" "out \"An error has occurred\""
 
 ### Uppercase
 
-```xt
+```xpp
 upr <string> [output]
 ```
 
@@ -1160,7 +1160,7 @@ Returns: [String](./dataTypes.md#string)
 
 Example:
 
-```xt
+```xpp
 upr "Hello, world!" output
 out output
 ```
@@ -1169,11 +1169,11 @@ out output
 
 ### Wait
 
-```xt
+```xpp
 wait <seconds>
 ```
 
-Waits a certain number of seconds before executing the next statement.
+Waits a certain number of seconds before executing the nexpp statement.
 
 | Parameter | Type | Optional | Description |
 | :-: | :-: | :-: | :-: |
@@ -1183,7 +1183,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 out "Hello, world!"
 wait 5
 out "Hello, world!"
@@ -1193,7 +1193,7 @@ out "Hello, world!"
 
 ### While
 
-```xt
+```xpp
 whl <expression> <statement>
 ```
 
@@ -1208,7 +1208,7 @@ Returns: [Null](./dataTypes.md#null)
 
 Example:
 
-```xt
+```xpp
 psh 0 @myInteger
 whl @myInteger < 5 "jmp mySection"
 
@@ -1221,4 +1221,4 @@ whl @myInteger < 5 "jmp mySection"
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--documents--operators)
+[↑ Go To Top](#x--documents--operators)

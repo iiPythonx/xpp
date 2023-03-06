@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Documents](../documents.md) / Configurations
+# [x++](../../README.md) / [Documents](../documents.md) / Configurations
 
 ## Table of Contents
 
@@ -62,9 +62,9 @@ The configuration file can also contain non-essential information, such as the a
     "contributors": [
         "contributor A", "contributor B"
     ],
-    "description": "This is my x2 project",
+    "description": "This is my x++ project",
     "main": "main.xt",
-    "name": "my-x2-project",
+    "name": "my-x++-project",
     "version": "1.0.0"
 }
 ```
@@ -105,4 +105,4 @@ Throws errors silently.
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--documents--configurations)
+[↑ Go To Top](#x--documents--configurations)

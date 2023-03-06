@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Tutorials](../tutorials.md) / 2. User Input
+# [x++](../../README.md) / [Tutorials](../tutorials.md) / 2. User Input
 
 ## Table of Contents
 
@@ -19,9 +19,9 @@
 
 ## Lesson
 
-In the previous lesson, you learned how to write your first x2 project, define and use a variable, and output a value into the terminal. In this lesson, you will learn how to get a user input and how to manipulate strings and numbers.
+In the previous lesson, you learned how to write your first x++ project, define and use a variable, and output a value into the terminal. In this lesson, you will learn how to get a user input and how to manipulate strings and numbers.
 
-So far, you should've gotten this in your `main.xt` file:
+So far, you should've gotten this in your `main.xpp` file:
 
 ```xt
 :: Main
@@ -104,4 +104,4 @@ In the next lesson, you will learn how to make branches using the `cmp` operator
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--tutorials--2-user-input)
+[↑ Go To Top](#x--tutorials--2-user-input)
