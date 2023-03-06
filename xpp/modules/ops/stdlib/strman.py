@@ -27,7 +27,7 @@ class XOperators:
         if (index > vl) or ((stop is not None) and (stop > vl)):
             raise InvalidArgument("chr: index or stop is larger then string size!")
 
-        res = val[index] if stop is None else val[:stop][index:]
+        res = val[index] if stop is None else val[:(stop + 1)][(index):]
         if aout:
             aout[0].set(res)
 
