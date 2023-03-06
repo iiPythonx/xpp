@@ -10,7 +10,7 @@ from ..exceptions import SectionConflict
 # Section class
 class Section(object):
     """
-    x2 Section Class
+    x++ Section Class
     Holds all section data: id, path, lines, etc.
     """
     def __init__(self, sid: str, path: str, lines: list, start: int, args: list) -> None:
@@ -50,12 +50,12 @@ class Section(object):
 # Section loader
 def load_sections(source: str, filepath: str, namespace: str = None) -> list:
     """
-    Takes an x2 source file and breaks it into a list of sections.
+    Takes an x++ source file and breaks it into a list of sections.
     """
 
     # Calculate file name
     filepath = filepath.replace("\\", "/")
-    filename = namespace or filepath.split("/")[-1].removesuffix(".x2")
+    filename = namespace or filepath.split("/")[-1].removesuffix(".xpp")
 
     # Initialization
     data = {"sections": [{"sid": f"{filename}.main", "path": filepath, "lines": [], "start": 1, "args": []}]}

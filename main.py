@@ -1,9 +1,9 @@
-# Copyright 2022 iiPython
+# Copyright 2022-2023 iiPython
 
 # Modules
 import os
 import sys
-from x2 import (
+from xpp import (
     load_sections, load_cli, config,
     Interpreter
 )
@@ -17,10 +17,10 @@ if filepath is None:
     cli.show_help()
 
 elif filepath == ".":
-    filepath = config.get("main", "main.x2")
+    filepath = config.get("main", "main.xpp")
 
 if not os.path.isfile(filepath):
-    sys.exit("x2 Exception: no such file")
+    sys.exit("X++ Exception: no such file")
 
 # Load file content
 with open(filepath, "r") as f:

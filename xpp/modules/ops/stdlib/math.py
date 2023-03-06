@@ -1,13 +1,13 @@
 # Copyright 2022-2023 iiPython
 
 # Modules
-from x2.modules.ops.shared import (
+from xpp.modules.ops.shared import (
     fetch_io_args,
     MissingArguments, InvalidArgument
 )
 
 # Operators class
-class XTOperators:
+class XOperators:
     overrides = {}
 
     # Handlers
@@ -42,7 +42,7 @@ class XTOperators:
                 res -= n.value
 
         except (TypeError, ValueError):
-            raise InvalidArgument(f"All arguments must be either integers or floats.")
+            raise InvalidArgument("All arguments must be either integers or floats.")
 
         if aout:
             aout[0].set(res)
@@ -80,7 +80,7 @@ class XTOperators:
                 res /= n.value
 
         except (TypeError, ValueError):
-            raise InvalidArgument(f"All arguments must be either integers or floats.")
+            raise InvalidArgument("All arguments must be either integers or floats.")
 
         if aout:
             aout[0].set(res)
@@ -99,7 +99,7 @@ class XTOperators:
                 res **= n.value
 
         except (TypeError, ValueError):
-            raise InvalidArgument(f"All arguments must be either integers or floats.")
+            raise InvalidArgument("All arguments must be either integers or floats.")
 
         if aout:
             aout[0].set(res)

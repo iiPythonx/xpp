@@ -1,10 +1,10 @@
-# x2
+# x++
 
 ## Introduction
 
-Welcome to the official documentation for x2! This documentation will get you started in the development of your first x2 project or will help you learn more about x2 in general with in-depth explanations and tutorials.  
+Welcome to the official documentation for x++! This documentation will get you started in the development of your first x++ project or will help you learn more about x++ in general with in-depth explanations and tutorials.  
 
-If you're looking for a faster alternative to x2, check out [Calcium](https://github.com/Dm12332131mD/calcium). It's based around the same principles as x2, but written in C++ and fully OOP-compliant.
+If you're looking for a faster alternative to x++, check out [Calcium](https://github.com/Dm12332131mD/calcium). It's based around the same principles as x++, but written in C++ and fully OOP-compliant.
 
 ## Table of Contents
 
@@ -25,57 +25,58 @@ If you're looking for a faster alternative to x2, check out [Calcium](https://gi
 - [Python API](./md/pythonAPI.md)
 - [Standard Library](./md/standardLibrary.md)
 
-***Please note: current x2 documentation is likely invalid due to the release of x2.3r1!**
+***Please note: current x++ documentation is likely invalid due to the release of x++.3r1!**
 
 ## About
 
-x2 (Pronounced "ex-two") is a high-level, interpreted language written in Python by [iiPython](https://github.com/iiPythonx) with low-level programming language syntax, similar to that of [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) or [Batch](https://en.wikipedia.org/wiki/Batch_file).
+x++ (Pronounced "ex-plus-plus") is a high-level, interpreted language written in Python by [iiPython](https://github.com/iiPythonx) with low-level programming language syntax, similar to that of [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) or [Batch](https://en.wikipedia.org/wiki/Batch_file).
 
-x2 contains features such as:
-- Automatic Garbage Collection
-- Scoped/global Variables
+x++ contains features such as:
+- Automatic garbage collection
+- Scoped/file/global variables
 - Sectioning/function system
-- Python Integration
-- Import/Export System
-- Package Management System ([xpm](https://github.com/iiPythonx/xpm); coming soon!)
-- ... many more!
+- Mature python integration
+- Import/export/module system
+- Object-oriented programming through the use of files
+- ... much more!
 
 ## Getting Started
 
 ### Step 1: Installation
 
-First and foremost, make sure you have [Python](https://python.org/downloads/) (Minimum Python 3.10 | Recommended Python 3.11) installed on your device. You can check if you have Python installed by opening up a terminal and typing:
+First and foremost, make sure you have [Python](https://python.org/downloads/) (Python 3.10 is required, however we recommend 3.11+) installed on your device. You can check if you have Python installed by opening up a terminal and typing:
 
 ```
-python -V
+python3 -V
+```
+(on NT* platforms, replace `python3` with `py`)
+
+It is highly recommended to have a text editor or Integrated Development Environment, such as [Visual Studio Code](https://code.visualstudio.com/), as its built-in development tools and add-ons will speed up and facilitate your development process. However, a simple text editor like notepad is sufficient.
+
+Next, visit our [github repository](https://github.com/iiPythonx/xpp/) and download a clone of the repository by clicking on the green `Code ▾` button and the `Download ZIP` option. Optionally, if you have [git](https://git-scm.com/) installed on your device, you can also clone the repository by opening up a terminal and typing:
+
+```
+git clone https://github.com/iiPythonx/xpp
 ```
 
-It is extremely recommended to have a text editor or Integrated Development Environment, such as [Visual Studio Code](https://code.visualstudio.com/), as its built-in development tools and add-ons will speed up and facilitate your development process. However, a simple text editor like notepad is sufficient.
-
-Next, visit our [github repository](https://github.com/iiPythonx/x2/) and download a clone of the repository by clicking on the green `Code ▾` button and the `Download ZIP` option. Optionally, if you have [git](https://git-scm.com/) installed on your device, you can also clone the repository by opening up a terminal and typing:
-
-```
-git clone https://github.com/iiPythonx/x2
-```
-
-If you are choosing Visual Studio Code as your Integrated Development Environment, you can also install the [x2 extension](https://marketplace.visualstudio.com/items?itemName=iiPython.x2) on the marketplace to get syntax highlighting on your x2 files.
+If you are choosing Visual Studio Code as your Integrated Development Environment, you can also install the [x++ extension](https://marketplace.visualstudio.com/items?itemName=iiPython.xpp) on the marketplace to get syntax highlighting on your x++ files.
 
 ### Step 2: Set-Up
 
-Once you open up your x2 project, you should be able to find a file named `main.x2`. By default, this is your main entry file and is where you will be writing your x2 code. Within the file, you should see an example program similar to:
+Once you open up your x++ project, you should be able to find a file named `main.xpp`. By default, this is your main entry file and is where you will be writing your x++ code. Within the file, you should see an example program similar to:
 
-```xt
+```xpp
 :: Main
 prt "Hello, world!"
 ```
 
-Any x2 files should always end in the `.x2` extension.
+Any x++ files should always end in the `.xpp` extension.
 
-You can edit the main entry file by editing the configuration in `.x2config`. It is a JSON-like file that contains all the configurations for your x2 project. Within it, you should see:
+You can edit the main entry file by editing the configuration in `.xconfig`. It is a JSON-like file that contains all the configurations for your x++ project. Within it, you should see:
 
-```xtconfig
+```xconfig
 {
-    "main": "main.x2"
+    "main": "main.xpp"
 }
 ```
 
@@ -83,7 +84,7 @@ You can edit the main entry file by editing the configuration in `.x2config`. It
 
 ### Step 3: Execution
 
-After you are done writing your x2 code, you can execute your x2 project immediately by opening up a terminal and typing:
+After you are done writing your x++ code, you can execute your x++ project immediately by opening up a terminal and typing:
 
 ```
 python main.py .
@@ -97,17 +98,14 @@ Currently, you should see the terminal output:
 
 ## Frequently Asked Questions
 
-### Q: Why is it called x2?
+### Q: Why is it called x++?
 
-It originally started as `x` because the name sounded cool. As development goes on, a second revision was published and the name was changed to `x2`.
+The language originally started as the "X Programming Language" because the name sounded cool. As development went on, a second revision was published and the name was changed to `x2`.  
+Starting on March 6th, 2023, x2 was deprecated in favor of x++ as the language was beginning to undergo major changes.
 
-### Q: Can I use x2 for data management, game design, or simply for fun?
+### Q: Can I use x++ for data management, game design, or simply for fun?
 
-You can pretty much do anything in vanilla x2, especially with the `evl` operator, which allows you to integrate Python into your project.
-
-### Q: Where can I publish my games / packages?
-
-You can publish your games and packages at [our website](https://x2.iipython.cf/)!
+You can pretty much do anything in vanilla x++, especially with the `evl` operator, which allows you to integrate Python into your project.
 
 ## Credits & Links
 
@@ -118,11 +116,11 @@ You can publish your games and packages at [our website](https://x2.iipython.cf/
 
 ### Resources
 
-- [Github Repository](https://github.com/iiPythonx/x2)
-- [Visual Studio Code x2 Extension](https://marketplace.visualstudio.com/items?itemName=iiPython.x2)
+- [Github Repository](https://github.com/iiPythonx/xpp)
+- [Visual Studio Code x++ Extension](https://marketplace.visualstudio.com/items?itemName=iiPython.xpp)
 
 ---
 
-Last Updated: April 22nd, 2022 by iiPython
+Last Updated: March 6th, 2023 by iiPython
 
-[↑ Go To Top](#x2)
+[↑ Go To Top](#x++)

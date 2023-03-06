@@ -1,0 +1,4 @@
+var woah "hello world"
+:: starting from 0
+prt (chr woah 2) (chr woah 8)
+prt (chr woah 2 8)

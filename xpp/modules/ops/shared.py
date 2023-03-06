@@ -1,5 +1,5 @@
 # Copyright 2022-2023 iiPython
-# Shared x2 operator classes and functions
+# Shared x++ operator classes and functions
 
 # Modules
 from typing import List, Tuple

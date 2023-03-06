@@ -2,8 +2,8 @@
 
 # Modules
 from copy import copy
-from x2.modules.iipython import cprint
-from x2.modules.ops.shared import (
+from xpp.modules.iipython import cprint
+from xpp.modules.ops.shared import (
     fetch_io_args,
     MissingArguments
 )
@@ -12,7 +12,7 @@ from x2.modules.ops.shared import (
 print_ = copy(print)
 
 # Operators class
-class XTOperators:
+class XOperators:
     overrides = {}
 
     # Handlers

@@ -1,4 +1,4 @@
-# x2 Operator Loader
+# x++ Operator Loader
 # Copyright 2022-2023 iiPython
 
 # Modules
@@ -13,6 +13,10 @@ def generate_opmap(ops) -> dict:
     return {overrides.get(obj, obj): getattr(ops, obj) for obj in dir(ops) if obj[0] != "_"}
 
 # Initialization
+supported_opmaps = [
+    "XOperators",
+    "XTOperators"  # For backwards compatibility
+]
 opmap = {}
 for path, _, files in os.walk(os.path.abspath(os.path.dirname(__file__))):
     if "__pycache__" in path:
@@ -24,13 +28,16 @@ for path, _, files in os.walk(os.path.abspath(os.path.dirname(__file__))):
             continue
 
         # Load operators
-        spec = spec_from_file_location(f"x2ops_{file[:-3]}", fp)
+        spec = spec_from_file_location(f"xppops_{file[:-3]}", fp)
         module = module_from_spec(spec)
         spec.loader.exec_module(module)
 
         # Sanity checks
-        if hasattr(module, "XTOperators"):
-            opmap = opmap | generate_opmap(module.XTOperators)
+        for mapname in supported_opmaps:
+            if not hasattr(module, mapname):
+                continue
+
+            opmap = opmap | generate_opmap(getattr(module, mapname))
 
         else:
             del spec, module

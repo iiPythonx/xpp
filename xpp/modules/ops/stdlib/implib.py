@@ -3,15 +3,15 @@
 # Modules
 import os
 from copy import copy as copyobj
-from x2 import load_sections, config
-from x2.modules.ops.shared import MissingArguments, InvalidArgument
+from xpp import load_sections, config
+from xpp.modules.ops.shared import MissingArguments, InvalidArgument
 
 # Initialization
 pkgs_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../pkgs"))
-main_namespace = config.get("main", "main").replace("\\", "/").split("/")[-1].removesuffix(".x2")
+main_namespace = config.get("main", "main").replace("\\", "/").split("/")[-1].removesuffix(".xpp")
 
 # Operators class
-class XTOperators:
+class XOperators:
     overrides = {}
 
     # Handlers
@@ -34,17 +34,17 @@ class XTOperators:
         # Check the module to run
         module_files = []
         if "." not in module:
-            module_files.append(os.path.join(module_location, f"{module}.x2"))
+            module_files.append(os.path.join(module_location, f"{module}.xpp"))
             if orig_module.startswith("./"):
-                module_files.append(os.path.join(os.getcwd(), f"{module}.x2"))
+                module_files.append(os.path.join(os.getcwd(), f"{module}.xpp"))
 
         else:
             struct = module.split(".")
             if struct[1:]:
-                module_files += [os.path.join(module_location, *struct[1:][:-1] + [f"{struct[-1]}.x2"])]
+                module_files += [os.path.join(module_location, *struct[1:][:-1] + [f"{struct[-1]}.xpp"])]
 
             else:
-                module_files += [os.path.join(module_location, f"{struct[0]}.x2")]
+                module_files += [os.path.join(module_location, f"{struct[0]}.xpp")]
 
         namespace = module
 

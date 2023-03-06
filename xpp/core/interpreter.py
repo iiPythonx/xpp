@@ -19,7 +19,7 @@ class Context(object):
 # Interpreter class
 class Interpreter(object):
     def __init__(self, entrypoint: str, sections: list, **kwargs) -> None:
-        self.entrypoint = entrypoint.replace("\\", "/").split("/")[-1].removesuffix(".x2")
+        self.entrypoint = entrypoint.replace("\\", "/").split("/")[-1].removesuffix(".xpp")
         self.sections = sections
 
         self.stack, self.memory = [], Memory(**{"interpreter": self} | kwargs)
@@ -35,13 +35,13 @@ class Interpreter(object):
 
         except Exception as e:
             if isinstance(e, RecursionError):
-                e = OverflowError("x2 overflow error")
+                e = OverflowError("x++ overflow error")
 
             if len(self.stack) > 10:
                 print(f"... last {len(self.stack) - 10} stack entries ommitted")
 
             for s in self.stack[-10:]:
-                print(f"x2 file {s.path} in {s.sid} on line {s.current_line}:")
+                print(f"x++ file {s.path} in {s.sid} on line {s.current_line}:")
                 print(f"  > {s.lines[s.current_line - s.start]}\n")
 
             print(f"{type(e).__name__}: {e}")
@@ -53,7 +53,7 @@ class Interpreter(object):
 
     def find_section(self, section: str) -> str:
         if "." not in section:
-            file = self.stack[-1].path.split("/")[-1].removesuffix(".x2") if self.stack else self.entrypoint
+            file = self.stack[-1].path.split("/")[-1].removesuffix(".xpp") if self.stack else self.entrypoint
             section = f"{file}.{section}"
 
         if section not in [s["sid"] for s in self.sections]:

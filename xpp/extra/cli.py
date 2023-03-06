@@ -16,16 +16,16 @@ class CLI(object):
         self.options = [
             {"args": ["-h", "--help"], "fn": self.show_help, "desc": "Displays the help menu"},
             {"args": ["-hl", "--helplong"], "fn": self.show_help_long, "desc": "Displays a more detailed help menu"},
-            {"args": ["-v", "--ver", "--version"], "fn": self.show_version, "desc": "Prints the x2 version"},
+            {"args": ["-v", "--ver", "--version"], "fn": self.show_version, "desc": "Prints the x++ version"},
             {"args": ["-i", "--installation"], "fn": self.show_install_path, "desc": "Prints the installation path"}
         ]
 
-        self.usage = f"""{__version__} Interpreter
+        self.usage = f"""x++ ({__version__}) Interpreter
 (c) 2021-23 iiPython; (c) 2022-23 Dm123321_31mD "DmmD" Gaming
 
 Usage:
-    x2 [options] [flags] <file>
-    File can be replaced by a dot ('.'), using the 'main' value of .x2config instead
+    xpp [options] [flags] <file>
+    File can be replaced by a dot ('.'), using the 'main' value of .xconfig instead
 
 See '{sys.executable} {os.path.abspath(sys.argv[0])} -hl' for more detailed usage."""
 
