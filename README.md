@@ -4,8 +4,6 @@
 
 Welcome to the official documentation for x++! This documentation will get you started in the development of your first x++ project or will help you learn more about x++ in general with in-depth explanations and tutorials.  
 
-If you're looking for a faster alternative to x++, check out [Calcium](https://github.com/Dm12332131mD/calcium). It's based around the same principles as x++, but written in C++ and fully OOP-compliant.
-
 ## Table of Contents
 
 - **Home ▾**
@@ -25,7 +23,7 @@ If you're looking for a faster alternative to x++, check out [Calcium](https://g
 - [Python API](./md/pythonAPI.md)
 - [Standard Library](./md/standardLibrary.md)
 
-***Please note: current x++ documentation is likely invalid due to the release of x++.3r1!**
+***Please note: current x++ documentation is completely invalid due to ongoing changes!**
 
 ## About
 
@@ -123,4 +121,4 @@ You can pretty much do anything in vanilla x++, especially with the `evl` operat
 
 Last Updated: March 6th, 2023 by iiPython
 
-[↑ Go To Top](#x++)
+[↑ Go To Top](#x)
