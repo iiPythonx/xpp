@@ -10,4 +10,4 @@ package.zip
 .installer_cache
 
 # Hide x2 testing files
-*.x2
+*.xpp
