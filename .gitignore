@@ -1,13 +1,5 @@
+# Hide cache
 __pycache__/
-
-# Pyinstaller build files
-dist/
-build/
-*.spec
-
-# Installer data
-package.zip
-.installer_cache
 
 # Hide x2 testing files
 *.xpp
