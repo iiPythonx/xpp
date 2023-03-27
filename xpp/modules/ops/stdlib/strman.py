@@ -27,11 +27,20 @@ class XOperators:
 
     # Handlers
     def idx(ctx) -> int:
-        ain, aout = fetch_io_args("idx", "idx <string> <substr> [?output]", ["substr", "string"], ctx.args)
+        ain, aout = fetch_io_args("idx", "idx <string> <substr> [?output]", ["string", "substr"], ctx.args)
         if any([not isinstance(x.value, str) for x in ain]):
-            raise InvalidArgument("idx requires two strings!")
+            raise InvalidArgument("idx: both arguments must be strings!")
 
         val = ain[0].value.index(ain[1].value)
+        [out.set(val) for out in aout]
+        return val
+
+    def len_(ctx) -> int:
+        ain, aout = fetch_io_args("len", "len <string> [?output]", ["string"], ctx.args)
+        if not isinstance(ain[0].value, str):
+            raise InvalidArgument("len: argument must be a string!")
+
+        val = len(ain[0].value)
         [out.set(val) for out in aout]
         return val
 

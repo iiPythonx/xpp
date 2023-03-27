@@ -67,7 +67,7 @@ class XOperators:
     def inc(ctx) -> int | float:
         ain, aout = fetch_io_args("inc", "inc <value> [?output]", ["value"], ctx.args)
         if not isinstance(ain[0].value, (int, float)):
-            raise InvalidArgument("value must be either an integer or a float!")
+            raise InvalidArgument("inc: value must be either an integer or a float!")
 
         ain[0].set(ain[0].value + 1)
         [out.set(ain[0].value) for out in aout]
@@ -75,7 +75,7 @@ class XOperators:
     def dec(ctx) -> int | float:
         ain, aout = fetch_io_args("dec", "dec <value> [?output]", ["value"], ctx.args)
         if not isinstance(ain[0].value, (int, float)):
-            raise InvalidArgument("value must be either an integer or a float!")
+            raise InvalidArgument("dec: value must be either an integer or a float!")
 
         ain[0].set(ain[0].value - 1)
         [out.set(ain[0].value) for out in aout]
