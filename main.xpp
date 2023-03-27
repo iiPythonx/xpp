@@ -1,3 +1,2 @@
-var hello 2
-add hello 4 4 59 ?yourmom
-prt yourmom
+idx "Hello, world!" "ello" ?output
+prt output

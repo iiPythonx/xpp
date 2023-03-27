@@ -1,13 +1,14 @@
 # Copyright 2022-2023 iiPython
 
 # Modules
+import sys
 from xpp.modules.ops.shared import (
     fetch_io_args, ensure_arguments
 )
 
 # Operators class
 class XOperators:
-    overrides = {}
+    overrides = {"exit_": "exit"}
 
     # Handlers
     def prt(ctx) -> None:
@@ -26,3 +27,9 @@ class XOperators:
                 break
 
             ctx.args[-(outn - i)].set(r)
+
+    def cls(ctx) -> None:
+        print("\033c\033[3J", end = "")
+
+    def exit_(ctx) -> None:
+        sys.exit(ctx.args[0].value if ctx.args else 0)
