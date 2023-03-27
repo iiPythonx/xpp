@@ -1,10 +1,31 @@
 # Copyright 2022-2023 iiPython
 
 # Modules
+import operator
+from typing import List
+from types import FunctionType
+from xpp.core.datastore import Datastore
 from xpp.modules.ops.shared import (
-    fetch_io_args,
-    MissingArguments, InvalidArgument
+    fetch_io_args, InvalidArgument
 )
+
+# perform_operation
+def perform_operation(
+    start: int,
+    items: List[int | float | str],
+    operation: FunctionType,
+    outputs: List[Datastore],
+    error: str = "All arguments must be either integers or floats."
+) -> int | float | str:
+    try:
+        for item in items:
+            start = operation(start, item.value)
+
+        [out.set(start) for out in outputs]
+        return start
+
+    except (TypeError, ValueError):
+        raise InvalidArgument(error.format(type(start).__name__, item.raw, type(item.value).__name__))
 
 # Operators class
 class XOperators:
@@ -12,96 +33,33 @@ class XOperators:
 
     # Handlers
     def add(ctx) -> int | float | str:
-        "add <a> <b> [output]"
-        if len(ctx.args) < 2:
-            raise MissingArguments(f"<add> takes at least two arguments, but {len(ctx.args)} were passed.")
-
-        ain, aout = fetch_io_args(ctx.args)
-        res = 0 if isinstance(ain[0].value, (int, float)) else ""
-        try:
-            for n in ain:
-                res += n.value
-
-        except (TypeError, ValueError):
-            raise InvalidArgument(f"All arguments must be of the same datatype:\n  Current type: {type(res).__name__} | Attempted to add: {n.raw} ({type(n.value).__name__})")
-
-        if aout:
-            aout[0].set(res)
-
-        return res
+        ain, aout = fetch_io_args("add", "add <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
+        return perform_operation(
+            0 if isinstance(ain[0].value, (int, float)) else "",
+            ain,
+            operator.add,
+            aout,
+            "All arguments must be of the same datatype:\n  Current type: {} | Attempted to add: {} ({})"
+        )
 
     def sub(ctx) -> int | float:
-        "sub <a> <b> [output]"
-        if len(ctx.args) < 2:
-            raise MissingArguments(f"<sub> takes at least two arguments, but {len(ctx.args)} were passed.")
-
-        ain, aout = fetch_io_args(ctx.args)
-        res = ain[0].value
-        try:
-            for n in ain[1:]:
-                res -= n.value
-
-        except (TypeError, ValueError):
-            raise InvalidArgument("All arguments must be either integers or floats.")
-
-        if aout:
-            aout[0].set(res)
-
-        return res
+        ain, aout = fetch_io_args("sub", "sub <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
+        return perform_operation(ain[0].value, ain[1:], operator.sub, aout)
 
     def mul(ctx) -> int | float:
-        "mul <a> <b> [output]"
-        if len(ctx.args) < 2:
-            raise MissingArguments(f"<mul> takes at least two arguments, but {len(ctx.args)} were passed.")
-
-        ain, aout = fetch_io_args(ctx.args)
-        res = ain[0].value
-        try:
-            for n in ain[1:]:
-                res *= n.value
-
-        except (TypeError, ValueError):
-            raise InvalidArgument(f"All arguments must be multipliable:\n  Current type: {type(res).__name__} | Attempted to mul: {n.raw} ({type(n.value).__name__})")
-
-        if aout:
-            aout[0].set(res)
-
-        return res
+        ain, aout = fetch_io_args("mul", "mul <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
+        return perform_operation(
+            ain[0].value,
+            ain[1:],
+            operator.mul,
+            aout,
+            "All arguments must be multipliable:\n  Current type: {} | Attempted to mul: {} ({})"
+        )
 
     def div(ctx) -> int | float:
-        "div <a> <b> [output]"
-        if len(ctx.args) < 2:
-            raise MissingArguments(f"<div> takes at least two arguments, but {len(ctx.args)} were passed.")
-
-        ain, aout = fetch_io_args(ctx.args)
-        res = ain[0].value
-        try:
-            for n in ain:
-                res /= n.value
-
-        except (TypeError, ValueError):
-            raise InvalidArgument("All arguments must be either integers or floats.")
-
-        if aout:
-            aout[0].set(res)
-
-        return res
+        ain, aout = fetch_io_args("div", "div <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
+        return perform_operation(ain[0].value, ain[1:], operator.div, aout)
 
     def pow(ctx) -> int | float:
-        "pow <a> <b> [output]"
-        if len(ctx.args) < 2:
-            raise MissingArguments(f"<pow> takes at least two arguments, but {len(ctx.args)} were passed.")
-
-        ain, aout = fetch_io_args(ctx.args)
-        res = ain[0]
-        try:
-            for n in ain:
-                res **= n.value
-
-        except (TypeError, ValueError):
-            raise InvalidArgument("All arguments must be either integers or floats.")
-
-        if aout:
-            aout[0].set(res)
-
-        return res
+        ain, aout = fetch_io_args("pow", "pow <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
+        return perform_operation(ain[0].value, ain[1:], operator.pow, aout)

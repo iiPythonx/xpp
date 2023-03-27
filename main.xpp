@@ -1,4 +1,3 @@
-var woah "hello world"
-:: starting from 0
-prt (chr woah 2) (chr woah 8)
-prt (chr woah 2 8)
+var hello 2
+add hello 4 4 59 ?yourmom
+prt yourmom

@@ -14,8 +14,26 @@ class InvalidArgument(Exception):
 class OutputVariableMismatch(Exception):
     pass
 
+# ensure_arguments
+def ensure_arguments(
+    operator: str,
+    usage: str,
+    required_args: list,
+    args: list
+) -> None:
+    if len(args) < len(required_args):
+        raise MissingArguments("\n".join([
+            f"missing required argument(s): {', '.join(required_args[len(args):])}",
+            f"usage: {usage}"
+        ]))
+
 # fetch_io_args
-def fetch_io_args(args: list) -> Tuple[List, List]:
+def fetch_io_args(
+    operator: str,
+    usage: str,
+    required_args: list,
+    args: list
+) -> Tuple[List, List]:
     isout, out = False, []
     for arg in args:
         if not isout and (str(arg.raw)[0] == "?"):
@@ -30,6 +48,7 @@ def fetch_io_args(args: list) -> Tuple[List, List]:
 
     nout = len(out)
     if nout:
-        return args[:-nout], out
+        args = args[:-nout]
 
-    return args, []
+    ensure_arguments(operator, usage, required_args, args)
+    return args, out

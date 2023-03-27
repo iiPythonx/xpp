@@ -3,14 +3,16 @@
 # Modules
 import os
 import sys
-from .. import __version__
+from . import (
+    __version__,
+    load_sections, config, Interpreter
+)
 
 # CLI class
 class CLI(object):
     def __init__(self) -> None:
         self.argv, self.vals = sys.argv[1:], {}
         self.flags = [
-            {"args": ["-c", "--color"], "name": "color", "desc": "Colorize the print function where applicable"},
             {"args": ["-nx100", "--no-extra-params-warn"], "name": "no-extra-params-warn", "desc": "Hide warning produced by giving a function too many arguments"}
         ]
         self.options = [
@@ -63,3 +65,30 @@ See '{sys.executable} {os.path.abspath(sys.argv[0])} -hl' for more detailed usag
 
     def show_install_path(self) -> None:
         return sys.exit(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
+# Initialization
+cli = CLI()
+
+# Load filepath
+filepath = cli.filepath
+if filepath is None:
+    cli.show_help()
+
+elif filepath == ".":
+    filepath = config.get("main", "main.xpp")
+
+if not os.path.isfile(filepath):
+    sys.exit("x++ Exception: no such file")
+
+# Load file content
+with open(filepath, "r") as f:
+    data = f.read()
+
+# Run file
+sections = load_sections(data, filepath)
+interpreter = Interpreter(
+    filepath, sections,
+    config = config,
+    cli_vals = cli.vals
+)
+interpreter.run_section("main")

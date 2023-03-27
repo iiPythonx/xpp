@@ -4,7 +4,9 @@
 import os
 from copy import copy as copyobj
 from xpp import load_sections, config
-from xpp.modules.ops.shared import MissingArguments, InvalidArgument
+from xpp.modules.ops.shared import (
+    ensure_arguments, InvalidArgument
+)
 
 # Initialization
 pkgs_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../pkgs"))
@@ -16,9 +18,7 @@ class XOperators:
 
     # Handlers
     def imp(ctx) -> None:
-        if not ctx.args:
-            raise MissingArguments("required: module")
-
+        ensure_arguments("imp", "imp <module> [as <namespace>]", ["module"], ctx.args)
         module, module_location = ctx.args[0].value, None
         orig_module = copyobj(module)
         if module.startswith("./"):
