@@ -3,6 +3,7 @@
 # Modules
 import operator
 from typing import List
+from random import randint
 from types import FunctionType
 from xpp.core.datastore import Datastore
 from xpp.modules.ops.shared import (
@@ -79,3 +80,25 @@ class XOperators:
 
         ain[0].set(ain[0].value - 1)
         [out.set(ain[0].value) for out in aout]
+
+    def rnd(ctx) -> int:
+        ain, aout = fetch_io_args("rnd", "rnd <value> [precision] [?output]", ["value"], ctx.args)
+        if not isinstance(ain[0].value, (float)):
+            raise InvalidArgument("rnd: value must be a float!")
+
+        precision = ain[1].value if len(ain) > 1 else 0
+        if not isinstance(precision, int):
+            raise InvalidArgument("rnd: precision must be an integer!")
+
+        val = round(ain[0].value, precision or None)
+        [out.set(val) for out in aout + [ain[0]]]
+        return val
+
+    def rng(ctx) -> int:
+        ain, aout = fetch_io_args("rng", "rng <min> <max> [?output]", ["min", "max"], ctx.args)
+        if any([not isinstance(x.value, int) for x in ain]):
+            raise InvalidArgument("rng: min and max must both be integers!")
+
+        val = randint(ain[0].value, ain[1].value)
+        [out.set(val) for out in aout]
+        return val

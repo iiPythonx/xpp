@@ -1,2 +1,2 @@
-load "xpp/modules/ops/stdlib/math.py" ?xppsource
-prt xppsource
+rng 1 10 ?output
+prt output
