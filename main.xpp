@@ -1,2 +1,2 @@
-idx "Hello, world!" "ello" ?output
-prt output
+load "xpp/modules/ops/stdlib/math.py" ?xppsource
+prt xppsource
