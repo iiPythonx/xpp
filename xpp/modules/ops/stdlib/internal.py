@@ -101,3 +101,18 @@ class XOperators:
 
     def rem(ctx) -> None:
         [arg.delete() for arg in ctx.args]
+
+    def rep(ctx) -> None:
+        ain, aout = fetch_io_args("rep", "rep <amount> <section> [args...] [?output]", ["amount", "section"], ctx.args)
+        if not isinstance(ain[0].value, int):
+            raise InvalidArgument("rep: amount must be an integer!")
+
+        for _ in range(ain[0].value):
+            [a.refresh() for a in ain[2:]]
+            results = ctx.mem.interpreter.run_section(ain[1].value if isinstance(ain[1].value, str) else ain[1].raw, [a.value for a in ain[2:]])
+            outn = len(aout)
+            for i, r in enumerate(results):
+                if i > outn:
+                    break
+
+                aout[-i].set(r)

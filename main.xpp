@@ -1,8 +1,6 @@
-var @x 1
-var @y 2
-var @z 3
-rep 10 loop
+var y 1
+rep 5 loop y ?y
+prt y
 
-:loop
-    prt @x @y @z
-    inc @x @y @z
+:loop x
+    ret (add x 1)
