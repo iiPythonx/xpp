@@ -5,8 +5,13 @@ import os
 from typing import List, Any
 from copy import copy as copyobj
 
-from xpp import load_sections, config
-from xpp.modules.ops import import_opmap_from_file
+from xpp import (
+    load_sections, config,
+    __version__
+)
+from xpp.modules.ops import (
+    import_opmap_from_file
+)
 from xpp.modules.ops.shared import (
     fetch_io_args, ensure_arguments,
     InvalidArgument
@@ -21,6 +26,16 @@ class XOperators:
     overrides = {"if_": "if"}
 
     # Handlers
+    def evl(ctx) -> Any:
+        ain, aout = fetch_io_args("evl", "evl <expr>", ["expr"], ctx.args)
+        if not isinstance(ain[0].value, str):
+            raise InvalidArgument("evl: expression must be a string!")
+
+        eval(compile(ain[0].value, "<xpp>", mode = "exec"), {
+            "ctx": ctx, "mem": ctx.mem, "interpreter": ctx.mem.interpreter,
+            "vars": ctx.mem.variables, "version": __version__
+        })
+
     def if_(ctx) -> Any:
         ain, aout = fetch_io_args("if", "if <expr> <branch> [false_branch]", ["expr", "branch"], ctx.args)
         if not isinstance(ain[1].value, str):
