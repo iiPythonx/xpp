@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Tutorials](../tutorials.md) / 3. Branches
+# [x++](../../README.md) / [Tutorials](../tutorials.md) / 3. Branches
 
 ## Table of Contents
 
@@ -87,10 +87,10 @@ Did you get something like this:
     cmp age > 16 "out \"You can also drive a car\""
 ```
 
-In the next lesson, you will be learning how to make a calculator using x2.
+In the next lesson, you will be learning how to make a calculator using x++.
 
 ---
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--tutorials--3-branches)
+[↑ Go To Top](#x--tutorials--3-branches)

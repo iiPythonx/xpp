@@ -1,4 +1,6 @@
-var woah "hello world"
-:: starting from 0
-prt (chr woah 2) (chr woah 8)
-prt (chr woah 2 8)
+var y 1
+rep 5 loop y ?y
+prt y
+
+:loop x
+    ret (add x 1)

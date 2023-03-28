@@ -1,4 +1,4 @@
-# [x2](../README.md) / Documents
+# [x++](../README.md) / Documents
 
 ## Table of Contents
 
@@ -21,9 +21,9 @@
 
 ## About
 
-Welcome to the documents page of the official x2 documentation. In this section, you will be learning about the individual components that make up x2.
+Welcome to the documents page of the official x++ documentation. In this section, you will be learning about the individual components that make up x++.
 
-If you are looking for a beginner's guide for x2, check out the [tutorials](./tutorials.md) instead.
+If you are looking for a beginner's guide for x++, check out the [tutorials](./tutorials.md) instead.
 
 ## Documents
 
@@ -40,4 +40,4 @@ If you are looking for a beginner's guide for x2, check out the [tutorials](./tu
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--documents)
+[↑ Go To Top](#x--documents)

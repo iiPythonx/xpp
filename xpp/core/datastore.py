@@ -21,7 +21,7 @@ class Memory(object):
 # Datastore class
 class Datastore(object):
     def __init__(self, mem: Memory, raw: str) -> None:
-        self.mem, self.raw = mem, raw
+        self.mem, self.raw, self.id_ = mem, raw, raw.lstrip("@?")
 
         # Handle variables
         last_stack = self.mem.interpreter.stack[-1]
@@ -62,11 +62,21 @@ class Datastore(object):
             return int(self.raw)
 
         # Handle variable
-        return self.store.get(self.raw.lstrip("@"))
+        self.refresh = self.refreshv
+        return self.refresh()
 
     def set(self, value: Any) -> None:
-        self.store[self.raw.lstrip("@")] = value
+        self.store[self.id_] = value
         self.value = value
 
-    def refresh(self) -> None:
+    def delete(self) -> None:
+        if self.id_ in self.store:
+            del self.store[self.id_]
+
+    def refresh(self) -> Any:
         self.value = self._parse()
+        return self.value
+
+    def refreshv(self) -> Any:
+        self.value = self.store.get(self.id_)
+        return self.value

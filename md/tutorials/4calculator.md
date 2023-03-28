@@ -1,4 +1,4 @@
-# [x2](../../README.md) / [Tutorials](../tutorials.md) / 4. Calculator
+# [x++](../../README.md) / [Tutorials](../tutorials.md) / 4. Calculator
 
 ## Table of Contents
 
@@ -19,14 +19,14 @@
 
 ## Lesson
 
-From the last three lessons, you learned how to print values into the terminal, get user inputs, modify strings and numbers, and create branches. In this lesson, you will be using all of this knowledge to construct a calculator using x2. Even though it may seem difficult at first, it is just made up of simple components. Let's break it down.
+From the last three lessons, you learned how to print values into the terminal, get user inputs, modify strings and numbers, and create branches. In this lesson, you will be using all of this knowledge to construct a calculator using x++. Even though it may seem difficult at first, it is just made up of simple components. Let's break it down.
 
 Let's introduce the program and get some inputs from the user using the `out` and `read` operators:
 
 ```xt
 :: Main
 :main
-    out "Welcome to the x2 calculator!"
+    out "Welcome to the x++ calculator!"
     out "-----"
     read "Please enter your first number: " a
     read "Please enter your second number: " b
@@ -38,7 +38,7 @@ You can also use escape codes to format your texts, such as `\t` to indent your 
 ```xt
 :: Main
 :main
-    out "Welcome to the x2 calculator!"
+    out "Welcome to the x++ calculator!"
     out "-----"
     read "Please enter your first number: " a
     read "Please enter your second number: " b
@@ -57,7 +57,7 @@ Currently, the numbers you got from the user are a string. You need to parse it 
 ```xt
 :: Main
 :main
-    out "Welcome to the x2 calculator!"
+    out "Welcome to the x++ calculator!"
     out "-----"
     read "Please enter your first number: " a
     read "Please enter your second number: " b
@@ -79,7 +79,7 @@ Now we can use the `cmp` operator to check what operator the user selected and a
 ```xt
 :: Main
 :main
-    out "Welcome to the x2 calculator!"
+    out "Welcome to the x++ calculator!"
     out "-----"
     read "Please enter your first number: " a
     read "Please enter your second number: " b
@@ -105,7 +105,7 @@ Since you defined `c` as the answer to the equation, you can simply output it to
 ```xt
 :: Main
 :main
-    out "Welcome to the x2 calculator!"
+    out "Welcome to the x++ calculator!"
     out "-----"
     read "Please enter your first number: " a
     read "Please enter your second number: " b
@@ -135,4 +135,4 @@ In the next lesson, you will be learning how to define and jump into another sec
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--tutorials--4-calculator)
+[↑ Go To Top](#x--tutorials--4-calculator)

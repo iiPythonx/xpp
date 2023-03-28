@@ -1,4 +1,4 @@
-# [x2](../README.md) / Tutorials
+# [x++](../README.md) / Tutorials
 
 ## Table of Contents
 
@@ -17,9 +17,9 @@
 
 ## About
 
-Welcome to the tutorials of the official x2 documentation. In this section, you will be learning all the basics within x2, including familiaring the syntax of x2 as well as creating your first x2 project!
+Welcome to the tutorials of the official x++ documentation. In this section, you will be learning all the basics within x++, including familiaring the syntax of x++ as well as creating your first x++ project!
 
-If you are looking for information for a specific component of x2, check out the [documents](./documents.md) instead.
+If you are looking for information for a specific component of x++, check out the [documents](./documents.md) instead.
 
 ## Tutorials
 
@@ -32,4 +32,4 @@ If you are looking for information for a specific component of x2, check out the
 
 Last Updated: February 6th, 2022 by Dm123321_31mD
 
-[↑ Go To Top](#x2--tutorials)
+[↑ Go To Top](#x--tutorials)
