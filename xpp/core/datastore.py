@@ -42,8 +42,9 @@ class Datastore(object):
             return
 
         # Check for strings
-        if self.raw[0] in ["\"", "("]:
-            if self.raw[0] == "\"" and self.raw[-1] == "\"":
+        if self.raw[0] in ["\"", "'", "("]:
+            if (self.raw[0] == "\"" and self.raw[-1] == "\"") or \
+               (self.raw[0] == "'" and self.raw[-1] == "'"):
                 value = self.raw[1:][:-1].replace("\\\"", "\"")
                 for item in re.findall(_format_regex, value):
                     result = self.mem.interpreter.execute(item[2:][:-1])

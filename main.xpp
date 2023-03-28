@@ -1,1 +1,1 @@
-prt (5 + (add 2 (add 0 (5 / 2))))
+if (5 == 3) "prt 'statement true'" "prt 'statement false'"

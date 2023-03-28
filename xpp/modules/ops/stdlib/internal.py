@@ -16,7 +16,7 @@ main_namespace = config.get("main", "main").replace("\\", "/").split("/")[-1].re
 
 # Operators class
 class XOperators:
-    overrides = {}
+    overrides = {"if_": "if"}
 
     # Handlers
     def imp(ctx) -> None:
@@ -118,3 +118,19 @@ class XOperators:
 
         [out.set(result) for out in aout]
         return result
+
+    def if_(ctx) -> Any:
+        ain, aout = fetch_io_args("if", "if <expr> <branch> [false_branch]", ["expr", "branch"], ctx.args)
+        if not isinstance(ain[1].value, str):
+            raise InvalidArgument("if: branch must be a string!")
+
+        false_branch = len(ain) > 2
+        if false_branch and not isinstance(ain[2].value, str):
+            raise InvalidArgument("if: false_branch must be a string!")
+
+        # Perform check
+        if ain[0].value:
+            return ctx.mem.interpreter.execute(ain[1].value)
+
+        elif false_branch:
+            return ctx.mem.interpreter.execute(ain[2].value)
