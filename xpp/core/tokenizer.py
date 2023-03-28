@@ -18,9 +18,12 @@ def tokenize(line: str) -> list:
                 dt["depth"] -= 1
 
             else:
-                dt["mode"], dt["depth"] = None, 0
-                dt["tokens"].append(dt["val"])
-                dt["val"] = ""
+                if char == block_ends[0]:
+                    dt["tokens"].append(dt["val"])
+                    dt["val"] = ""
+
+                dt["mode"] = None
+                dt["depth"] = 0
 
         elif char in block_starts:
             if not dt["depth"]:

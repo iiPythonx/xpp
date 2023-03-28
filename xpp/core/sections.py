@@ -72,7 +72,7 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
             if sid in [s["sid"] for s in data["sections"]]:
                 raise SectionConflict(f"section '{sid}' is already registered!")
 
-            elif data["sections"][-1]["lines"][-1].split(" ")[0] != "ret" and len(data["sections"]) > 1:
+            elif (len(data["sections"]) > 1) and (data["sections"][-1]["lines"][-1].split(" ")[0] != "ret"):
                 raise InvalidSection(f"section '{data['sections'][-1]['sid']}' is missing a return statement!")
 
             data["sections"].append({"sid": sid, "path": filepath, "lines": [], "start": lno + 2, "args": sp[1:]})
@@ -83,5 +83,8 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
             data["sections"][data["active"]]["lines"].append(line)
             if line.split(" ")[0] == "ret":
                 data["active"] = 0
+
+    if data["active"] > 0:
+        raise InvalidSection(f"section '{data['sections'][-1]['sid']}' is missing a return statement!")
 
     return data["sections"]

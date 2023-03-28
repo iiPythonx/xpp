@@ -1,19 +1,6 @@
-var y 1
-rep 5 loop y ?y
-prt y
-
-:loop x
-    ret (add x 1)
-
 :func
-    prt "hello world"
-    prt "this is all fine and dandy"
-    ret
+    prt "hi hru"
+    ret 1
 
-:as
-    prt "you can see"
-    ret
-
-prt "its perfectly fine"
-jmp func
-jmp as
+rep 5 "jmp func" ?output
+prt output

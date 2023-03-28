@@ -2,6 +2,7 @@
 
 # Modules
 import os
+from typing import List, Any
 from copy import copy as copyobj
 from xpp import load_sections, config
 from xpp.modules.ops.shared import (
@@ -89,7 +90,7 @@ class XOperators:
         ensure_arguments("var", "var <name> <value>", ["name", "value"], ctx.args)
         ctx.args[0].set(ctx.args[1].value)
 
-    def jmp(ctx) -> None:
+    def jmp(ctx) -> List[Any] | Any:
         ain, aout = fetch_io_args("jmp", "jmp <section> [args...] [?output]", ["section"], ctx.args)
         results = ctx.mem.interpreter.run_section(ain[0].value if isinstance(ain[0].value, str) else ain[0].raw, [a.value for a in ain[1:]])
         outn = len(aout)
@@ -99,20 +100,21 @@ class XOperators:
 
             ctx.args[-(outn - i)].set(r)
 
+        return results[0] if len(results) == 1 else results
+
     def rem(ctx) -> None:
         [arg.delete() for arg in ctx.args]
 
-    def rep(ctx) -> None:
-        ain, aout = fetch_io_args("rep", "rep <amount> <section> [args...] [?output]", ["amount", "section"], ctx.args)
+    def rep(ctx) -> Any:
+        ain, aout = fetch_io_args("rep", "rep <amount> <expression> [?output]", ["amount", "expression"], ctx.args)
         if not isinstance(ain[0].value, int):
             raise InvalidArgument("rep: amount must be an integer!")
 
-        for _ in range(ain[0].value):
-            [a.refresh() for a in ain[2:]]
-            results = ctx.mem.interpreter.run_section(ain[1].value if isinstance(ain[1].value, str) else ain[1].raw, [a.value for a in ain[2:]])
-            outn = len(aout)
-            for i, r in enumerate(results):
-                if i > outn:
-                    break
+        elif not isinstance(ain[1].value, str):
+            raise InvalidArgument("rep: expression must be a string!")
 
-                aout[-i].set(r)
+        for _ in range(ain[0].value):
+            result = ctx.mem.interpreter.execute(ain[1].value)
+
+        [out.set(result) for out in aout]
+        return result
