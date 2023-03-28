@@ -1,6 +1,2 @@
-:func
-    prt "hi hru"
-    ret 1
-
-rep 5 "jmp func" ?output
-prt output
+var x 5
+prt ("hello, " + "world")

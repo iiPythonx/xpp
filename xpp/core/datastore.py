@@ -3,6 +3,7 @@
 # Modules
 import re
 from typing import Any
+from ..modules.simpleeval import simple_eval
 
 # Initialization
 _format_regex = re.compile(r"\$\([^)]*\)")
@@ -25,6 +26,7 @@ class Datastore(object):
 
         # Handle variables
         last_stack = self.mem.interpreter.stack[-1]
+        self.last_stack = last_stack
         self.store = self.mem.variables["file"][last_stack.path] if self.raw[0] == "@" else self.mem.variables["scope"][last_stack.sid]
 
         # Load value
@@ -49,8 +51,8 @@ class Datastore(object):
 
             elif self.raw[0] == "(" and self.raw[-1] == ")":
                 expr = self.raw[1:][:-1]
-                if " " not in expr and expr in self.store and expr not in self.mem.interpreter.operators:
-                    return self.store[expr]
+                if expr.split(" ")[0] not in self.mem.interpreter.operators:
+                    return simple_eval(expr, names = self.mem.variables["scope"][self.last_stack.sid])
 
                 return self.mem.interpreter.execute(expr.replace("\\\"", "\""))
 
