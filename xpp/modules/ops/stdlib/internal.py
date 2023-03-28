@@ -4,7 +4,9 @@
 import os
 from typing import List, Any
 from copy import copy as copyobj
+
 from xpp import load_sections, config
+from xpp.modules.ops import import_opmap_from_file
 from xpp.modules.ops.shared import (
     fetch_io_args, ensure_arguments,
     InvalidArgument
@@ -20,8 +22,18 @@ class XOperators:
 
     # Handlers
     def imp(ctx) -> None:
-        ensure_arguments("imp", "imp <module> [as <namespace>]", ["module"], ctx.args)
+        ensure_arguments("imp", "imp <module[.py]> [as <namespace>]", ["module"], ctx.args)
         module, module_location = ctx.args[0].value, None
+
+        # Python module import
+        if module[-3:] == ".py":
+            if not os.path.isfile(module):
+                raise InvalidArgument(f"python module '{module}' does not exist!")
+
+            opmap = import_opmap_from_file("", module)  # _module (import name)
+            ctx.mem.interpreter.operators = ctx.mem.interpreter.operators | opmap  # merge operators
+            return
+
         orig_module = copyobj(module)
         if module.startswith("./"):
             module = module[2:]
