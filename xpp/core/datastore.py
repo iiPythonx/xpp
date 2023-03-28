@@ -62,7 +62,8 @@ class Datastore(object):
             return int(self.raw)
 
         # Handle variable
-        return self.store.get(self.id_)
+        self.refresh = self.refreshv
+        return self.refresh()
 
     def set(self, value: Any) -> None:
         self.store[self.id_] = value
@@ -72,5 +73,10 @@ class Datastore(object):
         if self.id_ in self.store:
             del self.store[self.id_]
 
-    def refresh(self) -> None:
+    def refresh(self) -> Any:
         self.value = self._parse()
+        return self.value
+
+    def refreshv(self) -> Any:
+        self.value = self.store.get(self.id_)
+        return self.value
