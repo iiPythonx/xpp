@@ -1,0 +1,13 @@
+jmp run
+
+:woah a b c
+    prt "Hello, world!"
+    prt a b c
+    ret b
+
+:run
+    prt "Hi. How are you?"
+    jmp woah 1 2 3 ?response
+    prt response "should be 2"
+    rem response
+    prt response "should be None"

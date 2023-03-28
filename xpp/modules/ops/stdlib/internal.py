@@ -83,3 +83,6 @@ class XOperators:
         section.active = False  # Make it return next line tick
         if ctx.args:
             section.return_value = [a.value for a in ctx.args]
+
+    def rem(ctx) -> None:
+        [arg.delete() for arg in ctx.args]
