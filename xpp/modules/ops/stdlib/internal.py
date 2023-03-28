@@ -21,6 +21,22 @@ class XOperators:
     overrides = {"if_": "if"}
 
     # Handlers
+    def if_(ctx) -> Any:
+        ain, aout = fetch_io_args("if", "if <expr> <branch> [false_branch]", ["expr", "branch"], ctx.args)
+        if not isinstance(ain[1].value, str):
+            raise InvalidArgument("if: branch must be a string!")
+
+        false_branch = len(ain) > 2
+        if false_branch and not isinstance(ain[2].value, str):
+            raise InvalidArgument("if: false_branch must be a string!")
+
+        # Perform check
+        if ain[0].value:
+            return ctx.mem.interpreter.execute(ain[1].value)
+
+        elif false_branch:
+            return ctx.mem.interpreter.execute(ain[2].value)
+
     def imp(ctx) -> None:
         ensure_arguments("imp", "imp <module[.py]> [as <namespace>]", ["module"], ctx.args)
         module, module_location = ctx.args[0].value, None
@@ -92,16 +108,6 @@ class XOperators:
         if not loaded:
             raise InvalidArgument(f"referenced non-existant package '{orig_module}'")
 
-    def ret(ctx) -> None:
-        section = ctx.mem.interpreter.stack[-1]
-        section.active = False  # Make it return next line tick
-        if ctx.args:
-            section.return_value = [a.value for a in ctx.args]
-
-    def var(ctx) -> None:
-        ensure_arguments("var", "var <name> <value>", ["name", "value"], ctx.args)
-        ctx.args[0].set(ctx.args[1].value)
-
     def jmp(ctx) -> List[Any] | Any:
         ain, aout = fetch_io_args("jmp", "jmp <section> [args...] [?output]", ["section"], ctx.args)
         results = ctx.mem.interpreter.run_section(ain[0].value if isinstance(ain[0].value, str) else ain[0].raw, [a.value for a in ain[1:]])
@@ -115,7 +121,14 @@ class XOperators:
         return results[0] if len(results) == 1 else results
 
     def rem(ctx) -> None:
-        [arg.delete() for arg in ctx.args]
+        for arg in ctx.args:
+            arg.delete()
+
+    def ret(ctx) -> None:
+        section = ctx.mem.interpreter.stack[-1]
+        section.active = False  # Make it return next line tick
+        if ctx.args:
+            section.return_value = [a.value for a in ctx.args]
 
     def rep(ctx) -> Any:
         ain, aout = fetch_io_args("rep", "rep <amount> <expression> [?output]", ["amount", "expression"], ctx.args)
@@ -131,18 +144,6 @@ class XOperators:
         [out.set(result) for out in aout]
         return result
 
-    def if_(ctx) -> Any:
-        ain, aout = fetch_io_args("if", "if <expr> <branch> [false_branch]", ["expr", "branch"], ctx.args)
-        if not isinstance(ain[1].value, str):
-            raise InvalidArgument("if: branch must be a string!")
-
-        false_branch = len(ain) > 2
-        if false_branch and not isinstance(ain[2].value, str):
-            raise InvalidArgument("if: false_branch must be a string!")
-
-        # Perform check
-        if ain[0].value:
-            return ctx.mem.interpreter.execute(ain[1].value)
-
-        elif false_branch:
-            return ctx.mem.interpreter.execute(ain[2].value)
+    def var(ctx) -> None:
+        ensure_arguments("var", "var <name> <value>", ["name", "value"], ctx.args)
+        ctx.args[0].set(ctx.args[1].value)

@@ -43,27 +43,24 @@ class XOperators:
             "All arguments must be of the same datatype:\n  Current type: {} | Attempted to add: {} ({})"
         )
 
-    def sub(ctx) -> int | float:
-        ain, aout = fetch_io_args("sub", "sub <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
-        return perform_operation(ain[0].value, ain[1:], operator.sub, aout)
+    def dec(ctx) -> int | float:
+        ain, aout = fetch_io_args("dec", "dec <args...> [?output]", ["args"], ctx.args)
+        if aout and len(ain) > 1:
+            raise InvalidArgument("dec: can only process one input if output variable is specified!")
 
-    def mul(ctx) -> int | float:
-        ain, aout = fetch_io_args("mul", "mul <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
-        return perform_operation(
-            ain[0].value,
-            ain[1:],
-            operator.mul,
-            aout,
-            "All arguments must be multipliable:\n  Current type: {} | Attempted to mul: {} ({})"
-        )
+        for val in ain:
+            if not isinstance(val.value, (int, float)):
+                raise InvalidArgument("dec: all values must be either an integer or a float!")
+
+            val.set(val.value - 1)
+
+        if aout:
+            [out.set(val.value) for out in aout]
+            return val.value
 
     def div(ctx) -> int | float:
         ain, aout = fetch_io_args("div", "div <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
         return perform_operation(ain[0].value, ain[1:], operator.truediv, aout)
-
-    def pow(ctx) -> int | float:
-        ain, aout = fetch_io_args("pow", "pow <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
-        return perform_operation(ain[0].value, ain[1:], operator.pow, aout)
 
     def inc(ctx) -> int | float:
         ain, aout = fetch_io_args("inc", "inc <args...> [?output]", ["args"], ctx.args)
@@ -80,20 +77,19 @@ class XOperators:
             [out.set(val.value) for out in aout]
             return val.value
 
-    def dec(ctx) -> int | float:
-        ain, aout = fetch_io_args("dec", "dec <args...> [?output]", ["args"], ctx.args)
-        if aout and len(ain) > 1:
-            raise InvalidArgument("dec: can only process one input if output variable is specified!")
+    def mul(ctx) -> int | float:
+        ain, aout = fetch_io_args("mul", "mul <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
+        return perform_operation(
+            ain[0].value,
+            ain[1:],
+            operator.mul,
+            aout,
+            "All arguments must be multipliable:\n  Current type: {} | Attempted to mul: {} ({})"
+        )
 
-        for val in ain:
-            if not isinstance(val.value, (int, float)):
-                raise InvalidArgument("dec: all values must be either an integer or a float!")
-
-            val.set(val.value - 1)
-
-        if aout:
-            [out.set(val.value) for out in aout]
-            return val.value
+    def pow(ctx) -> int | float:
+        ain, aout = fetch_io_args("pow", "pow <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
+        return perform_operation(ain[0].value, ain[1:], operator.pow, aout)
 
     def rnd(ctx) -> int:
         ain, aout = fetch_io_args("rnd", "rnd <value> [precision] [?output]", ["value"], ctx.args)
@@ -116,3 +112,7 @@ class XOperators:
         val = randint(ain[0].value, ain[1].value)
         [out.set(val) for out in aout]
         return val
+
+    def sub(ctx) -> int | float:
+        ain, aout = fetch_io_args("sub", "sub <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
+        return perform_operation(ain[0].value, ain[1:], operator.sub, aout)
