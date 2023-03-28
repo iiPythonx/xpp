@@ -1,13 +1,8 @@
-jmp run
+var @x 1
+var @y 2
+var @z 3
+rep 10 loop
 
-:woah a b c
-    prt "Hello, world!"
-    prt a b c
-    ret b
-
-:run
-    prt "Hi. How are you?"
-    jmp woah 1 2 3 ?response
-    prt response "should be 2"
-    rem response
-    prt response "should be None"
+:loop
+    prt @x @y @z
+    inc @x @y @z

@@ -66,20 +66,34 @@ class XOperators:
         return perform_operation(ain[0].value, ain[1:], operator.pow, aout)
 
     def inc(ctx) -> int | float:
-        ain, aout = fetch_io_args("inc", "inc <value> [?output]", ["value"], ctx.args)
-        if not isinstance(ain[0].value, (int, float)):
-            raise InvalidArgument("inc: value must be either an integer or a float!")
+        ain, aout = fetch_io_args("inc", "inc <args...> [?output]", ["args"], ctx.args)
+        if aout and len(ain) > 1:
+            raise InvalidArgument("inc: can only process one input if output variable is specified!")
 
-        ain[0].set(ain[0].value + 1)
-        [out.set(ain[0].value) for out in aout]
+        for val in ain:
+            if not isinstance(val.value, (int, float)):
+                raise InvalidArgument("inc: all values must be either an integer or a float!")
+
+            val.set(val.value + 1)
+
+        if aout:
+            [out.set(val.value) for out in aout]
+            return val.value
 
     def dec(ctx) -> int | float:
-        ain, aout = fetch_io_args("dec", "dec <value> [?output]", ["value"], ctx.args)
-        if not isinstance(ain[0].value, (int, float)):
-            raise InvalidArgument("dec: value must be either an integer or a float!")
+        ain, aout = fetch_io_args("dec", "dec <args...> [?output]", ["args"], ctx.args)
+        if aout and len(ain) > 1:
+            raise InvalidArgument("dec: can only process one input if output variable is specified!")
 
-        ain[0].set(ain[0].value - 1)
-        [out.set(ain[0].value) for out in aout]
+        for val in ain:
+            if not isinstance(val.value, (int, float)):
+                raise InvalidArgument("dec: all values must be either an integer or a float!")
+
+            val.set(val.value - 1)
+
+        if aout:
+            [out.set(val.value) for out in aout]
+            return val.value
 
     def rnd(ctx) -> int:
         ain, aout = fetch_io_args("rnd", "rnd <value> [precision] [?output]", ["value"], ctx.args)
