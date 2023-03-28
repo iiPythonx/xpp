@@ -11,5 +11,5 @@ if os.path.isfile(".xconfig"):
         with open(".xconfig", "r") as f:
             config = json.loads(f.read())
 
-    except Exception:
+    except (OSError, json.JSONDecodeError):
         pass
