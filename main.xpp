@@ -4,3 +4,16 @@ prt y
 
 :loop x
     ret (add x 1)
+
+:func
+    prt "hello world"
+    prt "this is all fine and dandy"
+    ret
+
+:as
+    prt "you can see"
+    ret
+
+prt "its perfectly fine"
+jmp func
+jmp as

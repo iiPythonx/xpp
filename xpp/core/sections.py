@@ -5,7 +5,7 @@ import os
 from typing import Any
 
 from .datastore import Memory
-from ..exceptions import SectionConflict
+from ..exceptions import SectionConflict, InvalidSection
 
 # Section class
 class Section(object):
@@ -58,20 +58,30 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
     filename = namespace or filepath.split("/")[-1].removesuffix(".xpp")
 
     # Initialization
-    data = {"sections": [{"sid": f"{filename}.main", "path": filepath, "lines": [], "start": 1, "args": []}]}
+    data = {"sections": [{"sid": f"{filename}.main", "path": filepath, "lines": [], "start": 1, "args": []}], "active": 0}
 
     # Split sections
     for lno, line in enumerate(source.splitlines()):
         line = line.strip()
-        if line and line[0] == ":" and line[:2] != "::":
+        if not line:
+            continue
+
+        elif line[0] == ":" and line[:2] != "::":
             sp = line.split(" ")
             sid = f"{filename}.{sp[0][1:]}"
             if sid in [s["sid"] for s in data["sections"]]:
-                raise SectionConflict(f"section '{sid}' is already registered")
+                raise SectionConflict(f"section '{sid}' is already registered!")
+
+            elif data["sections"][-1]["lines"][-1].split(" ")[0] != "ret" and len(data["sections"]) > 1:
+                raise InvalidSection(f"section '{data['sections'][-1]['sid']}' is missing a return statement!")
 
             data["sections"].append({"sid": sid, "path": filepath, "lines": [], "start": lno + 2, "args": sp[1:]})
+            data["active"] = len(data["sections"]) - 1
             continue
 
-        data["sections"][-1]["lines"].append(line)
+        else:
+            data["sections"][data["active"]]["lines"].append(line)
+            if line.split(" ")[0] == "ret":
+                data["active"] = 0
 
     return data["sections"]

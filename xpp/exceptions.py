@@ -14,6 +14,9 @@ class UnknownOperator(xppException):
 class SectionConflict(xppException):
     pass
 
+class InvalidSection(xppException):
+    pass
+
 class InvalidSyntax(xppException):
     pass
 
