@@ -35,6 +35,28 @@ class XOperators:
         [out.set(val) for out in aout]
         return val
 
+    def lwr(ctx) -> str:
+        ain, aout = fetch_io_args("lwr", "lwr <string> [?output]", ["string"], ctx.args)
+        val = str(ain[0].value).lower()
+        if aout:
+            [out.set(val) for out in aout]
+
+        else:
+            ain[0].set(val)
+
+        return val
+
+    def upr(ctx) -> str:
+        ain, aout = fetch_io_args("upr", "upr <string> [?output]", ["string"], ctx.args)
+        val = str(ain[0].value).upper()
+        if aout:
+            [out.set(val) for out in aout]
+
+        else:
+            ain[0].set(val)
+
+        return val
+
     def len_(ctx) -> int:
         ain, aout = fetch_io_args("len", "len <string> [?output]", ["string"], ctx.args)
         if not isinstance(ain[0].value, str):
