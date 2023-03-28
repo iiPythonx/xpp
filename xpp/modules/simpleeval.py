@@ -239,9 +239,7 @@ DEFAULT_OPERATORS = {
     ast.BitXor: op.pow,
     ast.BitOr: op.or_,
     ast.BitAnd: op.and_,
-    ast.Invert: op.invert,
-    ast.Is: lambda x, y: x is y,
-    ast.IsNot: lambda x, y: x is not y,
+    ast.Invert: op.invert
 }
 
 DEFAULT_NAMES = {"true": True, "false": False, "null": None}
