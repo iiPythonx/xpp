@@ -3,6 +3,8 @@
 # Modules
 import re
 from typing import Any
+
+from .tokenizer import tokenize
 from ..modules.simpleeval import simple_eval
 
 # Initialization
@@ -52,6 +54,12 @@ class Datastore(object):
             elif self.raw[0] == "(" and self.raw[-1] == ")":
                 expr = self.raw[1:][:-1]
                 if expr.split(" ")[0] not in self.mem.interpreter.operators:
+                    for token in tokenize(expr):
+                        if token[0] != "(" or token[-1] != ")":
+                            continue
+
+                        expr = expr.replace(token, str(self.mem.interpreter.execute(token[1:][:-1])))
+
                     return simple_eval(expr, names = self.mem.variables["scope"][self.last_stack.sid])
 
                 return self.mem.interpreter.execute(expr.replace("\\\"", "\""))

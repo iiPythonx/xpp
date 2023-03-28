@@ -59,7 +59,7 @@ class XOperators:
 
     def div(ctx) -> int | float:
         ain, aout = fetch_io_args("div", "div <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
-        return perform_operation(ain[0].value, ain[1:], operator.div, aout)
+        return perform_operation(ain[0].value, ain[1:], operator.truediv, aout)
 
     def pow(ctx) -> int | float:
         ain, aout = fetch_io_args("pow", "pow <a> <b> [args...] [?output]", ["a", "b"], ctx.args)
