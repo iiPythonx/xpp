@@ -1,5 +1,8 @@
 # x++
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/744ba88dbb684c109dd6b89a06bfbba1)](https://app.codacy.com/gh/iiPythonx/xpp?utm_source=github.com&utm_medium=referral&utm_content=iiPythonx/xpp&utm_campaign=Badge_Grade)
+
+
 ## Introduction
 
 Welcome to the official documentation for x++! This documentation will get you started in the development of your first x++ project or will help you learn more about x++ in general with in-depth explanations and tutorials.  
