@@ -27,7 +27,7 @@ class XOperators:
     def save(ctx) -> None:
         ain, aout = fetch_io_args("save", "save <path> <value> [encoding]", ["path", "value"], ctx.args)
         if not isinstance(ain[0].value, str):
-            raise InvalidArgument("load: path must be a string!")
+            raise InvalidArgument("save: path must be a string!")
 
         with open(
             ain[0].value,
