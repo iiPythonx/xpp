@@ -173,3 +173,12 @@ class XOperators:
     def var(ctx) -> None:
         ensure_arguments("var", "var <name> <value>", ["name", "value"], ctx.args)
         ctx.args[0].set(ctx.args[1].value)
+
+    def whl(ctx) -> None:
+        ain, aout = fetch_io_args("whl", "whl <expr> <branch>", ["expr", "branch"], ctx.args)
+        if not isinstance(ain[1].value, str):
+            raise InvalidArgument("whl: branch must be a string!")
+
+        while ain[0].value:
+            ctx.mem.interpreter.execute(ain[1].value)
+            ain[0].refresh()
