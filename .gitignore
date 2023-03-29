@@ -3,3 +3,9 @@ __pycache__/
 
 # Hide x2 testing files
 *.xpp
+
+# Everything pip related
+dist/
+build/
+*.egg-info/
+*.egg

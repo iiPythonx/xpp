@@ -22,14 +22,14 @@ class CLI(object):
             {"args": ["-i", "--installation"], "fn": self.show_install_path, "desc": "Prints the installation path"}
         ]
 
-        self.usage = f"""x++ ({__version__}) Interpreter
+        self.usage = f"""x++ (x{__version__}) Interpreter
 (c) 2021-23 iiPython; (c) 2022-23 Dm123321_31mD "DmmD" Gaming
 
 Usage:
     xpp [options] [flags] <file>
     File can be replaced by a dot ('.'), using the 'main' value of .xconfig instead
 
-See '{sys.executable} {os.path.abspath(sys.argv[0])} -hl' for more detailed usage."""
+See '{sys.executable} -m xpp -hl' for more detailed usage."""
 
         # Register flag values
         for flag in self.flags:
@@ -69,26 +69,29 @@ See '{sys.executable} {os.path.abspath(sys.argv[0])} -hl' for more detailed usag
 # Initialization
 cli = CLI()
 
-# Load filepath
-filepath = cli.filepath
-if filepath is None:
-    cli.show_help()
+# Main handler
+def main() -> None:
 
-elif filepath == ".":
-    filepath = config.get("main", "main.xpp")
+    # Load filepath
+    filepath = cli.filepath
+    if filepath is None:
+        cli.show_help()
 
-if not os.path.isfile(filepath):
-    sys.exit("x++ Exception: no such file")
+    elif filepath == ".":
+        filepath = config.get("main", "main.xpp")
 
-# Load file content
-with open(filepath, "r") as f:
-    data = f.read()
+    if not os.path.isfile(filepath):
+        sys.exit("x++ Exception: no such file")
 
-# Run file
-sections = load_sections(data, filepath)
-interpreter = Interpreter(
-    filepath, sections,
-    config = config,
-    cli_vals = cli.vals
-)
-interpreter.run_section("main")
+    # Load file content
+    with open(filepath, "r") as f:
+        data = f.read()
+
+    # Run file
+    sections = load_sections(data, filepath)
+    interpreter = Interpreter(
+        filepath, sections,
+        config = config,
+        cli_vals = cli.vals
+    )
+    interpreter.run_section("main")
