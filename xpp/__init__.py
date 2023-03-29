@@ -1,6 +1,6 @@
 # Copyright 2022-2023 iiPython
 
-__version__ = "x2.3r2"
+__version__ = "x3.0b1"
 
 from .extra.config import config  # noqa
 from .core.sections import load_sections  # noqa
