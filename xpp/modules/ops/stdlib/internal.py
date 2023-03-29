@@ -23,7 +23,7 @@ main_namespace = config.get("main", "main").replace("\\", "/").split("/")[-1].re
 
 # Operators class
 class XOperators:
-    overrides = {"if_": "if"}
+    overrides = {"if_": "if", "try_": "try"}
 
     # Handlers
     def evl(ctx) -> Any:
@@ -158,6 +158,17 @@ class XOperators:
 
         [out.set(result) for out in aout]
         return result
+
+    def try_(ctx) -> None:
+        ain, aout = fetch_io_args("try", "try <expr> [error_branch]", ["expr"], ctx.args)
+        try:
+            ctx.mem.interpreter.execute(str(ain[0].value), raise_exception = True)
+
+        except Exception:
+            if len(ain) == 1:
+                return
+
+            ctx.mem.interpreter.execute(ain[1].value)
 
     def var(ctx) -> None:
         ensure_arguments("var", "var <name> <value>", ["name", "value"], ctx.args)

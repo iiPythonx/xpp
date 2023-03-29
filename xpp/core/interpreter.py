@@ -25,7 +25,7 @@ class Interpreter(object):
         self.stack, self.memory = [], Memory(**{"interpreter": self} | kwargs)
         self.operators = opmap
 
-    def execute(self, line: str) -> Any:
+    def execute(self, line: str, raise_exception: bool = False) -> Any:
         try:
             tokens = tokenize(line)
             if tokens[0] not in self.operators:
@@ -34,7 +34,10 @@ class Interpreter(object):
             return self.operators[tokens[0]](Context([Datastore(self.memory, t) for t in tokens[1:]], self.memory))
 
         except Exception as e:
-            if isinstance(e, RecursionError):
+            if raise_exception:
+                raise e
+
+            elif isinstance(e, RecursionError):
                 e = OverflowError("x++ overflow error")
 
             if len(self.stack) > 10:
