@@ -1,6 +1,7 @@
 # Copyright 2022-2023 iiPython
 
 # Modules
+import os
 import sys
 from typing import Any, List
 
@@ -56,7 +57,7 @@ class Interpreter(object):
 
     def find_section(self, section: str) -> str:
         if "." not in section:
-            file = self.stack[-1].path.split("/")[-1].removesuffix(".xpp") if self.stack else self.entrypoint
+            file = self.stack[-1].path.split(os.sep)[-1].removesuffix(".xpp") if self.stack else self.entrypoint
             section = f"{file}.{section}"
 
         if section not in [s["sid"] for s in self.sections]:
