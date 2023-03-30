@@ -21,6 +21,11 @@ class XOperators:
     def prt(ctx) -> None:
         print(*[v.value for v in ctx.args])
 
+    def read(ctx) -> None:
+        ain, aout = fetch_io_args("read", "read [prompt] [?output]", [], ctx.args)
+        res = input(str(ain[0].value) if ain else "")
+        [out.set(res) for out in aout]
+
     def thrw(ctx) -> None:
         raise Exception(ctx.args[0].value if ctx.args else "exception thrown in xpp thread.")
 
