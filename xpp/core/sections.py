@@ -5,7 +5,7 @@ import os
 from typing import Any
 
 from .datastore import Memory
-from ..exceptions import SectionConflict, InvalidSection
+from ..exceptions import SectionConflict, InvalidSection, InvalidSyntax
 
 # Section class
 class Section(object):
@@ -61,12 +61,10 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
     data = {"sections": [{"sid": f"{filename}.main", "path": filepath, "lines": [], "start": 1, "args": []}], "active": 0}
 
     # Split sections
-    for lno, line in enumerate(source.splitlines()):
-        line = line.strip()
-        if not line:
-            continue
-
-        elif line[0] == ":" and line[:2] != "::":
+    lns = [ln.strip() for ln in source.splitlines() if ln.strip() and ln.lstrip()[:2] != "::"]
+    lcn = len(lns)
+    for lno, line in enumerate(lns):
+        if line[0] == ":":
             sp = line.split(" ")
             sid = f"{filename}.{sp[0][1:]}"
             if sid in [s["sid"] for s in data["sections"]]:
@@ -80,7 +78,15 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
             continue
 
         else:
-            data["sections"][data["active"]]["lines"].append(line)
+            lines = data["sections"][data["active"]]["lines"]
+            if (line[-1] == "\\") and (lno == (lcn - 1)):
+                raise InvalidSyntax("multiline statement found, but this is the last line!")
+
+            elif lines and lines[-1][-1] == "\\":
+                lines[-1] = lines[-1][:-1] + line
+                continue
+
+            lines.append(line)
             if line.split(" ")[0] == "ret":
                 data["active"] = 0
 
