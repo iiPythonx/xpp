@@ -67,8 +67,8 @@ class XOperators:
 
         orig_module = copyobj(module)
         if module.startswith("./"):
-            module = module[2:]
-            module_location = os.path.join(os.getcwd(), module.split(".")[0])
+            module = module[2:].rstrip(".xpp")
+            module_location = os.path.dirname(ctx.mem.interpreter.stack[-1].path)
 
         else:
             module_location = os.path.join(pkgs_folder, module.split(".")[0])
@@ -81,7 +81,7 @@ class XOperators:
         if "." not in module:
             module_files.append(os.path.join(module_location, f"{module}.xpp"))
             if orig_module.startswith("./"):
-                module_files.append(os.path.join(os.getcwd(), f"{module}.xpp"))
+                module_files.append(os.path.join(os.path.dirname(ctx.mem.interpreter.stack[-1].path), f"{module}.xpp"))
 
         else:
             struct = module.split(".")
