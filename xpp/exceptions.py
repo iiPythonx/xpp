@@ -22,3 +22,6 @@ class InvalidSyntax(xppException):
 
 class MissingParameter(xppException):
     pass
+
+class BrokenPackage(xppException):
+    pass
