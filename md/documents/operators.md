@@ -41,7 +41,7 @@
 
 ### E
 
-- [Eval](#eval)
+- [Eval](#evaluate)
 - [Exit](#exit)
 
 ### F
@@ -123,7 +123,7 @@ For example:
 prt "Hello, world!"
 ```
 
-Or:
+or:
 
 ```xpp
 add 1 2 ?sum
@@ -134,7 +134,7 @@ A statement can also be wrapped around parentheses (`()`) to group them.
 Some statements return values, which can be stored in a variable:
 
 ```xpp
-var (add 1 2) sum
+var sum (add 1 2)
 ```
 
 ## Documentation
@@ -208,36 +208,6 @@ Example:
 prt "Hello, world!"
 cls
 prt "Why hello there!"
-```
-
----
-
-### If
-
-```xpp
-cmp <expression> <true branch> [false branch]
-```
-
-Creates a branch based on whether or not the expression is true.
-
-| Parameter | Type | Optional | Description |
-| :-: | :-: | :-: | :-: |
-| Expression | [Expression](./comparators.md) | | The target expression |
-| True Branch | [String](./dataTypes.md#string) | | The statement in string form that will be executed if the target expression is true |
-| False Branch | [String](./dataTypes.md#string) | ✓ | The statement in string form that will be executed if the target expression is false |
-
-Returns: [Null](./dataTypes.md#null)
-
-Example:
-
-```xpp
-cmp 5 == 5 "jmp true" "jmp false"
-
-:true
-    out "5 is equal to 5"
-
-:false
-    out "5 is not equal to 5"
 ```
 
 ---
@@ -361,6 +331,38 @@ Example:
 ```xpp
 flt "5" ?myFloat
 prt myFloat
+```
+
+---
+
+### If
+
+```xpp
+if <expr1> <branch1> [expr_n] [branch_n] [...] [else_branch]
+```
+
+Creates a branch based on whether or not the given expression(s) are true.
+
+| Parameter | Type | Optional | Description |
+| :-: | :-: | :-: | :-: |
+| Expression 1 | [Expression](./comparators.md) | | The first expression |
+| Branch 1 | [String](./dataTypes.md#string) | | Statement to execute if first branch is true |
+| Expression N | [Expression](./comparators.md) | ✓ | The nth expression |
+| Branch N | [String](./dataTypes.md#string) | ✓ | Statement to execute if nth branch is true |
+| Else Branch | [String](./dataTypes.md#string) | ✓ | Statement to execute if all expressions were false |
+
+Returns: [Null](./dataTypes.md#null)
+
+Example:
+
+```xpp
+if (5 == 5) "jmp istrue" "jmp isfalse"
+
+:istrue
+    prt "5 is equal to 5"
+
+:isfalse
+    prt "5 is not equal to 5 somehow"
 ```
 
 ---
@@ -616,6 +618,33 @@ prt myInteger
 
 ---
 
+### Power
+
+```xpp
+pow <exp_1> <exp_2> <exp_n> <...> [result]
+```
+
+Takes all given exponents and powers them together in sequential order.
+
+| Parameter | Type | Optional | Description |
+| :-: | :-: | :-: | :-: |
+| Exponent 1 | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) or [String](./dataTypes.md#string) | | The first exponent |
+| Exponent 2 | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | | The second exponent |
+| Exponent N | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | ✓ | The nth exponent |
+| Result | [Variable](./variables.md) | ✓ | The result |
+
+Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
+
+Example:
+
+```xpp
+pow 2 2 ?result
+prt result
+:: 4
+```
+
+---
+
 ### Print
 
 ```xpp
@@ -634,30 +663,6 @@ Example:
 
 ```xpp
 prt "Hello, world!"
-```
-
----
-
-### Variable
-
-```xpp
-var <value> <variable>
-```
-
-Defines a variable.
-
-| Parameter | Type | Optional | Description |
-| :-: | :-: | :-: | :-: |
-| Value | Any | | The value that will be stored in the variable |
-| Variable | [Variable](./variables.md) | | The target variable |
-
-Returns: [Null](./dataTypes.md#null)
-
-Example:
-
-```xpp
-var 5 myInteger
-prt myInteger
 ```
 
 ---
@@ -785,26 +790,27 @@ Example:
 ### Round
 
 ```xpp
-rnd <number> [precision]
+rnd <number> [precision] [?output]
 ```
 
-Rounds a number to a certain decimal point.
-
-If no output is given, it is rounded to the nearest whole number instead.
+Rounds a number to a certain decimal point.  
+If no precision is given, it is rounded to the nearest whole number instead.
 
 | Parameter | Type | Optional | Description |
 | :-: | :-: | :-: | :-: |
-| Number | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | | The return value |
-| Precision | [Integer](./dataTypes.md#integer) | ✓ | The return value |
+| Number | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | | The number to round |
+| Precision | [Integer](./dataTypes.md#integer) | ✓ | The precision to round to |
+| Output | [Integer](./dataTypes.md#integer) | ✓ | The rounded number |
 
 Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
 
 Example:
 
 ```xpp
-psh 5.5 myInteger
+var myInteger 5.5
 rnd myInteger
-out myInteger
+prt myInteger
+:: 6
 ```
 
 ---
@@ -812,7 +818,7 @@ out myInteger
 ### Save
 
 ```xpp
-save <path> [output]
+save <path> <value> [encoding]
 ```
 
 Writes the content into a file.
@@ -821,57 +827,14 @@ Writes the content into a file.
 | :-: | :-: | :-: | :-: |
 | Path | [String](./dataTypes.md#string) | | The path of the file |
 | Value | [String](./dataTypes.md#string) | | The content of the file |
+| Encoding | [String](./dataTypes.md#string) | ✓ | The file encoding (utf8 is the default) |
 
 Returns: [Null](./dataTypes.md#null)
 
 Example:
 
 ```xpp
-save "file.xpp" "Hello, world!"
-```
-
----
-
-### Skip
-
-```xpp
-skp
-```
-
-Acts as a placeholder for a section.
-
-Returns: [Null](./dataTypes.md#null)
-
-Example:
-
-```xpp
-skp
-```
-
----
-
-### Slice
-
-```xpp
-slc <start> <end> <string> [output]
-```
-
-Returns the chunk of the string from the starting and ending index.
-
-| Parameter | Type | Optional | Description |
-| :-: | :-: | :-: | :-: |
-| Start | [Integer](./dataTypes.md#integer) | | The starting index |
-| End | [Integer](./dataTypes.md#integer) | | The ending index |
-| String | [String](./dataTypes.md#string) | | The string that is being sliced |
-| Output | [Variable](./variables.md) | ✓ | The chunk sliced from the target string |
-
-Returns: [String](./dataTypes.md#string)
-
-Example:
-
-```xpp
-slc 0 5 "Hello, world!" output
-out output
+save "file.xpp" "Hello, world!" "utf8"
 ```
 
 ---
@@ -879,11 +842,10 @@ out output
 ### String
 
 ```xpp
-str <value> [output]
+str <value> [?output]
 ```
 
-Converts a value into a string.
-
+Converts a value into a string.  
 If no output is given, the target value itself is converted instead.
 
 | Parameter | Type | Optional | Description |
@@ -896,8 +858,9 @@ Returns: [String](./dataTypes.md#string)
 Example:
 
 ```xpp
-str 5 myString
-out myString
+str 5 ?myString
+prt myString
+:: "5"
 ```
 
 ---
@@ -905,24 +868,26 @@ out myString
 ### Subtract
 
 ```xpp
-sub <minuend> <subtrahend> [difference]
+sub <term_1> <term_2> <term_n> <...> [?result]
 ```
 
-Subtracts the minuend from the subtrahend.
+Subtracts all given terms from eachother in order.
 
 | Parameter | Type | Optional | Description |
 | :-: | :-: | :-: | :-: |
-| Minuend | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | | The value that is being subtracted |
-| Subtrahend | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | | The value that subtracting the minuend |
-| Difference | [Variable](./variables.md) | ✓ | The difference of the minuend and the subtrahend |
+| Term 1 | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | | The first value |
+| Term 2 | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | | The second value |
+| Term N | [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer) | ✓ | The nth value |
+| Result | [Variable](./variables.md) | ✓ | The difference of all given terms |
 
 Returns: [Float](./dataTypes.md#float) or [Integer](./dataTypes.md#integer)
 
 Example:
 
 ```xpp
-sub 10 5 difference
-out difference
+sub 10 5 ?difference
+prt difference
+:: 5
 ```
 
 ---
@@ -930,25 +895,23 @@ out difference
 ### Throw
 
 ```xpp
-thrw <message>
+thrw [message]
 ```
 
 Throws an error message and exits the process.
 
-Even though the message parameter is required, if no message is provided, a RangeError is thrown instead.
-
 | Parameter | Type | Optional | Description |
 | :-: | :-: | :-: | :-: |
-| Message | Any | | The message of the error |
+| Message | Any | ✓ | The message of the error |
 
 Returns: [Null](./dataTypes.md#null)
 
 Example:
 
 ```xpp
-out "Hello, world!"
+prt "Hello, world!"
 thrw "Error message!"
-out "Hello, world!"
+prt "Haha! Can't see me!"
 ```
 
 ---
@@ -971,7 +934,8 @@ Returns: [Null](./dataTypes.md#null)
 Example:
 
 ```xpp
-try "thrw \"Error message!\"" "out \"An error has occurred\""
+try "thrw 'Error message!'" "prt 'An error has occurred'"
+:: An error has occured
 ```
 
 ---
@@ -979,11 +943,10 @@ try "thrw \"Error message!\"" "out \"An error has occurred\""
 ### Uppercase
 
 ```xpp
-upr <string> [output]
+upr <string> [?output]
 ```
 
-Uppercases all the characters in a string.
-
+Uppercases all the characters in a string.  
 If no output is given, the target value itself is uppercased instead.
 
 | Parameter | Type | Optional | Description |
@@ -996,8 +959,8 @@ Returns: [String](./dataTypes.md#string)
 Example:
 
 ```xpp
-upr "Hello, world!" output
-out output
+upr "Hello, world!" ?output
+prt output
 ```
 
 ---
@@ -1008,20 +971,20 @@ out output
 wait <seconds>
 ```
 
-Waits a certain number of seconds before executing the nexpp statement.
+Waits a certain number of seconds before executing the next statement.
 
 | Parameter | Type | Optional | Description |
 | :-: | :-: | :-: | :-: |
-| Seconds | [Integer](./dataTypes.md#string) | | The number of seconds waited |
+| Seconds | [Integer](./dataTypes.md#string) | | The number of seconds to wait |
 
 Returns: [Null](./dataTypes.md#null)
 
 Example:
 
 ```xpp
-out "Hello, world!"
+prt "Hello, world!"
 wait 5
-out "Hello, world!"
+prt "Hello, world!"
 ```
 
 ---
@@ -1044,16 +1007,47 @@ Returns: [Null](./dataTypes.md#null)
 Example:
 
 ```xpp
-psh 0 @myInteger
-whl @myInteger < 5 "jmp mySection"
+:mySection a
+    out a
+    inc a
+    ret a
 
-:mySection
-    out @myInteger
-    inc @myInteger
+var myInteger 0
+whl (myInteger < 5) "jmp mySection myInteger ?myInteger"
+
+:: 0
+:: 1
+:: 2
+:: 3
+:: 4
 ```
 
 ---
 
-Last Updated: February 6th, 2022 by Dm123321_31mD
+### Variable
+
+```xpp
+var <value> <variable>
+```
+
+Defines a variable.
+
+| Parameter | Type | Optional | Description |
+| :-: | :-: | :-: | :-: |
+| Value | Any | | The value that will be stored in the variable |
+| Variable | [Variable](./variables.md) | | The target variable |
+
+Returns: [Null](./dataTypes.md#null)
+
+Example:
+
+```xpp
+var 5 myInteger
+prt myInteger
+```
+
+---
+
+Last Updated: March 30th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents--operators)
