@@ -95,3 +95,5 @@ def main() -> None:
         cli_vals = cli.vals
     )
     interpreter.run_section("main")
+
+main()
