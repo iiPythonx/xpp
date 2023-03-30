@@ -25,20 +25,18 @@ class XOperators:
         })
 
     def if_(ctx) -> Any:
-        ain, aout = fetch_io_args("if", "if <expr> <branch> [false_branch]", ["expr", "branch"], ctx.args)
-        if not isinstance(ain[1].value, str):
-            raise InvalidArgument("if: branch must be a string!")
+        ain, aout = fetch_io_args("if", "if <expr1> <branch1> [expr_n] [branch_n] [...] [else_branch]", ["expr1", "branch1"], ctx.args)
+        for statement in [ain[i:i + 2] for i in range(0, len(ain), 2)]:
+            if len(statement) == 2:
+                if not statement[0].value:
+                    continue
 
-        false_branch = len(ain) > 2
-        if false_branch and not isinstance(ain[2].value, str):
-            raise InvalidArgument("if: false_branch must be a string!")
+                statement = statement[1:]
 
-        # Perform check
-        if ain[0].value:
-            return ctx.mem.interpreter.execute(ain[1].value)
+            if not isinstance(statement[0].value, str):
+                raise InvalidArgument("if: all branches must be strings!")
 
-        elif false_branch:
-            return ctx.mem.interpreter.execute(ain[2].value)
+            return ctx.mem.interpreter.execute(statement[0].value)
 
     def jmp(ctx) -> List[Any] | Any:
         ain, aout = fetch_io_args("jmp", "jmp <section> [args...] [?output]", ["section"], ctx.args)
