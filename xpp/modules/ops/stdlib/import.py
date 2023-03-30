@@ -25,10 +25,10 @@ class XOperators:
 
         # Python module import
         def process_python_import(filepath: str) -> None:
-            if not os.path.isfile(module):
+            if not os.path.isfile(filepath):
                 raise InvalidArgument(f"python module '{module}' does not exist!")
 
-            opmap = import_opmap_from_file("", module)  # _module (import name)
+            opmap = import_opmap_from_file("", filepath)  # _module (import name)
             ctx.mem.interpreter.operators = ctx.mem.interpreter.operators | opmap  # merge operators
             return
 
@@ -79,8 +79,10 @@ class XOperators:
                 custom_entrypoint = xc["main"]
 
             # Handle module
-            method = process_python_import if mainfile[-3:] == ".py" else module_files.append
-            method(os.path.join(module_location, mainfile))
+            if mainfile[-3:] == ".py":
+                return process_python_import(os.path.join(module_location, mainfile))
+
+            module_files.append(os.path.join(module_location, mainfile))
 
         else:
             struct = module.split(".")
