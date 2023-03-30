@@ -30,7 +30,8 @@ setup(
     packages = find_packages(),
     python_requires = ">=3.10, <4",
     extras_require = {
-        "dev": ["twine"]
+        "dev": ["twine"],
+        "tests": ["rich"]
     },
     entry_points = {
         "console_scripts": [
