@@ -37,7 +37,12 @@ def tokenize(line: str) -> list:
                 dt["val"] = ""
                 continue  # Skip the space, it's just a seperator
 
-            dt["tokens"].append(dt["val"][:-1])  # :-1 to account for space
+            dt["val"] = dt["val"][:-1]  # :-1 to account for space
+            if dt["val"] == "::":
+                dt["val"] = ""
+                break  # This is an in-line comment
+
+            dt["tokens"].append(dt["val"])
             dt["val"] = ""
 
     if dt["val"]:
