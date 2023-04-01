@@ -40,6 +40,12 @@ class Interpreter(object):
 
             except Exception as e:
                 length = sum([len(t) + 1 for t in tokens[:i + 1]])
+
+                # Ensure parenthesis aren't highlighted
+                if t[0] == "(":
+                    length, t = length + 1, t[:-2]  # -2 instead of -1 to bypass the length addition
+
+                # Set the exception index
                 if not isinstance(e, XPPException):
                     raise MiscError(str(e), index = range(length, length + len(t)))
 
