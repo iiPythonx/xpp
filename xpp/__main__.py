@@ -88,12 +88,13 @@ def main() -> None:
         data = f.read()
 
     # Run file
-    sections = load_sections(data, filepath)
-    interpreter = Interpreter(
-        filepath, sections,
-        config = config,
-        cli_vals = cli.vals
-    )
-    interpreter.run_section("main")
+    from .exceptions import handle_exception
+    interpreter = Interpreter(filepath, [], config = config, cli_vals = cli.vals)
+    try:
+        interpreter.sections = load_sections(data, filepath)
+        interpreter.run_section("main")
+
+    except Exception as e:
+        handle_exception(e, interpreter.stack)
 
 main()

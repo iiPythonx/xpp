@@ -22,7 +22,8 @@ class Section(object):
         self.args = args
 
         self.return_value = [None]
-        self.current_line = start
+        self.current_line = sum([i if isinstance(i, int) else 1 for i in lines]) + start - 1
+        self.line_content = lines[-1]
 
     def __repr__(self) -> str:
         return f"<Section ID='{self.sid}' SourcePath='{self.path}' StartLine={self.start}>"
@@ -33,6 +34,7 @@ class Section(object):
             self._mem.variables["file"][self.path] = {}
 
         self._mem.variables["scope"][self.sid] = {}
+        self.current_line = self.start
 
     def trash(self) -> Any:
         if self.path in self._mem.variables["file"]:
@@ -61,17 +63,32 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
     data = {"sections": [{"sid": f"{filename}.main", "path": filepath, "lines": [], "start": 1, "args": []}], "active": 0}
 
     # Split sections
-    lns = [ln.strip() for ln in source.splitlines() if ln.strip() and ln.lstrip()[:2] != "::"]
-    lcn = len(lns)
-    for lno, line in enumerate(lns):
-        if line[0] == ":":
+    lines = source.splitlines()
+    lcn = len(lines)
+    for lno, line in enumerate(lines):
+        def process_whitespace(lines: list) -> None:
+            if lines and isinstance(lines[-1], int):
+                lines[-1] += 1
+
+            else:
+                lines.append(1)
+
+        line, lines = line.strip(), data["sections"][data["active"]]["lines"]
+        if (not line) or (line[:2] == "::"):
+            process_whitespace(lines)
+            continue
+
+        elif line[0] == ":":
             sp = line.split(" ")
             sid = f"{filename}.{sp[0][1:]}"
             if sid in [s["sid"] for s in data["sections"]]:
                 raise SectionConflict(f"section '{sid}' is already registered!")
 
             elif (len(data["sections"]) > 1) and (data["sections"][-1]["lines"][-1].split(" ")[0] != "ret"):
-                raise InvalidSection(f"section '{data['sections'][-1]['sid']}' is missing a return statement!")
+                raise InvalidSection(
+                    f"section '{data['sections'][-1]['sid']}' is missing a return statement!",
+                    stack = [Section(**data["sections"][-1])]
+                )
 
             data["sections"].append({"sid": sid, "path": filepath, "lines": [], "start": lno + 2, "args": sp[1:]})
             data["active"] = len(data["sections"]) - 1
@@ -80,10 +97,16 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
         else:
             lines = data["sections"][data["active"]]["lines"]
             if (line[-1] == "\\") and (lno == (lcn - 1)):
-                raise InvalidSyntax("multiline statement found, but this is the last line!")
+                lines.append(line)
+                raise InvalidSyntax(
+                    "multiline statement found, but this is the last line!",
+                    stack = [Section(**data["sections"][-1])],
+                    index = len(line) - 1
+                )
 
-            elif lines and lines[-1][-1] == "\\":
+            elif lines and isinstance(lines[-1], str) and lines[-1][-1] == "\\":
                 lines[-1] = lines[-1][:-1] + line
+                process_whitespace(lines)
                 continue
 
             lines.append(line)
@@ -91,6 +114,9 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
                 data["active"] = 0
 
     if data["active"] > 0:
-        raise InvalidSection(f"section '{data['sections'][-1]['sid']}' is missing a return statement!")
+        raise InvalidSection(
+            f"section '{data['sections'][-1]['sid']}' is missing a return statement!",
+            stack = [Section(**data["sections"][-1])]
+        )
 
     return data["sections"]

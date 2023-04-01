@@ -2,14 +2,12 @@
 
 # Modules
 import os
-import sys
 from typing import Any, List
 
 from .sections import Section
 from .tokenizer import tokenize
 from .datastore import Memory, Datastore
 from ..exceptions import UnknownSection, UnknownOperator, MissingParameter
-
 from ..modules.ops import opmap
 
 # Context class
@@ -26,34 +24,12 @@ class Interpreter(object):
         self.stack, self.memory = [], Memory(**{"interpreter": self} | kwargs)
         self.operators = opmap
 
-    def execute(self, line: str, raise_exception: bool = False) -> Any:
-        try:
-            tokens = tokenize(line)
-            if tokens[0] not in self.operators:
-                raise UnknownOperator(tokens[0])
+    def execute(self, line: str) -> Any:
+        tokens = tokenize(line)
+        if tokens[0] not in self.operators:
+            raise UnknownOperator(tokens[0], index = range(0, len(tokens[0])))
 
-            return self.operators[tokens[0]](Context([Datastore(self.memory, t) for t in tokens[1:]], self.memory))
-
-        except Exception as e:
-            if raise_exception:
-                raise e
-
-            elif isinstance(e, RecursionError):
-                e = OverflowError("x++ overflow error")
-
-            if len(self.stack) > 10:
-                print(f"... last {len(self.stack) - 10} stack entries ommitted")
-
-            for s in self.stack[-10:]:
-                print(f"x++ file {s.path} in {s.sid} on line {s.current_line}:")
-                print(f"  > {s.lines[s.current_line - s.start]}\n")
-
-            print(f"{type(e).__name__}: {e}")
-            if "-D" in sys.argv:
-                print("\nPython traceback:")
-                raise e
-
-            return exit(1)
+        return self.operators[tokens[0]](Context([Datastore(self.memory, t) for t in tokens[1:]], self.memory))
 
     def find_section(self, section: str) -> str:
         if "." not in section:
@@ -80,11 +56,12 @@ class Interpreter(object):
             raise MissingParameter(f"'{section.sid}' requires argument '{a}' which was not provided")
 
         for line in section.lines:
+            section.line_content = line
             if not section.active:
                 break
 
-            if not line.strip() or line[:2] == "::":
-                section.current_line += 1
+            elif isinstance(line, int):  # This is whitespace
+                section.current_line += line
                 continue
 
             self.execute(line)
