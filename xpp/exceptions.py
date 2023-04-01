@@ -33,9 +33,12 @@ class MissingParameter(XPPException):
 class BrokenPackage(XPPException):
     pass
 
+class MiscError(XPPException):
+    pass
+
 # Handler
 def handle_exception(e: Exception | XPPException, stack: List[dict]) -> None:
-    xpp = issubclass(type(e), XPPException)
+    xpp = isinstance(e, XPPException)
     if xpp and e.stack is not None:
         stack = e.stack
 

@@ -23,7 +23,7 @@ class Section(object):
 
         self.return_value = [None]
         self.current_line = sum([i if isinstance(i, int) else 1 for i in lines]) + start - 1
-        self.line_content = lines[-1]
+        self.line_content = lines[-1] if lines else ""
 
     def __repr__(self) -> str:
         return f"<Section ID='{self.sid}' SourcePath='{self.path}' StartLine={self.start}>"

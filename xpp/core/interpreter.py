@@ -7,7 +7,10 @@ from typing import Any, List
 from .sections import Section
 from .tokenizer import tokenize
 from .datastore import Memory, Datastore
-from ..exceptions import UnknownSection, UnknownOperator, MissingParameter
+from ..exceptions import (
+    XPPException, MiscError, UnknownSection,
+    UnknownOperator, MissingParameter
+)
 from ..modules.ops import opmap
 
 # Context class
@@ -29,7 +32,21 @@ class Interpreter(object):
         if tokens[0] not in self.operators:
             raise UnknownOperator(tokens[0], index = range(0, len(tokens[0])))
 
-        return self.operators[tokens[0]](Context([Datastore(self.memory, t) for t in tokens[1:]], self.memory))
+        # Create datastores
+        datastores = []
+        for i, t in enumerate(tokens[1:]):
+            try:
+                datastores.append(Datastore(self.memory, t))
+
+            except Exception as e:
+                length = sum([len(t) + 1 for t in tokens[:i + 1]])
+                if not isinstance(e, XPPException):
+                    raise MiscError(str(e), index = range(length, length + len(t)))
+
+                e.index = range(length, length + len(t))
+                raise e
+
+        return self.operators[tokens[0]](Context(datastores, self.memory))
 
     def find_section(self, section: str) -> str:
         if "." not in section:
