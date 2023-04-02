@@ -16,8 +16,8 @@
         - [Packages](./documents/packages.md)
         - [Sections](./documents/sections.md)
         - [Variables](./documents/variables.md)
-- [Python API](./standardLibrary.md)
-- [Standard Library](./pythonAPI.md)
+- [Python API](./pythonAPI.md)
+- [Standard Library](./standardLibrary.md)
 
 ## About
 

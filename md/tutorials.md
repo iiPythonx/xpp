@@ -12,8 +12,8 @@
         - [3. Branches](./tutorials/3branches.md)
         - [4. Calculator](./tutorials/4calculator.md)
 - [Documents](./documents.md)
-- [Python API](./standardLibrary.md)
-- [Standard Library](./pythonAPI.md)
+- [Python API](./pythonAPI.md)
+- [Standard Library](./standardLibrary.md)
 
 ## About
 
@@ -26,10 +26,10 @@ If you are looking for information for a specific component of x++, check out th
 - ### [1. Hello, world!](./tutorials/1helloWorld.md)
 - ### [2. User Input](./tutorials/2userInput.md)
 - ### [3. Branches](./tutorials/3branches.md)
-- ### [4. Calculator](./tutorials/4calculator.md.md)
+- ### [4. Calculator](./tutorials/4calculator.md)
 
 ---
 
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: April 1st, 2023 by iiPython
 
 [↑ Go To Top](#x--tutorials)

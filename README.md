@@ -23,11 +23,9 @@ Welcome to the official documentation for x++! This documentation will get you s
 - [Python API](./md/pythonAPI.md)
 - [Standard Library](./md/standardLibrary.md)
 
-***Please note: current x++ documentation is completely invalid due to ongoing changes!**
-
 ## About
 
-x++ (Pronounced "ex-plus-plus") is a high-level, interpreted language written in Python by [iiPython](https://github.com/iiPythonx) with low-level programming language syntax, similar to that of [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) or [Batch](https://en.wikipedia.org/wiki/Batch_file).
+x++ (Pronounced "ex-plus-plus") is a high-level, interpreted language written in Python by [iiPython](https://github.com/iiPythonx) with low-level syntax, similar to that of [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) (and additionally inspired by [Batch](https://en.wikipedia.org/wiki/Batch_file)).
 
 x++ contains features such as:
 - Automatic garbage collection
@@ -103,7 +101,8 @@ Starting on March 6th, 2023, x2 was deprecated in favor of x++ as the language w
 
 ### Q: Can I use x++ for data management, game design, or simply for fun?
 
-You can pretty much do anything in vanilla x++, especially with the `evl` operator, which allows you to integrate Python into your project.
+Thanks to the ability to import Python files via the `imp` operator, you can do pretty much anything with vanilla x++.  
+For in-line Python integration, the `evl` operator lets you change the x++ runtime on demand.
 
 ## Credits & Links
 
@@ -119,6 +118,6 @@ You can pretty much do anything in vanilla x++, especially with the `evl` operat
 
 ---
 
-Last Updated: March 6th, 2023 by iiPython
+Last Updated: April 1st, 2023 by iiPython
 
 [↑ Go To Top](#x)
