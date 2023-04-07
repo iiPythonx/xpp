@@ -21,7 +21,7 @@ class Context(object):
 # Interpreter class
 class Interpreter(object):
     def __init__(self, entrypoint: str, sections: list, **kwargs) -> None:
-        self.entrypoint = entrypoint.replace("\\", "/").split("/")[-1].removesuffix(".xpp")
+        self.entrypoint = entrypoint.split(os.sep)[-1].removesuffix(".xpp")
         self.sections = sections
 
         self.stack, self.memory = [], Memory(**{"interpreter": self} | kwargs)
