@@ -97,4 +97,5 @@ def main() -> None:
     except Exception as e:
         handle_exception(e, interpreter.stack)
 
-main()
+if __name__ == "__main__":  # Don't run twice from setup.py import
+    main()
