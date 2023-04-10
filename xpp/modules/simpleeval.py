@@ -239,7 +239,10 @@ DEFAULT_OPERATORS = {
     ast.BitXor: op.pow,
     ast.BitOr: op.or_,
     ast.BitAnd: op.and_,
-    ast.Invert: op.invert
+    ast.Invert: op.invert,
+    ast.Is: lambda a, b: isinstance(a, {"int": int, "str": str, "null": None, "float": float}[b]),
+    ast.In: lambda a, b: a in b,
+    ast.NotIn: lambda a, b: a not in b
 }
 
 DEFAULT_NAMES = {"true": True, "false": False, "null": None}
