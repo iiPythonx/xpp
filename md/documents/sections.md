@@ -23,18 +23,12 @@
 
 ## About
 
-A section is a set of statements that get executed when using the operators `call`, `jmp`, or `pvk`. They are always loaded first when the file is executed or imported.
+A section is a set of statements that get executed when using the `jmp` operator. They are always loaded first when the file is executed or imported.
 
 Sections always start with a colon `:`, and their name can only contain alphabetical letters:
 
 ```xpp
 :mySection
-```
-
-By default, a section is public, which means other files can import and use the section. To define a private section, append an at symbol (`@`) at the beginning of the section name. A private section can only be used by other sections within the file:
-
-```xpp
-:@mySection
 ```
 
 Statements that are not within a section are located in the global section predefined by the interpreter. The global section cannot be referenced, interacted with, or called, as it is deleted as soon as the file is executed or imported.
@@ -47,32 +41,13 @@ A section can also take arguments. Any variables separated by space and placed d
 
 > All arguments of a method or a function must be passed. An error is thrown if an argument is missing.
 
-Three types of sections exist in x++.
+Since the release of x2.3, only one type of section exists in x++.
 
-A section that does not take any additional arguments nor return a value is considered a `section` and generally invoked using the `jmp` operator:
-
-```xpp
-jmp mySection
-
-:mySection
-    out "Hello, world!"
-```
-
-A section that does take additional arguments but does not return a value is considered a `method` and generally invoked using the `pvk` operator.
+A section that takes (or doesn't take) additional arguments and (may or may not) return a value is considered a `function` and can be invoked using the `jmp` operator.
 
 ```xpp
-pvk myMethod
-
-:myMethod a b
-    add a b c
-    out c
-```
-
-A section that does take additional arguments and returns a value is considered a `function` and can be invoked using either the `pvk` or `call` operator. The `pvk` operator is used when the returned value is not wanted and the opposite is true for `call`:
-
-```xpp
-call myFunction a b output
-out output
+jmp myFunction 1 2 ?output
+prt output  :: 3
 
 :myFunction a b
     add a b c
@@ -81,6 +56,6 @@ out output
 
 ---
 
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: April 9th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents--sections)

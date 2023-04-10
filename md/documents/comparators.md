@@ -75,16 +75,16 @@ Or:
 "hello" in "hello world"
 ```
  
-An expression cannot be used on its own, as it is not considered as an operator and thus not a valid statement. It is always accompanied by operators that take an expression as an argument. A classic example of this is the `cmp` operator:
+An expression cannot be used on its own, as it is not considered as an operator and thus not a valid statement. It is always accompanied by operators that take an expression as an argument. A classic example of this is the `if` operator:
 
 ```xt
-cmp 5 == 5 "out \"true\""
+if (5 == 5) "prt 'true'"
 ```
 
-Any operator that uses an expression creates a branch, with `true` being the first branch and `false` is the second. For example, the `cmp` operator creates a branch based on whether or not the expression is true:
+Any operator that uses an expression creates a branch, with `true` being the first branch and the second acts as an `else`. For example, the `if` operator creates a branch based on whether or not the expression is true:
 
 ```xt
-cmp 5 == 10 "out \"same\"" "out \"different\""
+if (5 == 10) "prt 'same'" "prt 'different'"
 ```
 
 ## Documentation
@@ -105,7 +105,7 @@ Checks if the two variables or values are equal to each other.
 Example:
 
 ```xt
-cmp 5 == 5 "out \"true\""
+if (5 == 5) "prt 'true'"
 ```
 
 ---
@@ -126,7 +126,7 @@ Checks if the two variables or values are different from each other.
 Example:
 
 ```xt
-cmp 5 != 10 "out \"true\""
+if (5 != 10) "prt 'true'"
 ```
 
 ---
@@ -147,7 +147,7 @@ Checks if the source is less than the target.
 Example:
 
 ```xt
-cmp 5 < 10 "out \"true\""
+if (5 < 10) "prt 'true'"
 ```
 
 ---
@@ -168,7 +168,7 @@ Checks if the source is less than or equal to the target.
 Example:
 
 ```xt
-cmp 5 <= 10 "out \"true\""
+if (5 <= 10) "prt 'true'"
 ```
 
 ---
@@ -189,7 +189,7 @@ Checks if the source is greater than the target.
 Example:
 
 ```xt
-cmp 10 > 5 "out \"true\""
+if (10 > 5) "prt 'true'"
 ```
 
 ---
@@ -210,7 +210,7 @@ Checks if the source is greater than or equal to the target.
 Example:
 
 ```xt
-cmp 10 >= 5 "out \"true\""
+if (10 >= 5) "prt 'true'"
 ```
 
 ---
@@ -231,7 +231,7 @@ Checks if the source is in the target.
 Example:
 
 ```xt
-cmp "ello" in "Hello, world!" "out \"true\""
+if ("ello" in "Hello, world!") "prt 'true'"
 ```
 
 ---
@@ -239,7 +239,7 @@ cmp "ello" in "Hello, world!" "out \"true\""
 ### Not In
 
 ```xt
-<source> xin <target>
+<source> not in <target>
 ```
 
 Checks if the source is not in the target.
@@ -252,7 +252,7 @@ Checks if the source is not in the target.
 Example:
 
 ```xt
-cmp "bye" xin "Hello, world!" "out \"true\""
+if ("bye" not in "Hello, world!") "prt 'true'"
 ```
 
 ---
@@ -273,33 +273,11 @@ Checks if the source is a type of the target.
 Example:
 
 ```xt
-cmp 5 is "int" "out \"true\""
+if (5 is "int") "prt 'true'"
 ```
 
 ---
 
-### From
-
-```xt
-<source> from <target>
-```
-
-Checks if the source is an instance of the target.
-
-| Parameter | Type | Description |
-| :-: | :-: | :-: |
-| Source | Any | The variable or value that is being compared against |
-| Target | Any | The variable or value being compared to |
-
-Example:
-
-```xt
-evl "setvar('int', int)"
-cmp 5 from int "out \"true\""
-```
-
----
-
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: April 9th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents--comparators)

@@ -30,11 +30,11 @@ A comment always starts with two colons `::` and can be placed at the end of any
 
 ```xt
 :: This is a comment
-out 5 :: This is a comment
+prt 5  :: This is an inline comment
 ```
 
 ---
 
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: April 9th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents--comments)

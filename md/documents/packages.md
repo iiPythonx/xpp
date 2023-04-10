@@ -29,7 +29,7 @@ Packages are x++ files written by other people that can be imported to your x++ 
 imp "examplePackage"
 ```
 
-All packages are located in the `pkg/` folder. If one is not found, the interpreter will automatically create one. When attempting to import a package, the interpreter will look for the `pkg/<package>/main.xpp` file. If one is not found, an error is thrown.
+All packages are located in the `pkgs/` folder. If one is not found, the interpreter will automatically create one. When attempting to import a package, the interpreter will look for the `pkgs/<package>/main.xpp` file. If one is not found, an error is thrown.
 
 Imported packages are only available in that one specific file. When attempting to use the package elsewhere, an error is thrown.
 
@@ -49,6 +49,6 @@ Currently, the [standard library](../standardLibrary.md) is built into the x++ i
 
 ---
 
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: April 9th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents--packages)

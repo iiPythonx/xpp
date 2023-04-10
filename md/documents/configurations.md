@@ -29,34 +29,19 @@
 
 - [Main](#main)
 
-### Q
-
-- [Quiet](#quiet)
-
 ## About
 
 The configuration file defines what the project would do on execution. It is always placed in the `.xtconfig` file and should be written as if it is within a `*.json` file. If one is not found in the project, the default configuration is used internally instead:
 
-```xtconfig
+```xconfig
 {
-    "main": "main.xt",
-    "quiet": false
+    "main": "main.xpp"
 }
 ```
-
-If an essential field is missing, it is replaced with a default value internally instead:
-
-```xtconfig
-{
-    "main": "main.xt"
-}
-```
-
-> Because the `quiet` field is missing, its default value, `false`, is used instead.
 
 The configuration file can also contain non-essential information, such as the author, version, or description of your project:
 
-```xtconfig
+```xconfig
 {
     "author": "my-name",
     "contributors": [
@@ -69,11 +54,13 @@ The configuration file can also contain non-essential information, such as the a
 }
 ```
 
+> This is part of the official .xconfig specification. In fact, `xpp --show <module>` will use this spec.
+
 ## Documentation
 
 ### Main
 
-```xtconfig
+```xconfig
 {
     "main": <path>
 }
@@ -83,26 +70,10 @@ Defines the path of the main entry file.
 
 | Parameter | Type | Default | Description |
 | :-: | :-: | :-: | :-: |
-| Path | String\<JSON> | "main.xt" | Main entry file path relative to the current working directory |
+| Path | String\<JSON> | "main.xpp" | Entrypoint relative to the current package (or cwd if it's a file) |
 
 ---
 
-### Quiet
-
-```xtconfig
-{
-    "quiet": <option>
-}
-```
-
-Throws errors silently.
-
-| Parameter | Type | Default | Description |
-| :-: | :-: | :-: | :-: |
-| Option | Boolean\<JSON> | false | Whether or not to throw error silently |
-
----
-
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: April 9th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents--configurations)
