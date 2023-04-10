@@ -25,16 +25,16 @@
 
 A variable is a label that stores a value that can be referenced and modified at any time.
 
-Even though a variable can contain any character besides spaces, it is recommended to use only alphabetical letters. A variable is defined using the `psh` operator:
+Even though a variable can contain any character besides spaces, it is recommended to use only alphabetical letters. A variable is defined using the `var` operator:
 
 ```xpp
-psh 5 myInteger
+var myInteger 5
 ```
 
 A variable can then be referenced using the variable name:
 
 ```xpp
-out myInteger
+prt myInteger
 ```
 
 By default, a variable is scoped, or local, which means it can only be referenced within the section it was defined in. Once the section is ended, the variables are garbage collected to save memory.
@@ -44,37 +44,20 @@ There are two other types of variables, `file variable` and `global variable`. A
 A file variable is defined by appending an at symbol (`@`) in front of the variable name:
 
 ```xpp
-psh 5 @myInteger
+var @myInteger 5
 ```
 
-A global variable is defined by appending a hashtag (`#`) in front of the variable name:
+A global variable is unable to be defined using x++ syntax. However, you can use [Python Integration](../pythonAPI.md) to do so.
+
+Both local and file variables are automatically garbage collected, but they can also be manually deleted from RAM using the `rem` operator:
 
 ```xpp
-psh 5 #myInteger
+:: Removes BOTH myInteger AND @myInteger
+rem myInteger @myInteger
 ```
-
-Both file and global are not garbage collected and must be manually deleted from the memory using the `rem` operator:
-
-```xpp
-rem 5 @myInteger
-```
-
-Or:
-
-```xpp
-rem 5 #myInteger
-```
-
-A variable can also be constant, which means it cannot be deleted using the `rem` operator. A constant variable can be defined using the `cnst` operator:
-
-```xpp
-cnst 5 myInteger
-```
-
-Attempting to delete the variable will cause an error to be thrown. Note that even though a constant cannot be removed manually, it is still garbage collected if it is a local variable.
 
 ---
 
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: April 9th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents--variables)
