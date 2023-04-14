@@ -44,7 +44,6 @@ evl "print('hello, world! this is python')"
 ```  
 
 This "live" Python environment has access to the following globals:
-- `ctx` (should see no use; see [interpreter.py](https://github.com/iiPythonx/xpp/blob/main/xpp/core/interpreter.py))
 - `mem` (see [datastore.py](https://github.com/iiPythonx/xpp/blob/main/xpp/core/datastore.py))
 - `interpreter` (the x++ interpreter; see [interpreter.py](https://github.com/iiPythonx/xpp/blob/main/xpp/core/interpreter.py))
 - `vars` (all current variables; see [datastore.py](https://github.com/iiPythonx/xpp/blob/main/xpp/core/datastore.py))
@@ -77,8 +76,10 @@ Take the following Python module:
 ```py
 # example.py
 class XOperators:
-    def some_operator(ctx):
+    def some_operator(mem, args):
         print("Hello! some_operator is running!")
+        print(mem)  # Contains cli_vals, variables, and other things
+        print(args)  # List of Datastore() objects
 ```
 
 You can now use `some_operator` inside x++:
