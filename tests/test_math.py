@@ -7,7 +7,7 @@ sys.path.insert(1, str(pathlib.Path(__file__).parent.parent.resolve()))
 
 # Start testing
 from tests import start_tests
-start_tests([
+start_tests("Math", [
 
     # Addition testing
     ("add 2 3", 5),

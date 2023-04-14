@@ -13,12 +13,12 @@ section.initialize(inter.memory)
 inter.stack.append(section)
 
 # Start running x++ code
-def start_tests(tests: list) -> None:
-    table = Table(title = "x++ Math Test Results")
+def start_tests(name: str, tests: list) -> None:
+    table = Table(title = f"x++ {name} Test Results")
     [table.add_column(c) for c in ["Expression", "x++", "Expected", "Result"]]
     for test in tests:
         try:
-            resp = inter.execute(test[0], raise_exception = True)
+            resp = inter.execute(test[0])
 
         except Exception as e:
             resp = type(e).__name__
