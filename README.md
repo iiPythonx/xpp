@@ -108,8 +108,8 @@ For in-line Python integration, the `evl` operator lets you change the x++ runti
 
 ### Contributors
 
-- [iiPython](https://github.com/iiPythonx) - Lead Developer
-- [Dm123321_31mD](https://github.com/Dm12332131mD) - Developer + moral support
+- [iiPython](https://github.com/iiPythonx) - Lead developer
+- [DmmD Gaming](https://github.com/DmmDGM) - Standard library / suggestions
 
 ### Resources
 
@@ -118,6 +118,6 @@ For in-line Python integration, the `evl` operator lets you change the x++ runti
 
 ---
 
-Last Updated: April 1st, 2023 by iiPython
+Last Updated: April 13th, 2023 by iiPython
 
 [↑ Go To Top](#x)
