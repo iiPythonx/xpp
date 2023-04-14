@@ -1,6 +1,7 @@
 # Modules
 from rich import print as rp
 from rich.table import Table
+from types import FunctionType
 
 # Load xpp
 from xpp import Interpreter
@@ -23,11 +24,12 @@ def start_tests(name: str, tests: list) -> None:
         except Exception as e:
             resp = type(e).__name__
 
+        isf = isinstance(test[1], FunctionType)
         table.add_row(
             str(test[0]),
             str(resp),
-            str(test[1]),
-            "[green]✓ PASS[/]" if resp == test[1] else "[red]✕ FAIL[/]"
+            str(test[1] if not isf else "<Function>"),
+            "[green]✓ PASS[/]" if (test[1]() if isf else (resp == test[1])) else "[red]✕ FAIL[/]"
         )
 
     rp(table)
