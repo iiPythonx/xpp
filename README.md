@@ -114,7 +114,7 @@ For in-line Python integration, the `evl` operator lets you change the x++ runti
 ### Resources
 
 - [Github Repository](https://github.com/iiPythonx/xpp)
-- [Visual Studio Code x++ Extension](https://marketplace.visualstudio.com/items?itemName=iiPython.xpp)
+- [Visual Studio Code x++ Extension](https://marketplace.visualstudio.com/items?itemName=iiPython.xplusplus)
 
 ---
 
