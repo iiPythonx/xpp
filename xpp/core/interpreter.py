@@ -13,11 +13,6 @@ from ..exceptions import (
 )
 from ..modules.ops import opmap
 
-# Context class
-class Context(object):
-    def __init__(self, args: list, mem: Memory) -> None:
-        self.args, self.mem = args, mem
-
 # Interpreter class
 class Interpreter(object):
     def __init__(self, entrypoint: str, sections: list, **kwargs) -> None:
@@ -52,7 +47,7 @@ class Interpreter(object):
                 e.index = range(length, length + len(t))
                 raise e
 
-        return self.operators[tokens[0]](Context(datastores, self.memory))
+        return self.operators[tokens[0]](self.memory, datastores)
 
     def find_section(self, section: str) -> str:
         if "." not in section:

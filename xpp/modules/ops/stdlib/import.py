@@ -19,9 +19,9 @@ main_namespace = config.get("main", "main").split(os.sep)[-1].removesuffix(".xpp
 
 # Operators class
 class XOperators:
-    def imp(ctx) -> None:
-        ensure_arguments("imp", "imp <module[.py]> [as <namespace>]", ["module"], ctx.args)
-        module, module_location = ctx.args[0].value, None
+    def imp(mem, args: list) -> None:
+        ensure_arguments("imp", "imp <module[.py]> [as <namespace>]", ["module"], args)
+        module, module_location = args[0].value, None
 
         # Python module import
         def process_python_import(filepath: str) -> None:
@@ -29,13 +29,13 @@ class XOperators:
                 raise InvalidArgument(f"python module '{module}' does not exist!")
 
             opmap = import_opmap_from_file("", filepath)  # _module (import name)
-            ctx.mem.interpreter.operators = ctx.mem.interpreter.operators | opmap  # merge operators
+            mem.interpreter.operators = mem.interpreter.operators | opmap  # merge operators
             return
 
         if module[-3:] == ".py":
             if module.startswith("./"):
                 module = os.path.join(
-                    os.path.dirname(ctx.mem.interpreter.stack[-1].path),
+                    os.path.dirname(mem.interpreter.stack[-1].path),
                     module[2:]
                 )
 
@@ -45,7 +45,7 @@ class XOperators:
         orig_module = copyobj(module)
         if module.startswith("./"):
             module = module[2:].rstrip(".xpp")
-            module_location = os.path.dirname(ctx.mem.interpreter.stack[-1].path)
+            module_location = os.path.dirname(mem.interpreter.stack[-1].path)
 
         else:
             for location in search_locations:
@@ -63,7 +63,7 @@ class XOperators:
         module_files, custom_entrypoint = [], None
         if "." not in module:
             if orig_module.startswith("./"):
-                module_location = os.path.dirname(ctx.mem.interpreter.stack[-1].path)
+                module_location = os.path.dirname(mem.interpreter.stack[-1].path)
 
             xconfig, xc = os.path.join(module_location, ".xconfig"), {}
             if os.path.isfile(xconfig):
@@ -95,9 +95,9 @@ class XOperators:
         namespace = module
 
         # Check additional arguments
-        if len(ctx.args) >= 2:
-            operation = ctx.args[1].raw
-            value = (ctx.args[2].value or ctx.args[2].raw) if len(ctx.args) == 3 else None
+        if len(args) >= 2:
+            operation = args[1].raw
+            value = (args[2].value or args[2].raw) if len(args) == 3 else None
 
             # Check operations
             if operation == "as":
@@ -116,8 +116,8 @@ class XOperators:
                 source = fh.read()
 
             # Load to RAM
-            ctx.mem.interpreter.sections += load_sections(source, path, namespace)
-            ctx.mem.interpreter.run_section(f"{namespace}.main")
+            mem.interpreter.sections += load_sections(source, path, namespace)
+            mem.interpreter.run_section(f"{namespace}.main")
             loaded = True
             break
 

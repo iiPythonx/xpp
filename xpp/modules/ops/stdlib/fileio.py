@@ -10,8 +10,8 @@ class XOperators:
     overrides = {}
 
     # Handlers
-    def load(ctx) -> str:
-        ain, aout = fetch_io_args("load", "load <path> [encoding] [?output]", ["path"], ctx.args)
+    def load(mem, args: list) -> str:
+        ain, aout = fetch_io_args("load", "load <path> [encoding] [?output]", ["path"], args)
         if not isinstance(ain[0].value, str):
             raise InvalidArgument("load: path must be a string!")
 
@@ -24,8 +24,8 @@ class XOperators:
             [out.set(value) for out in aout]
             return value
 
-    def save(ctx) -> None:
-        ain, aout = fetch_io_args("save", "save <path> <value> [encoding]", ["path", "value"], ctx.args)
+    def save(mem, args: list) -> None:
+        ain, aout = fetch_io_args("save", "save <path> <value> [encoding]", ["path", "value"], args)
         if not isinstance(ain[0].value, str):
             raise InvalidArgument("save: path must be a string!")
 

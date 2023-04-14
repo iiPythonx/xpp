@@ -12,25 +12,25 @@ class XOperators:
     overrides = {"exit_": "exit"}
 
     # Handlers
-    def cls(ctx) -> None:
+    def cls(mem, args: list) -> None:
         print("\033c\033[3J", end = "")
 
-    def exit_(ctx) -> None:
-        sys.exit(ctx.args[0].value if ctx.args else 0)
+    def exit_(mem, args: list) -> None:
+        sys.exit(args[0].value if args else 0)
 
-    def prt(ctx) -> None:
-        print(*[v.value for v in ctx.args])
+    def prt(mem, args: list) -> None:
+        print(*[v.value for v in args])
 
-    def read(ctx) -> None:
-        ain, aout = fetch_io_args("read", "read [prompt] [?output]", [], ctx.args)
+    def read(mem, args: list) -> None:
+        ain, aout = fetch_io_args("read", "read [prompt] [?output]", [], args)
         res = input(str(ain[0].value) if ain else "")
         [out.set(res) for out in aout]
 
-    def thrw(ctx) -> None:
-        raise Exception(ctx.args[0].value if ctx.args else "exception thrown in xpp thread.")
+    def thrw(mem, args: list) -> None:
+        raise Exception(args[0].value if args else "exception thrown in xpp thread.")
 
-    def wait(ctx) -> None:
-        ain, aout = fetch_io_args("wait", "wait <time>", ["time"], ctx.args)
+    def wait(mem, args: list) -> None:
+        ain, aout = fetch_io_args("wait", "wait <time>", ["time"], args)
         if not isinstance(ain[0].value, (int, float)):
             raise InvalidArgument("wait: time must be either an integer or float!")
 

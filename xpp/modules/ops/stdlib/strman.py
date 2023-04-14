@@ -26,8 +26,8 @@ class XOperators:
     }
 
     # Handlers
-    def chr_(ctx) -> str:
-        ain, aout = fetch_io_args("chr", "chr <string> <index> [stop] [?output]", ["string", "index"], ctx.args)
+    def chr_(mem, args: list) -> str:
+        ain, aout = fetch_io_args("chr", "chr <string> <index> [stop] [?output]", ["string", "index"], args)
         val, index, stop = ain[0].value, ain[1].value, ain[2].value if len(ain) >= 3 else None
         if not isinstance(val, str):
             raise InvalidArgument("chr: first argument must be a string!")
@@ -40,12 +40,12 @@ class XOperators:
         [out.set(res) for out in aout]
         return res
 
-    def flt_(ctx) -> float:
-        ain, aout = fetch_io_args("flt", "flt <value> [?output]", ["value"], ctx.args)
+    def flt_(mem, args: list) -> float:
+        ain, aout = fetch_io_args("flt", "flt <value> [?output]", ["value"], args)
         return convert_value(ain, aout, float)
 
-    def idx(ctx) -> int:
-        ain, aout = fetch_io_args("idx", "idx <string> <substr> [?output]", ["string", "substr"], ctx.args)
+    def idx(mem, args: list) -> int:
+        ain, aout = fetch_io_args("idx", "idx <string> <substr> [?output]", ["string", "substr"], args)
         if any([not isinstance(x.value, str) for x in ain]):
             raise InvalidArgument("idx: both arguments must be strings!")
 
@@ -53,12 +53,12 @@ class XOperators:
         [out.set(val) for out in aout]
         return val
 
-    def int_(ctx) -> int:
-        ain, aout = fetch_io_args("int", "int <value> [?output]", ["value"], ctx.args)
+    def int_(mem, args: list) -> int:
+        ain, aout = fetch_io_args("int", "int <value> [?output]", ["value"], args)
         return convert_value(ain, aout, int)
 
-    def len_(ctx) -> int:
-        ain, aout = fetch_io_args("len", "len <string> [?output]", ["string"], ctx.args)
+    def len_(mem, args: list) -> int:
+        ain, aout = fetch_io_args("len", "len <string> [?output]", ["string"], args)
         if not isinstance(ain[0].value, str):
             raise InvalidArgument("len: argument must be a string!")
 
@@ -66,8 +66,8 @@ class XOperators:
         [out.set(val) for out in aout]
         return val
 
-    def lwr(ctx) -> str:
-        ain, aout = fetch_io_args("lwr", "lwr <string> [?output]", ["string"], ctx.args)
+    def lwr(mem, args: list) -> str:
+        ain, aout = fetch_io_args("lwr", "lwr <string> [?output]", ["string"], args)
         val = str(ain[0].value).lower()
         if aout:
             [out.set(val) for out in aout]
@@ -77,12 +77,12 @@ class XOperators:
 
         return val
 
-    def str_(ctx) -> str:
-        ain, aout = fetch_io_args("str", "str <value> [?output]", ["value"], ctx.args)
+    def str_(mem, args: list) -> str:
+        ain, aout = fetch_io_args("str", "str <value> [?output]", ["value"], args)
         return convert_value(ain, aout, str)
 
-    def upr(ctx) -> str:
-        ain, aout = fetch_io_args("upr", "upr <string> [?output]", ["string"], ctx.args)
+    def upr(mem, args: list) -> str:
+        ain, aout = fetch_io_args("upr", "upr <string> [?output]", ["string"], args)
         val = str(ain[0].value).upper()
         if aout:
             [out.set(val) for out in aout]
