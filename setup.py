@@ -2,7 +2,7 @@
 
 # Modules
 import pathlib
-from setuptools import setup, find_packages
+from setuptools import setup
 
 # Initialization
 top = pathlib.Path(__file__).parent.resolve()
@@ -27,7 +27,7 @@ setup(
         "Topic :: Software Development",
     ],
     keywords = "xpp, parser, language, interpreter",
-    packages = find_packages(),
+    packages = ["xpp"],
     python_requires = ">=3.10, <4",
     extras_require = {
         "dev": ["twine"],
