@@ -1,11 +1,24 @@
 # Copyright 2023 iiPython
 
 # Modules
+import os
 import pathlib
+from typing import List
 from setuptools import setup
 
 # Initialization
 top = pathlib.Path(__file__).parent.resolve()
+
+# Custom implementation of find_packages()
+def find_packages() -> List[str]:
+    packages = []
+    for path, _, __ in os.walk("xpp"):
+        if path.split(os.sep)[-1][:2] == "__":  # Ignore pycache
+            continue
+
+        packages.append(path.replace(os.sep, "."))
+
+    return packages
 
 # Setup call
 setup(
@@ -27,7 +40,7 @@ setup(
         "Topic :: Software Development",
     ],
     keywords = "xpp, parser, language, interpreter",
-    packages = ["xpp"],
+    packages = find_packages(),
     python_requires = ">=3.10, <4",
     extras_require = {
         "dev": ["twine"],
