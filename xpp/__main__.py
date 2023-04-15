@@ -70,6 +70,9 @@ See '{sys.executable} -m xpp -hl' for more detailed usage."""
         return sys.exit(self.install_path)
 
     def show_module(self) -> None:
+        if self.filepath is None:
+            return exit("usage: xpp -s <module>")
+
         module_path = os.path.join(self.install_path, "pkgs", self.filepath.replace(".", os.sep))
         if not os.path.isdir(module_path):
             return exit("no such module: " + self.filepath)
