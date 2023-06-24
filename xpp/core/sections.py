@@ -40,7 +40,7 @@ class Section(object):
         if self.path in self._mem.variables["file"]:
 
             # Check that this is the last running scope in our file before garbage collecting
-            ns = self.path.replace("\\", "/").split("/")[-1].removesuffix(".x2")
+            ns = self.path.replace("\\", "/").split("/")[-1].removesuffix(".xpp")
             if [s for s in self._mem.variables["scope"] if s.split(".")[0] == ns] == [self.sid]:
                 del self._mem.variables["file"][self.path]
 
