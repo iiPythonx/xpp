@@ -66,7 +66,7 @@ class XOperators:
                 module_location = os.path.dirname(mem.interpreter.stack[-1].path)
 
             xconfig, xc = os.path.join(module_location, ".xconfig"), {}
-            if os.path.isfile(xconfig):
+            if os.path.isfile(xconfig) and module_location != os.getcwd():
                 try:
                     with open(xconfig, "r") as fh:
                         xc = json.loads(fh.read())
