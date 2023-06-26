@@ -87,28 +87,53 @@ def recurse_sub_variables(optimized_tree: FlowTree, variable_counts: dict) -> No
 
     `x` is referenced on lines 1 and 2, meaning `variable_counts` would be `{ "x": [1, 2] }`.
     """
-    var_statements, subbed = [ln for ln in optimized_tree if ln and (ln[0] == opmap["var"])], False
+    var_statements, subbed = [(i, ln) for i, ln in enumerate(optimized_tree) if ln and (ln[0] == opmap["var"])], False
+
+    # Clean up reassigned variables
+    for i, var in enumerate(var_statements[::-1]):
+        for other_var in var_statements[:-i]:
+            if (other_var[1][1] == var[1][1]) and (other_var[0] == var[0] - 1):
+                var_statements.remove(other_var)
+                optimized_tree.remove(other_var[1])
+                variable_counts[var[1][1]].remove(other_var[0])
+
     for variable, var_lines in variable_counts.items():
-        if (len(var_lines) != 2) or not all([optimized_tree[ln] for ln in var_lines]):
+        if (len(var_lines) < 2) or not all([optimized_tree[ln] for ln in var_lines]):
             continue
 
         # Guess the current value
-        var_value = None
-        for line in var_statements:
-            if line[1] != variable:
+        var_values = [vs for vs in var_statements if vs[1][1] == variable]
+        for ln in var_lines:
+            line = optimized_tree[ln]
+            if (line[0].__name__ == "var") and (line[1] == variable):
                 continue
 
-            var_value = line[2]
+            possible_vals = [v for v in var_values if (v[0] <= ln) and (optimized_tree[v[0]] is not None)]
+            if not possible_vals:
+                break
 
-        if not is_literal(var_value):
-            continue  # Ignore this variable, too complicated for me
+            value = possible_vals[-1][1][2]
+            if not is_literal(value):
+                break  # Ignore this variable, too complicated for me
 
-        # Replace lines
-        optimized_tree[var_lines[1]] = [
-            p if p != variable else var_value
-            for p in list(optimized_tree[var_lines[1]])
-        ]
-        optimized_tree[var_lines[0]], subbed = None, True
+            elif variable not in line:
+                break
+
+            optimized_tree[ln] = [
+                p if p != variable else value
+                for p in list(line)
+            ]
+
+            # Remove the previous line from existance
+            # Why not just use (ln - 1)? I have no clue, but it doesn't work sometimes.
+            # Why does THIS work? Absolutely no fuckin' idea.
+            if optimized_tree[possible_vals[0][0]] != optimized_tree[ln]:
+                optimized_tree[possible_vals[0][0]] = None
+
+            else:
+                optimized_tree[ln - 1] = None
+
+            subbed = True
 
     # Keep recursing as long as we're changing things
     if subbed:

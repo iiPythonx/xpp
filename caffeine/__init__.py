@@ -1,4 +1,4 @@
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 
 from .core.interpreter import Interpreter  # noqa: F401
 from .modules.analysis import construct_flow_tree  # noqa: F401

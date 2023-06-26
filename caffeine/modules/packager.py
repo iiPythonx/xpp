@@ -36,3 +36,7 @@ def package_tree(tree: FlowTree) -> str:
         new_tree.append(tuple([obj[0].__name__, *obj[1:]]))
 
     return dumps(new_tree, separators = (",", ""))
+
+# tree_to_xpp
+def tree_to_xpp(tree: FlowTree) -> str:
+    return "\n".join([f"{line[0].__name__} {' '.join([str(a) for a in line[1:]])}" for line in tree])

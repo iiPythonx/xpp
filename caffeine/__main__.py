@@ -5,8 +5,8 @@ import sys
 import subprocess
 from pathlib import Path
 from .modules.optimize import optimize
-from .modules.packager import package_tree
 from .modules.analysis import construct_flow_tree
+from .modules.packager import package_tree, tree_to_xpp
 
 # Initialization
 def main() -> None:
@@ -19,6 +19,7 @@ def main() -> None:
             options:
                 -o: overwrites the existing destination file (if it exists)
                 -r: runs the output file after compilation is complete
+                -x: output an x++ file instead of Python
 
             copyright (c) 2023 iipython
             https://github.com/iiPythonx/xpp/tree/main/caffeine
@@ -27,10 +28,10 @@ def main() -> None:
 
     # Load source file
     def ext(path: str, extension: str) -> str:
-        return path if path.endswith(extension) else f"{path}.{extension}"
+        return path if path.endswith(extension) else f"{path}_out.{extension}"
 
     source, destination = Path(ext(args[0], "xpp")), \
-        Path(ext((args[1] if len(args) > 1 else args[0]).rstrip(".xpp"), "py"))
+        Path(ext((args[1] if len(args) > 1 else args[0]).rstrip(".xpp"), "py" if "-x" not in sys.argv else "xpp"))
 
     # Pre-compile sanity checks
     if destination.is_file() and ("-o" not in sys.argv):
@@ -42,13 +43,17 @@ def main() -> None:
     # Compile everything
     with open(destination, "w+") as fh:
         with open(source, "r") as sc:
-            tree = package_tree(optimize(construct_flow_tree(sc.read())))
+            tree = optimize(construct_flow_tree(sc.read()))
+            if "-x" in sys.argv:
+                fh.write(tree_to_xpp(tree))
 
-        fh.write(f"from caffeine import Interpreter as i;t=i();t.run_tree({tree})")
+            else:
+                fh.write(f"from caffeine import Interpreter as i;t=i();t.run_tree({package_tree(tree)})")
 
     # Handle running
     if "-r" in sys.argv:
-        subprocess.run([sys.executable, destination])
+        xpp_args = ["-m", "xpp"]
+        subprocess.run([sys.executable, *(xpp_args if "-x" in sys.argv else []), destination])
 
 if __name__ == "__main__":
     main()
