@@ -12,7 +12,7 @@ from .modules.analysis import construct_flow_tree
 def main() -> None:
     args = [a for a in sys.argv[1:] if a[0] != "-"]
     if not args:
-        exit("\n".join([(ln.split(" " * 12)[1] if ln.strip() else ln) for ln in f"""
+        print("\n".join([(ln.split(" " * 12)[1] if ln.strip() else ln) for ln in f"""
             caffeine - an efficient x++ compiler
             usage: {sys.executable} -m caffeine [-o -r] <source file> [output file]
 
@@ -23,6 +23,7 @@ def main() -> None:
             copyright (c) 2023 iipython
             https://github.com/iiPythonx/xpp/tree/main/caffeine
         """.split("\n")[1:][:-1]]))
+        exit(0)
 
     # Load source file
     def ext(path: str, extension: str) -> str:

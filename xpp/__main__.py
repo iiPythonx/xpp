@@ -49,7 +49,8 @@ See '{sys.executable} -m xpp -hl' for more detailed usage."""
                 opt["fn"]()
 
     def show_help(self) -> None:
-        return sys.exit(self.usage)
+        print(self.usage)
+        return sys.exit(0)
 
     def show_help_long(self) -> None:
         print("\n".join(self.usage.split("\n")[:-1]))
