@@ -140,22 +140,25 @@ def recurse_sub_variables(optimized_tree: FlowTree, variable_counts: dict) -> No
         recurse_sub_variables(optimized_tree, variable_counts)
 
 # Handle optimizing a flow tree
-def optimize(tree: FlowTree) -> FlowTree:
+def optimize(tree: FlowTree, level: int = 3) -> FlowTree:
     """Takes a :class:`FlowTree` and performs various optimizations on it to reduce the amount
     of operator calls and parsing required by the interpreter. It currently calls `recurse_sub_operations`
     and `recurse_sub_variables` recursively until `recurse_sub_operations` returns `False`.
 
     Parameters:
         tree (:class:`FlowTree`): The :class:`FlowTree` to modify
+        level (:class:`int`, optional) The optimization level to use
 
     Returns:
         :class:`FlowTree`: The optimized :class:`FlowTree`
     """
+
     changed = True
     while changed:
         ntree, vcounts = recurse_sub_operations([obj for obj in tree if obj is not None])
         changed = tree != ntree
         tree = ntree
-        recurse_sub_variables(tree, vcounts)
+        if level == 2:
+            recurse_sub_variables(tree, vcounts)
 
     return tree
