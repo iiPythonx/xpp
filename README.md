@@ -1,10 +1,26 @@
-# x++
+<div align = "center">
+    <img src = "./assets/xpp.png" alt = "x++ logo" id = "logo">
+    <hr>
+    <p>an interpreted, minimalistic programming language</p>
+    <img alt="License" src="https://img.shields.io/github/license/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Downloads" src="https://img.shields.io/github/downloads/IiPythonx/xpp/total.svg?color=c3e7ff&style=flat-square">
+    <img alt="Last commit" src="https://img.shields.io/github/last-commit/IiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Repo size" src="https://img.shields.io/github/repo-size/IiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Stars" src="https://img.shields.io/github/stars/IiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <hr>
+</div>
 
-## Introduction
+<!-- ---- Introduction ---- -->
+<h2 align = "center" id = "introduction">
+    Introduction
+</h2>
 
 Welcome to the official documentation for x++! This documentation will get you started in the development of your first x++ project or will help you learn more about x++ in general with in-depth explanations and tutorials.  
 
-## Table of Contents
+<!-- ---- TOC ---- -->
+<h2 align = "center" id = "table-of-contents">
+    Table of Contents
+</h2>
 
 - **Home ▾**
     - [Introduction](#introduction)
@@ -23,7 +39,10 @@ Welcome to the official documentation for x++! This documentation will get you s
 - [Python API](./md/pythonAPI.md)
 - [Standard Library](./md/standardLibrary.md)
 
-## About
+<!-- ---- About ---- -->
+<h2 align = "center" id = "about">
+    About
+</h2>
 
 x++ (Pronounced "ex-plus-plus") is a high-level, interpreted language written in Python by [iiPython](https://github.com/iiPythonx) with low-level syntax, similar to that of [x86 Assembly](https://en.wikipedia.org/wiki/X86_assembly_language) (and additionally inspired by [Batch](https://en.wikipedia.org/wiki/Batch_file)).
 
@@ -36,7 +55,10 @@ x++ contains features such as:
 - Object-oriented programming through the use of files
 - ... much more!
 
-## Getting Started
+<!-- ---- Getting started ---- -->
+<h2 align = "center" id = "getting-started">
+    Getting Started
+</h2>
 
 ### Step 1: Installation
 
@@ -91,8 +113,12 @@ Currently, you should see the terminal output:
 ```
 "Hello, world!"
 ```
+> You can also compile your xpp code into Python using [caffeine](./md/caffeine.md).
 
-## Frequently Asked Questions
+<!-- ---- FAQ ---- -->
+<h2 align = "center">
+    Frequently Asked Questions
+</h2>
 
 ### Q: Why is it called x++?
 
@@ -101,10 +127,12 @@ Starting on March 6th, 2023, x2 was deprecated in favor of x++ as the language w
 
 ### Q: Can I use x++ for data management, game design, or simply for fun?
 
-Thanks to the ability to import Python files via the `imp` operator, you can do pretty much anything with vanilla x++.  
-For in-line Python integration, the `evl` operator lets you change the x++ runtime on demand.
+Most of the things you could think of making are able to be created within x++. However, you can also supercharge xpp with the power of Python; [see here](./md/pythonAPI.md).
 
-## Credits & Links
+<!-- ---- Contrib + resources ---- -->
+<h2 align = "center">
+    Credits & Links
+</h2>
 
 ### Contributors
 
@@ -118,6 +146,6 @@ For in-line Python integration, the `evl` operator lets you change the x++ runti
 
 ---
 
-Last Updated: April 13th, 2023 by iiPython
+Last Updated: July 5th, 2023 by iiPython
 
-[↑ Go To Top](#x)
+[↑ Go To Top](#introduction)

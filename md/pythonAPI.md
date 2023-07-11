@@ -11,6 +11,7 @@
     - [Inline statements](#inline-statements)
     - [Python modules](#python-modules)
     - [Python inside .xconfig](#python-inside-xconfig)
+- [Caffeine](./caffeine.md)
 - [Standard Library](./standardLibrary.md)
 
 ## Introduction

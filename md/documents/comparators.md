@@ -59,31 +59,31 @@ Comparators are symbols or keywords that compare two different variables or valu
 
 Expressions are segments in the code that creates a branch in the x++ thread. They are always made up of three components: the `source`, the `comparator`, and the `target`, and they are arranged like so:
 
-```xt
+```xpp
 <source> <comparator> <target>
 ```
 
 For example:
 
-```xt
+```xpp
 5 == 5
 ```
 
 Or:
 
-```xt
+```xpp
 "hello" in "hello world"
 ```
  
 An expression cannot be used on its own, as it is not considered as an operator and thus not a valid statement. It is always accompanied by operators that take an expression as an argument. A classic example of this is the `if` operator:
 
-```xt
+```xpp
 if (5 == 5) "prt 'true'"
 ```
 
 Any operator that uses an expression creates a branch, with `true` being the first branch and the second acts as an `else`. For example, the `if` operator creates a branch based on whether or not the expression is true:
 
-```xt
+```xpp
 if (5 == 10) "prt 'same'" "prt 'different'"
 ```
 
@@ -91,7 +91,7 @@ if (5 == 10) "prt 'same'" "prt 'different'"
 
 ### Equal To
 
-```xt
+```xpp
 <source> == <target>
 ```
 
@@ -104,7 +104,7 @@ Checks if the two variables or values are equal to each other.
 
 Example:
 
-```xt
+```xpp
 if (5 == 5) "prt 'true'"
 ```
 
@@ -112,7 +112,7 @@ if (5 == 5) "prt 'true'"
 
 ### Not Equal To
 
-```xt
+```xpp
 <source> != <target>
 ```
 
@@ -125,7 +125,7 @@ Checks if the two variables or values are different from each other.
 
 Example:
 
-```xt
+```xpp
 if (5 != 10) "prt 'true'"
 ```
 
@@ -133,7 +133,7 @@ if (5 != 10) "prt 'true'"
 
 ### Less Than
 
-```xt
+```xpp
 <source> < <target>
 ```
 
@@ -146,7 +146,7 @@ Checks if the source is less than the target.
 
 Example:
 
-```xt
+```xpp
 if (5 < 10) "prt 'true'"
 ```
 
@@ -154,7 +154,7 @@ if (5 < 10) "prt 'true'"
 
 ### Less Than or Equal To
 
-```xt
+```xpp
 <source> <= <target>
 ```
 
@@ -167,7 +167,7 @@ Checks if the source is less than or equal to the target.
 
 Example:
 
-```xt
+```xpp
 if (5 <= 10) "prt 'true'"
 ```
 
@@ -175,7 +175,7 @@ if (5 <= 10) "prt 'true'"
 
 ### Greater Than
 
-```xt
+```xpp
 <source> > <target>
 ```
 
@@ -188,7 +188,7 @@ Checks if the source is greater than the target.
 
 Example:
 
-```xt
+```xpp
 if (10 > 5) "prt 'true'"
 ```
 
@@ -196,7 +196,7 @@ if (10 > 5) "prt 'true'"
 
 ### Greater Than or Equal To
 
-```xt
+```xpp
 <source> >= <target>
 ```
 
@@ -209,7 +209,7 @@ Checks if the source is greater than or equal to the target.
 
 Example:
 
-```xt
+```xpp
 if (10 >= 5) "prt 'true'"
 ```
 
@@ -217,7 +217,7 @@ if (10 >= 5) "prt 'true'"
 
 ### In
 
-```xt
+```xpp
 <source> in <target>
 ```
 
@@ -230,7 +230,7 @@ Checks if the source is in the target.
 
 Example:
 
-```xt
+```xpp
 if ("ello" in "Hello, world!") "prt 'true'"
 ```
 
@@ -238,7 +238,7 @@ if ("ello" in "Hello, world!") "prt 'true'"
 
 ### Not In
 
-```xt
+```xpp
 <source> not in <target>
 ```
 
@@ -251,7 +251,7 @@ Checks if the source is not in the target.
 
 Example:
 
-```xt
+```xpp
 if ("bye" not in "Hello, world!") "prt 'true'"
 ```
 
@@ -259,7 +259,7 @@ if ("bye" not in "Hello, world!") "prt 'true'"
 
 ### Is
 
-```xt
+```xpp
 <source> is <target>
 ```
 
@@ -272,7 +272,7 @@ Checks if the source is a type of the target.
 
 Example:
 
-```xt
+```xpp
 if (5 is "int") "prt 'true'"
 ```
 

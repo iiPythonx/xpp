@@ -28,13 +28,13 @@ Comments are a segment of code that is ignored by the interpreter. They provide 
 
 A comment always starts with two colons `::` and can be placed at the end of any line:
 
-```xt
+```xpp
 :: This is a comment
 prt 5  :: This is an inline comment
 ```
 
 ---
 
-Last Updated: April 9th, 2023 by iiPython
+Last Updated: July 5th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents--comments)

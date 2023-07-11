@@ -17,6 +17,7 @@
         - [Sections](./documents/sections.md)
         - [Variables](./documents/variables.md)
 - [Python API](./pythonAPI.md)
+- [Caffeine](./caffeine.md)
 - [Standard Library](./standardLibrary.md)
 
 ## About

@@ -13,6 +13,7 @@
         - [4. Calculator](./tutorials/4calculator.md)
 - [Documents](./documents.md)
 - [Python API](./pythonAPI.md)
+- [Caffeine](./caffeine.md)
 - [Standard Library](./standardLibrary.md)
 
 ## About
