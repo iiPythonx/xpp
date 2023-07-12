@@ -39,6 +39,6 @@ If you are looking for a beginner's guide for x++, check out the [tutorials](./t
 
 ---
 
-Last Updated: February 6th, 2022 by Dm123321_31mD
+Last Updated: July 5th, 2023 by iiPython
 
 [↑ Go To Top](#x--documents)

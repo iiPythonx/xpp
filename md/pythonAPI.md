@@ -112,6 +112,6 @@ some_operator
 
 ---
 
-Last Updated: April 1st, 2023 by iiPython
+Last Updated: July 5th, 2023 by iiPython
 
 [↑ Go To Top](#x--python-api)
