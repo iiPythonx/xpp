@@ -48,6 +48,10 @@
 
 - [Float](#float)
 
+### G
+
+- [Get](#get)
+
 ### I
 
 - [If](#if)
@@ -70,10 +74,16 @@
 
 - [Multiply](#multiply)
 
+### N
+
+- [New](#new)
+
 ### P
 
+- [Pop](#pop)
 - [Power](#power)
 - [Print](#print)
+- [Push](#push)
 
 ### R
 
@@ -86,6 +96,7 @@
 ### S
 
 - [Save](#save)
+- [Set](#set)
 - [String](#string)
 - [Subtract](#subtract)
 
@@ -325,6 +336,32 @@ Output is **not** required, however the operator call will do nothing if no outp
 | Output | [Variable](./variables.md) | ✓ | The converted float value |
 
 Returns: [Float](./dataTypes.md#float)
+
+Example:
+
+```xpp
+flt "5" ?myFloat
+prt myFloat
+```
+
+---
+
+### Get
+
+```xpp
+get <object> <key> [?output]
+```
+
+Retrieves the specified key from the given object.  
+If object is a list, retrieve the value at index `key`.
+
+| Parameter | Type | Optional | Description |
+| :-: | :-: | :-: | :-: |
+| Object | **Dict** | | The source object |
+| Key | **Any** | | The key to retrieve |
+| Output | [Variable](./variables.md) | ✓ | The retrieved value |
+
+Returns: **Any**
 
 Example:
 
@@ -592,6 +629,31 @@ prt product
 
 ---
 
+### New
+
+```xpp
+new <type> [?output]
+```
+
+Creates a new object of the specified type, returning it.
+
+| Parameter | Type | Optional | Description |
+| :-: | :-: | :-: | :-: |
+| Type| [String](./dataTypes.md#string) | | 'list' or 'dict' |
+| Output | [Variable](./variables.md) | ✓ | The new object |
+
+Returns: **List** or **Dict**
+
+Example:
+
+```xpp
+new "list" ?list
+prt list
+:: []
+```
+
+---
+
 ### Integer
 
 ```xpp
@@ -614,6 +676,55 @@ Example:
 int "5" ?myInteger
 prt myInteger
 :: 5
+```
+
+---
+
+### Print
+
+```xpp
+prt [...value]
+```
+
+Prints value(s) into the terminal.
+
+| Parameter | Type | Optional | Description |
+| :-: | :-: | :-: | :-: |
+| Value | Any | ✓ | The target value(s) |
+
+Returns: [Null](./dataTypes.md#null)
+
+Example:
+
+```xpp
+prt "Hello, world!"
+```
+
+---
+
+### Pop
+
+```xpp
+pop <list> [?output]
+```
+
+Removes the last item from a list and returns it.
+
+| Parameter | Type | Optional | Description |
+| :-: | :-: | :-: | :-: |
+| List | **List** | | The list to use |
+| Output | [Variable](./variables.md) | ✓ | The last item |
+
+Returns: **Any**
+
+Example:
+
+```xpp
+new "list" ?list
+psh list 5
+pop list ?result
+prt result list
+:: 5 []
 ```
 
 ---
@@ -645,24 +756,28 @@ prt result
 
 ---
 
-### Print
+### Push
 
 ```xpp
-prt [...value]
+psh <list> <value>
 ```
 
-Prints value(s) into the terminal.
+Pushes an item into a list's stack.
 
 | Parameter | Type | Optional | Description |
 | :-: | :-: | :-: | :-: |
-| Value | Any | ✓ | The target value(s) |
+| List | **List** | | The list to use |
+| Value | **Any** | | The item to push |
 
 Returns: [Null](./dataTypes.md#null)
 
 Example:
 
 ```xpp
-prt "Hello, world!"
+new "list" ?list
+psh list 5
+prt list
+:: [5]
 ```
 
 ---
@@ -835,6 +950,35 @@ Example:
 
 ```xpp
 save "file.xpp" "Hello, world!" "utf8"
+```
+
+---
+
+### Set
+
+```xpp
+set <dict> <key> <value>
+```
+
+Sets a key-value pair inside the given dictionary.
+
+| Parameter | Type | Optional | Description |
+| :-: | :-: | :-: | :-: |
+| Dict | **Dict** | | The dict to update |
+| Key | **Any** | | The key to use |
+| Value | **Any** | | The value of the key |
+
+Returns: [Null](./dataTypes.md#null)
+
+Example:
+
+```xpp
+new "dict" ?dict
+set dict "x" "Hello, world!"
+prt (get dict "x")
+:: Hello, world!
+prt dict
+:: { "x": "Hello, world!" }
 ```
 
 ---
