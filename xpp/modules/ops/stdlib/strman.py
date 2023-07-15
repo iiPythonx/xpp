@@ -22,7 +22,7 @@ def convert_value(ain: List[Datastore], aout: List[Datastore], handler: Function
 class XOperators:
     overrides = {
         "chr_": "chr", "str_": "str", "flt_": "flt",
-        "int_": "int"
+        "int_": "int", "len_": "len"
     }
 
     # Handlers
