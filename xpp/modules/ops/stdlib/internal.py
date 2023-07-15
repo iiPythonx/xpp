@@ -77,7 +77,7 @@ class XOperators:
     def try_(mem, args: list) -> None:
         ain, aout = fetch_io_args("try", "try <expr> [error_branch]", ["expr"], args)
         try:
-            mem.interpreter.execute(str(ain[0].value), raise_exception = True)
+            mem.interpreter.execute(str(ain[0].value))
 
         except Exception:
             if len(ain) == 1:
