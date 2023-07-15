@@ -47,7 +47,12 @@ class Datastore(object):
                (self.raw[0] == "'" and self.raw[-1] == "'"):
                 value = self.raw[1:][:-1].replace("\\\"", "\"")
                 for item in re.findall(_format_regex, value):
-                    result = self.mem.interpreter.execute(item[2:][:-1])
+                    tokens, obj, reference = item[2:][:-1].split(" "), None, False
+                    if len(tokens) < 2:
+                        obj = Datastore(self.mem, tokens[0])
+                        reference = obj.id_ in obj.store
+
+                    result = self.mem.interpreter.execute(item[2:][:-1]) if not reference else obj.value
                     value = value.replace(item, str(result if result is not None else ""))
 
                 return value.encode("latin-1", "backslashreplace").decode("unicode-escape")  # String literal
