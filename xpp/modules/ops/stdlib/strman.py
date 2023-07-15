@@ -12,7 +12,7 @@ from xpp.core.datastore import Datastore
 def convert_value(ain: List[Datastore], aout: List[Datastore], handler: FunctionType) -> Any:
     try:
         value = handler(ain[0].value)
-        [out.set(value) for out in aout]
+        [out.set(value) for out in aout + [ain[0]]]
         return value
 
     except ValueError:
