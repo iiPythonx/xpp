@@ -104,7 +104,7 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
                 )
 
             elif lines:
-                index = -1 if not isinstance(lines[-1], int) else -2
+                index = -1 if (not isinstance(lines[-1], int)) or (len(lines) < 2) else -2
                 if isinstance(lines[index], str) and lines[index][-1] == "\\":
                     lines[index] = lines[index][:-1] + line
                     process_whitespace(lines)

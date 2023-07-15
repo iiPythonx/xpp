@@ -10,7 +10,11 @@ from importlib.util import (
 # Class handler
 def generate_opmap(ops) -> dict:
     overrides = getattr(ops, "overrides", {})
-    return {overrides.get(obj, obj): getattr(ops, obj) for obj in dir(ops) if obj[0] != "_"}
+    return {
+        overrides.get(obj, obj): getattr(ops, obj)
+        for obj in dir(ops)
+        if obj[0] != "_" and obj != "overrides"
+    }
 
 # Module importer
 supported_opmaps = [

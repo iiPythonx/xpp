@@ -5,6 +5,7 @@ import re
 from typing import Any
 
 from .tokenizer import tokenize
+from ..exceptions import InvalidSyntax
 from ..modules.simpleeval import simple_eval
 
 # Initialization
@@ -14,9 +15,7 @@ _format_regex = re.compile(r"\$\([^)]*\)")
 class Memory(object):
     def __init__(self, **kwargs) -> None:
         self.sections = {}
-        self.variables = {"global": {
-            "true": True, "false": False, "null": None
-        }, "file": {}, "scope": {}}
+        self.variables = {"file": {}, "scope": {}}
 
         # Garbage attributes
         [setattr(self, name, kwarg) for name, kwarg in kwargs.items()]
@@ -40,6 +39,18 @@ class Datastore(object):
     def _parse(self) -> Any:
         if not self.raw:
             return
+
+        # Check for expression groups
+        if self.raw[0] == "{" and self.raw[-1] == "}":
+            statement = self.raw.strip("{}").strip()
+            if statement.split(" ")[0] not in self.mem.interpreter.operators:  # This is very hacky, to be rewritten
+                raise InvalidSyntax(
+                    "bracket syntax can only store an operator statement",
+                    0,
+                    self.mem.interpreter.stack
+                )
+
+            return statement
 
         # Check for strings
         if self.raw[0] in ["\"", "'", "("]:
@@ -75,10 +86,11 @@ class Datastore(object):
 
         # Check for ints/floats
         if self.raw[0].isdigit() or self.raw[0] in "+-":
-            if "." in self.raw:
-                return float(self.raw)
+            val = float(self.raw)
+            if val.is_integer():
+                return int(val)
 
-            return int(self.raw)
+            return val
 
         # Handle variable
         self.refresh = self.refreshv

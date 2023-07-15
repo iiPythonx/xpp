@@ -5,8 +5,8 @@ import json
 from ..exceptions import InvalidSyntax
 
 # Block handler
-block_starts = ["(", "\"", "'"]
-block_ends = [")", "\"", "'"]
+block_starts = ["(", "\"", "'", "{"]
+block_ends = [")", "\"", "'", "}"]
 
 # Tokenizer
 def tokenize(line: str) -> list:
