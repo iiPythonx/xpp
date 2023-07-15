@@ -103,10 +103,12 @@ def load_sections(source: str, filepath: str, namespace: str = None) -> list:
                     index = len(line) - 1
                 )
 
-            elif lines and isinstance(lines[-1], str) and lines[-1][-1] == "\\":
-                lines[-1] = lines[-1][:-1] + line
-                process_whitespace(lines)
-                continue
+            elif lines:
+                index = -1 if not isinstance(lines[-1], int) else -2
+                if isinstance(lines[index], str) and lines[index][-1] == "\\":
+                    lines[index] = lines[index][:-1] + line
+                    process_whitespace(lines)
+                    continue
 
             lines.append(line)
             if line.split(" ")[0] == "ret":

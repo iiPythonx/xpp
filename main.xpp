@@ -1,1 +1,9 @@
-prt (not -1)
+prt "Hello!" \
+    "Welcome to xpp." \
+    "This is a demo file to test multi-line support." \
+    "It probably looks very weird." \
+    "How many of these can you have?" \
+    "∞" \
+    "Yeah, that's right." \
+    "I said ∞." \
+    "Checkmate Python."
