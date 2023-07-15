@@ -67,9 +67,6 @@ class Interpreter(object):
             for i, a in enumerate(section.args):
                 self.memory.variables["scope"][section.sid][a] = args[i]
 
-            if (len(args) > len(section.args)) and not self.memory.cli_vals["no-extra-params-warn"]:
-                print(f"[WARN]: Section {section.sid} takes {len(section.args)} arguments and was given {len(args)}")
-
         except IndexError:
             raise MissingParameter(f"'{section.sid}' requires argument '{a}' which was not provided")
 

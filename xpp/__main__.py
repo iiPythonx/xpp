@@ -13,9 +13,6 @@ from . import (
 class CLI(object):
     def __init__(self) -> None:
         self.argv, self.vals = sys.argv[1:], {}
-        self.flags = [
-            {"args": ["-nx100", "--no-extra-params-warn"], "name": "no-extra-params-warn", "desc": "Hide warning produced by giving a function too many arguments"}
-        ]
         self.options = [
             {"args": ["-h", "--help"], "fn": self.show_help, "desc": "Displays the help menu"},
             {"args": ["-hl", "--helplong"], "fn": self.show_help_long, "desc": "Displays a more detailed help menu"},
@@ -34,10 +31,6 @@ Usage:
 
 See '{sys.executable} -m xpp -hl' for more detailed usage."""
 
-        # Register flag values
-        for flag in self.flags:
-            self.vals[flag["name"]] = any([a in self.argv for a in flag["args"]])
-
         # Load filepath
         self.filepath = None
         if self.argv:
@@ -54,10 +47,6 @@ See '{sys.executable} -m xpp -hl' for more detailed usage."""
 
     def show_help_long(self) -> None:
         print("\n".join(self.usage.split("\n")[:-1]))
-        print("Flags:")
-        for flag in self.flags:
-            print(f"  {', '.join(flag['args'])}\n    {flag['desc']}")
-
         print("\nOptions:")
         for opt in self.options:
             print(f"  {', '.join(opt['args'])}\n    {opt['desc']}")
@@ -119,7 +108,7 @@ def main() -> None:
 
     # Run file
     from .exceptions import handle_exception
-    interpreter = Interpreter(filepath, [], config = config, cli_vals = cli.vals)
+    interpreter = Interpreter(filepath, [], config = config)
     try:
         interpreter.sections = load_sections(data, filepath)
         interpreter.run_section("main")
