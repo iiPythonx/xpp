@@ -12,13 +12,11 @@ from . import __version__
 from .modules.optimize import to_python
 
 # Check for Python-Minifier
-HAS_PYMINIFIER = False
 try:
     from python_minifier import minify
-    HAS_PYMINIFIER = True
 
 except ImportError:
-    pass
+    minify = None
 
 # Locate GCC
 GCC_PATH = which("gcc")
@@ -44,7 +42,8 @@ def main() -> None:
                 -r: runs the output file after compilation is complete
                 -<n>: sets the optimization level
                     -0: disables all optimizations
-                    -1: minifies resulting python code
+                    -1: removes dead code via vulture
+                    -2: minifies resulting python code
                 -b: attempt to build using pyinstaller
 
             copyright (c) 2023-2024 iipython
@@ -78,7 +77,7 @@ def main() -> None:
 
             # Minify file
             if "-1" in sys.argv:
-                if not HAS_PYMINIFIER:
+                if minify is None:
                     print("warn: python-minifier is not installed, skipping minification step ...")
 
                 else:
