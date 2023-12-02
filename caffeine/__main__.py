@@ -42,8 +42,7 @@ def main() -> None:
                 -r: runs the output file after compilation is complete
                 -<n>: sets the optimization level
                     -0: disables all optimizations
-                    -1: removes dead code via vulture
-                    -2: minifies resulting python code
+                    -1: minifies resulting python code
                 -b: attempt to build using pyinstaller
 
             copyright (c) 2023-2024 iipython
