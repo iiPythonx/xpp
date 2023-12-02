@@ -39,5 +39,5 @@ operator = operators.operator
 
 # Load rest of operators
 from . import (  # noqa: E402
-    fileio, internal, math, stdio, strman  # noqa: F401
+    fileio, internal, math, objects, stdio, strman  # noqa: F401
 )

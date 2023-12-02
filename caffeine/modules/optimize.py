@@ -6,15 +6,13 @@ from typing import List
 from xpp.core.tokenizer import tokenize
 from xpp.core.sections import load_sections
 
+from .exceptions import ConversionError
+
 # Load operators
 from .operators import operators
 
 # Initialization
 T = " " * 4  # Configured tab size
-
-# Exceptions
-class ConversionError(Exception):
-    pass
 
 # Function handling class
 class PythonFunction(object):
