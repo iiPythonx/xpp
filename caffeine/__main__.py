@@ -35,7 +35,7 @@ def main() -> None:
     args = [a for a in sys.argv[1:] if a[0] != "-"]
     if not args or "--help" in sys.argv or "-h" in sys.argv:
         print("\n".join([(ln.split(" " * 12)[1] if ln.strip() else ln) for ln in f"""
-            caffeine {__version__} - an efficient x++ builder
+            caffeine {__version__} - an efficient x++ to python builder
             usage: {sys.executable} -m caffeine [options] <source file> [output file]
 
             options:

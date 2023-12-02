@@ -61,7 +61,7 @@ def to_python(source: str) -> str:
             setattr(function, "_convert", convert_line)
             convert_line(function, line)
 
-        # Print out function layout
+        # Append function layout
         tree += function.construct()
 
     # Move all function calls in the global scope
