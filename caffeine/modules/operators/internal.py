@@ -32,7 +32,9 @@ def operator_if(func: object, args: list) -> None:
 
 @operator("jmp")
 def operator_jmp(func: object, args: list) -> None:
-    func.append(f"{args[0]}({', '.join([convert_value(a) for a in args[1:]])})")
+    assign = ", ".join([a[1:] for a in args[1:] if a[0] == "?"])
+    assign += " = " if assign else ""
+    func.append(f"{assign}{args[0]}({', '.join([a for a in args[1:] if a[0] != '?'])})")
 
 @operator("rem")
 def operator_rem(func: object, args: list) -> None:
