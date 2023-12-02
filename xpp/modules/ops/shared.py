@@ -1,4 +1,4 @@
-# Copyright 2022-2023 iiPython
+# Copyright 2022-2024 iiPython
 # Shared x++ operator classes and functions
 
 # Modules

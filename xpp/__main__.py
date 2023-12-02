@@ -1,4 +1,4 @@
-# Copyright 2022-2023 iiPython
+# Copyright 2022-2024 iiPython
 
 # Modules
 import os
@@ -23,7 +23,7 @@ class CLI(object):
         self.install_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
 
         self.usage = f"""x++ (x{__version__}) Interpreter
-(c) 2021-23 iiPython; (c) 2022-23 Dm123321_31mD "DmmD" Gaming
+(c) 2021-24 iiPython; (c) 2022-23 Dm123321_31mD "DmmD" Gaming
 
 Usage:
     xpp [options] [flags] <file>

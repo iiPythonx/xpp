@@ -1,4 +1,4 @@
-# Copyright 2022-2023 iiPython
+# Copyright 2022-2024 iiPython
 
 __version__ = "3.1.2"
 

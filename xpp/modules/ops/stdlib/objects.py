@@ -1,4 +1,4 @@
-# Copyright 2023 iiPython
+# Copyright 2024 iiPython
 
 # Modules
 from typing import Any

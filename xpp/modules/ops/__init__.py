@@ -1,5 +1,5 @@
 # x++ Operator Loader
-# Copyright 2022-2023 iiPython
+# Copyright 2022-2024 iiPython
 
 # Modules
 import os
