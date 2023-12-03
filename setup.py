@@ -32,14 +32,16 @@ setup(
     author_email = "ben@iipython.dev",
     classifiers = [
         "Development Status :: 5 - Production/Stable",
+        "Environment :: Console",
         "Intended Audience :: Developers",
         "Intended Audience :: Education",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
-        "Topic :: Education :: Testing",
+        "Topic :: Education",
         "Topic :: Software Development",
+        "Topic :: Software Development :: Interpreters"
     ],
     keywords = "xpp, parser, language, interpreter",
     packages = find_packages(["xpp", "caffeine"]),

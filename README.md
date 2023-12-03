@@ -3,10 +3,10 @@
     <hr>
     <p>an interpreted, minimalistic programming language</p>
     <img alt="License" src="https://img.shields.io/github/license/iiPythonx/xpp?color=c3e7ff&style=flat-square">
-    <img alt="Downloads" src="https://img.shields.io/github/downloads/IiPythonx/xpp/total.svg?color=c3e7ff&style=flat-square">
-    <img alt="Last commit" src="https://img.shields.io/github/last-commit/IiPythonx/xpp?color=c3e7ff&style=flat-square">
-    <img alt="Repo size" src="https://img.shields.io/github/repo-size/IiPythonx/xpp?color=c3e7ff&style=flat-square">
-    <img alt="Stars" src="https://img.shields.io/github/stars/IiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Downloads" src="https://img.shields.io/github/downloads/iiPythonx/xpp/total.svg?color=c3e7ff&style=flat-square">
+    <img alt="Last commit" src="https://img.shields.io/github/last-commit/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Repo size" src="https://img.shields.io/github/repo-size/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Stars" src="https://img.shields.io/github/stars/iiPythonx/xpp?color=c3e7ff&style=flat-square">
     <hr>
 </div>
 
@@ -136,8 +136,8 @@ Most of the things you could think of making are able to be created within x++. 
 
 ### Contributors
 
-- [iiPython](https://github.com/iiPythonx) - Lead developer
-- [DmmD Gaming](https://github.com/DmmDGM) - Standard library / suggestions
+- [iiPython](https://github.com/iiPythonx) - Developer, Documentation
+- [DmmD Gaming](https://github.com/DmmDGM) - Original Documentation, Ideas, & Standard Library
 
 ### Resources
 
@@ -146,6 +146,6 @@ Most of the things you could think of making are able to be created within x++. 
 
 ---
 
-Last Updated: July 5th, 2023 by iiPython
+Last Updated: December 2nd, 2023 by iiPython
 
 [↑ Go To Top](#introduction)
