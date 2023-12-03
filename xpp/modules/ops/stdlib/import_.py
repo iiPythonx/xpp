@@ -3,6 +3,7 @@
 # Modules
 import os
 import json
+from pathlib import Path
 from copy import copy as copyobj
 
 from xpp import config, load_sections
@@ -12,8 +13,8 @@ from xpp.modules.ops.shared import ensure_arguments, InvalidArgument
 
 # Initialization
 search_locations = [
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../pkgs")),
-    os.path.abspath(os.path.join(os.getcwd(), "pkgs")),
+    str(Path(__file__).parents[4] / "pkgs"),  # Global pkgs folder (assuming module install)
+    str(Path("pkgs").absolute())  # Local pkgs folder (relative to cwd)
 ]
 main_namespace = config.get("main", "main").split(os.sep)[-1].removesuffix(".xpp")
 
