@@ -2,14 +2,17 @@
 
 # Modules
 import re
+import string
 from typing import Any
 
-from .tokenizer import tokenize
+from .tokenizer import tokenize, block_ends, block_starts
+
 from ..exceptions import InvalidSyntax
 from ..modules.simpleeval import simple_eval
 
 # Initialization
-_format_regex = re.compile(r"\$\([^)]*\)")
+_FORMAT_REGEX = re.compile(r"\$\([^)]*\)")
+_NUMBER_START = string.digits + "+-"
 
 # Memory class
 class Memory(object):
@@ -37,27 +40,37 @@ class Datastore(object):
         return f"<DS value={repr(self.value)} raw='{self.raw}'>"
 
     def _parse(self) -> Any:
-        if not self.raw:
-            return
+        if self.raw[0] not in block_starts:
+            if self.raw[0] in _NUMBER_START:
+                val = float(self.raw)
+                if val.is_integer():
+                    return int(val)
 
-        # Check for expression groups
-        if self.raw[0] == "{" and self.raw[-1] == "}":
-            statement = self.raw.strip("{}").strip()
-            if statement.split(" ")[0] not in self.mem.interpreter.operators:  # This is very hacky, to be rewritten
-                raise InvalidSyntax(
-                    "bracket syntax can only store an operator statement",
-                    0,
-                    self.mem.interpreter.stack
-                )
+                return val
 
-            return statement
+            # Handle variable
+            self.refresh = self.refreshv
+            return self.refresh()
 
-        # Check for strings
-        if self.raw[0] in ["\"", "'", "("]:
-            if (self.raw[0] == "\"" and self.raw[-1] == "\"") or \
-               (self.raw[0] == "'" and self.raw[-1] == "'"):
+        # Match statements
+        if self.raw[-1] != block_ends[block_starts.index(self.raw[0])]:
+            raise InvalidSyntax("open block was not closed", len(self.raw) - 1, self.mem.interpreter.stack)
+
+        match self.raw[0]:
+            case "{":
+                statement = self.raw[1:][:-1].strip()
+                if statement.split(" ")[0] not in self.mem.interpreter.operators:
+                    raise InvalidSyntax(
+                        "bracket syntax can only store a valid x++ expression",
+                        0,
+                        self.mem.interpreter.stack
+                    )
+
+                return statement
+
+            case "\"" | "'":
                 value = self.raw[1:][:-1].replace("\\\"", "\"")
-                for item in re.findall(_format_regex, value):
+                for item in re.findall(_FORMAT_REGEX, value):
                     tokens, obj, reference = item[2:][:-1].split(" "), None, False
                     if len(tokens) < 2:
                         obj = Datastore(self.mem, tokens[0])
@@ -68,7 +81,7 @@ class Datastore(object):
 
                 return value.encode("latin-1", "backslashreplace").decode("unicode-escape")  # String literal
 
-            elif self.raw[0] == "(" and self.raw[-1] == ")":
+            case "(":
                 expr = self.raw[1:][:-1]
                 if expr.split(" ")[0] not in self.mem.interpreter.operators:
                     for token in tokenize(expr):
@@ -83,18 +96,6 @@ class Datastore(object):
                     return simple_eval(expr, names = self.mem.variables["scope"][self.last_stack.sid])
 
                 return self.mem.interpreter.execute(expr.replace("\\\"", "\""))
-
-        # Check for ints/floats
-        if self.raw[0].isdigit() or self.raw[0] in "+-":
-            val = float(self.raw)
-            if val.is_integer():
-                return int(val)
-
-            return val
-
-        # Handle variable
-        self.refresh = self.refreshv
-        return self.refresh()
 
     def set(self, value: Any) -> None:
         self.store[self.id_] = value
