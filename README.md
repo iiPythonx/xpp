@@ -34,10 +34,10 @@ Welcome to the official documentation for x++! This documentation will get you s
     - [Credits and Links ▾](#credits--links)
         - [Contributors](#contributors)
         - [Resources](#resources)
-- [Tutorials](./md/tutorials.md)
-- [Documents](./md/documents.md)
-- [Python API](./md/pythonAPI.md)
-- [Standard Library](./md/standardLibrary.md)
+- [Tutorials](./docs/tutorials.md)
+- [Documents](./docs/documents.md)
+- [Python API](./docs/pythonAPI.md)
+- [Standard Library](./docs/standardLibrary.md)
 
 <!-- ---- About ---- -->
 <h2 align = "center" id = "about">
@@ -98,7 +98,7 @@ You can edit the main entry file by editing the configuration in `.xconfig`. It 
 }
 ```
 
-> You can learn more about setting up your project in the [tutorials](./md/tutorials.md).
+> You can learn more about setting up your project in the [tutorials](./docs/tutorials.md).
 
 ### Step 3: Execution
 
@@ -113,7 +113,7 @@ Currently, you should see the terminal output:
 ```
 "Hello, world!"
 ```
-> You can also compile your xpp code into Python using [caffeine](./md/caffeine.md).
+> You can also compile your xpp code into Python using [caffeine](./docs/caffeine.md).
 
 <!-- ---- FAQ ---- -->
 <h2 align = "center">
@@ -127,7 +127,7 @@ Starting on March 6th, 2023, x2 was deprecated in favor of x++ as the language w
 
 ### Q: Can I use x++ for data management, game design, or simply for fun?
 
-Most of the things you could think of making are able to be created within x++. However, you can also supercharge xpp with the power of Python; [see here](./md/pythonAPI.md).
+Most of the things you could think of making are able to be created within x++. However, you can also supercharge xpp with the power of Python; [see here](./docs/pythonAPI.md).
 
 <!-- ---- Contrib + resources ---- -->
 <h2 align = "center">

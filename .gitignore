@@ -1,7 +1,8 @@
 # Hide cache
 __pycache__/
+.venv/
 
-# Hide x2 testing files
+# Hide x++ testing files
 pkgs/*
 !pkgs/stdlib
 
