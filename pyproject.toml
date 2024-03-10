@@ -46,7 +46,7 @@ Homepage = "https://github.com/iiPythonx/xpp"
 Source = "https://github.com/iiPythonx/xpp"
 
 [tool.hatch.version]
-path = "caffeine/__init__.py"
+path = "src/xpp/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["xpp", "caffeine"]
+packages = ["src/xpp", "src/caffeine"]

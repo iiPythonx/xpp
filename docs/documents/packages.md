@@ -1,25 +1,26 @@
-# [x++](../../README.md) / [Documents](../documents.md) / Packages
+# [x++](../README.md) / [Documents](../documents.md) / Packages
 
 ## Table of Contents
 
-- [Home](../../README.md)
+- [Home](../README.md)
 - [Tutorials](../tutorials.md)
 - [Documents ▾](../documents.md)
     - [Table of Contents](../documents.md#table-of-contents)
     - [About](../documents.md#about)
     - [Documents ▾](../documents.md#documents)
-        - [Comments](./comments.md)
-        - [Comparators](./comparators.md)
-        - [Configurations](./configurations.md)
-        - [Data Types](./dataTypes.md)
-        - [Operators](./operators.md)
+        - [Comments](comments.md)
+        - [Comparators](comparators.md)
+        - [Configuration](configuration.md)
+        - [Data Types](datatypes.md)
+        - [Operators](operators.md)
         - **Packages ▾**
             - [Table of Contents](#table-of-contents)
             - [About](#about)
-        - [Sections](./sections.md)
-        - [Variables](./variables.md)
-- [Python API](../pythonAPI.md)
-- [Standard Library](../standardLibrary.md)
+        - [Sections](sections.md)
+        - [Variables](variables.md)
+- [Python API](../python-api.md)
+- [Caffeine](../caffeine.md)
+- [Standard Library](../stdlib.md)
 
 ## About
 
@@ -45,10 +46,10 @@ The same applies to importing files.
 
 To import a file from the x++ project, the path must contain the `.xpp` extension. The interpreter will then attempt to find the file from the current working directory. If one is not found, an error is thrown.
 
-Currently, the [standard library](../standardLibrary.md) is built into the x++ interpreter. You can install more packages from GitHub.
+Currently, the [standard library](../stdlib.md) is built into the x++ interpreter. You can install more packages from GitHub.
 
 ---
 
-Last Updated: April 9th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--documents--packages)

@@ -1,27 +1,28 @@
-# [x++](../../README.md) / [Documents](../documents.md) / Comparators
+# [x++](../README.md) / [Documents](../documents.md) / Comparators
 
 ## Table of Contents
 
-- [Home](../../README.md)
+- [Home](../README.md)
 - [Tutorials](../tutorials.md)
 - [Documents ▾](../documents.md)
     - [Table of Contents](../documents.md#table-of-contents)
     - [About](../documents.md#about)
     - [Documents ▾](../documents.md#documents)
-        - [Comments](./comments.md)
+        - [Comments](comments.md)
         - **Comparators ▾**
             - [Table of Contents](#table-of-contents)
             - [Catalog](#catalog)
             - [About](#about)
             - [Documentation](#documentation)
-        - [Configurations](./configurations.md)
-        - [Data Types](./dataTypes.md)
-        - [Operators](./operators.md)
-        - [Packages](./packages.md)
-        - [Sections](./sections.md)
-        - [Variables](./variables.md)
-- [Python API](../pythonAPI.md)
-- [Standard Library](../standardLibrary.md)
+        - [Configuration](configuration.md)
+        - [Data Types](datatypes.md)
+        - [Operators](operators.md)
+        - [Packages](packages.md)
+        - [Sections](sections.md)
+        - [Variables](variables.md)
+- [Python API](../python-api.md)
+- [Caffeine](../caffeine.md)
+- [Standard Library](../stdlib.md)
 
 ## Catalog
 
@@ -278,6 +279,6 @@ if (5 is "int") "prt 'true'"
 
 ---
 
-Last Updated: April 9th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--documents--comparators)

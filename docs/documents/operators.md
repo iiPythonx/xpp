@@ -1,27 +1,28 @@
-# [x++](../../README.md) / [Documents](../documents.md) / Operators
+# [x++](../README.md) / [Documents](../documents.md) / Operators
 
 ## Table of Contents
 
-- [Home](../../README.md)
+- [Home](../README.md)
 - [Tutorials](../tutorials.md)
 - [Documents ▾](../documents.md)
     - [Table of Contents](../documents.md#table-of-contents)
     - [About](../documents.md#about)
     - [Documents ▾](../documents.md#documents)
-        - [Comments](./comments.md)
-        - [Comparators](./comparators.md)
-        - [Configurations](./configurations.md)
-        - [Data Types](./dataTypes.md)
+        - [Comments](comments.md)
+        - [Comparators](comparators.md)
+        - [Configuration](configuration.md)
+        - [Data Types](datatypes.md)
         - **Operators ▾**
             - [Table of Contents](#table-of-contents)
             - [Catalog](#catalog)
             - [About](#about)
             - [Documentation](#documentation)
-        - [Packages](./packages.md)
-        - [Sections](./sections.md)
-        - [Variables](./variables.md)
-- [Python API](../pythonAPI.md)
-- [Standard Library](../standardLibrary.md)
+        - [Packages](packages.md)
+        - [Sections](sections.md)
+        - [Variables](variables.md)
+- [Python API](../python-api.md)
+- [Caffeine](../caffeine.md)
+- [Standard Library](../stdlib.md)
 
 ## Catalog
 
@@ -1192,6 +1193,6 @@ prt myInteger
 
 ---
 
-Last Updated: March 30th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--documents--operators)

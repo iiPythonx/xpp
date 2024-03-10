@@ -1,25 +1,26 @@
-# [x++](../../README.md) / [Documents](../documents.md) / Sections
+# [x++](../README.md) / [Documents](../documents.md) / Sections
 
 ## Table of Contents
 
-- [Home](../../README.md)
+- [Home](../README.md)
 - [Tutorials](../tutorials.md)
 - [Documents ▾](../documents.md)
     - [Table of Contents](../documents.md#table-of-contents)
     - [About](../documents.md#about)
     - [Documents ▾](../documents.md#documents)
-        - [Comments](./comments.md)
-        - [Comparators](./comparators.md)
-        - [Configurations](./configurations.md)
-        - [Data Types](./dataTypes.md)
-        - [Operators](./operators.md)
-        - [Packages](./packages.md)
+        - [Comments](comments.md)
+        - [Comparators](comparators.md)
+        - [Configuration](configuration.md)
+        - [Data Types](datatypes.md)
+        - [Operators](operators.md)
+        - [Packages](packages.md)
         - **Sections ▾**
             - [Table of Contents](#table-of-contents)
             - [About](#about)
-        - [Variables](./variables.md)
-- [Python API](../pythonAPI.md)
-- [Standard Library](../standardLibrary.md)
+        - [Variables](variables.md)
+- [Python API](../python-api.md)
+- [Caffeine](../caffeine.md)
+- [Standard Library](../stdlib.md)
 
 ## About
 
@@ -56,6 +57,6 @@ prt output  :: 3
 
 ---
 
-Last Updated: April 9th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--documents--sections)

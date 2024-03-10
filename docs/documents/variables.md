@@ -1,25 +1,26 @@
-# [x++](../../README.md) / [Documents](../documents.md) / Variables
+# [x++](../README.md) / [Documents](../documents.md) / Variables
 
 ## Table of Contents
 
-- [Home](../../README.md)
+- [Home](../README.md)
 - [Tutorials](../tutorials.md)
 - [Documents ▾](../documents.md)
     - [Table of Contents](../documents.md#table-of-contents)
     - [About](../documents.md#about)
     - [Documents ▾](../documents.md#documents)
-        - [Comments](./comments.md)
-        - [Comparators](./comparators.md)
-        - [Configurations](./configurations.md)
-        - [Data Types](./dataTypes.md)
-        - [Operators](./operators.md)
-        - [Packages](./packages.md)
-        - [Sections](./sections.md)
+        - [Comments](comments.md)
+        - [Comparators](comparators.md)
+        - [Configuration](configuration.md)
+        - [Data Types](datatypes.md)
+        - [Operators](operators.md)
+        - [Packages](packages.md)
+        - [Sections](sections.md)
         - **Variables ▾**
             - [Table of Contents](#table-of-contents)
             - [About](#about)
-- [Python API](../pythonAPI.md)
-- [Standard Library](../standardLibrary.md)
+- [Python API](../python-api.md)
+- [Caffeine](../caffeine.md)
+- [Standard Library](../stdlib.md)
 
 ## About
 
@@ -47,7 +48,7 @@ A file variable is defined by appending an at symbol (`@`) in front of the varia
 var @myInteger 5
 ```
 
-A global variable is unable to be defined using x++ syntax. However, you can use [Python Integration](../pythonAPI.md) to do so.
+A global variable is unable to be defined using x++ syntax. However, you can use [Python Integration](../python-api.md) to do so.
 
 Both local and file variables are automatically garbage collected, but they can also be manually deleted from RAM using the `rem` operator:
 
@@ -58,6 +59,6 @@ rem myInteger @myInteger
 
 ---
 
-Last Updated: April 9th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--documents--variables)

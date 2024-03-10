@@ -1,8 +1,8 @@
-# [x++](../../README.md) / [Documents](../documents.md) / Comments
+# [x++](../README.md) / [Documents](../documents.md) / Comments
 
 ## Table of Contents
 
-- [Home](../../README.md)
+- [Home](../README.md)
 - [Tutorials](../tutorials.md)
 - [Documents ▾](../documents.md)
     - [Table of Contents](../documents.md#table-of-contents)
@@ -11,16 +11,16 @@
         - **Comments ▾**
             - [Table of Contents](#table-of-contents)
             - [About](#about)
-        - [Comparators](./comparators.md)
-        - [Configurations](./configurations.md)
-        - [Data Types](./dataTypes.md)
-        - [Operators](./operators.md)
-        - [Packages](./packages.md)
-        - [Python API](./pythonAPI.md)
-        - [Sections](./sections.md)
-        - [Variables](./variables.md)
-- [Python API](../pythonAPI.md)
-- [Standard Library](../standardLibrary.md)
+        - [Comparators](comparators.md)
+        - [Configuration](configuration.md)
+        - [Data Types](datatypes.md)
+        - [Operators](operators.md)
+        - [Packages](packages.md)
+        - [Sections](sections.md)
+        - [Variables](variables.md)
+- [Python API](../python-api.md)
+- [Caffeine](../caffeine.md)
+- [Standard Library](../stdlib.md)
 
 ## About
 
@@ -35,6 +35,6 @@ prt 5  :: This is an inline comment
 
 ---
 
-Last Updated: July 5th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--documents--comments)

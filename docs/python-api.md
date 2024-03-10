@@ -1,18 +1,18 @@
-# [x++](../README.md) / Python API
+# [x++](README.md) / Python API
 
 ## Table of Contents
 
-- [Home](../README.md)
-- [Tutorials](./tutorials.md)
-- [Documents](./documents.md)
+- [Home](README.md)
+- [Tutorials](tutorials.md)
+- [Documents](documents.md)
 - **Python API ▾**
     - [Introduction](#introduction)
     - [Definitions](#definitions)
     - [Inline statements](#inline-statements)
     - [Python modules](#python-modules)
     - [Python inside .xconfig](#python-inside-xconfig)
-- [Caffeine](./caffeine.md)
-- [Standard Library](./standardLibrary.md)
+- [Caffeine](caffeine.md)
+- [Standard Library](stdlib.md)
 
 ## Introduction
 

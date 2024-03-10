@@ -6,6 +6,9 @@ __pycache__/
 pkgs/*
 !pkgs/stdlib
 
+# Hide mdbook build
+docs/book/
+
 # Everything pip related
 dist/
 build/

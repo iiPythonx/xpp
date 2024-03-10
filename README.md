@@ -2,11 +2,11 @@
     <img src = "./assets/xpp.png" alt = "x++ logo" id = "logo">
     <hr>
     <p>an interpreted, minimalistic programming language</p>
-    <img alt="License" src="https://img.shields.io/github/license/iiPythonx/xpp?color=c3e7ff&style=flat-square">
-    <img alt="Downloads" src="https://img.shields.io/github/downloads/iiPythonx/xpp/total.svg?color=c3e7ff&style=flat-square">
-    <img alt="Last commit" src="https://img.shields.io/github/last-commit/iiPythonx/xpp?color=c3e7ff&style=flat-square">
-    <img alt="Repo size" src="https://img.shields.io/github/repo-size/iiPythonx/xpp?color=c3e7ff&style=flat-square">
-    <img alt="Stars" src="https://img.shields.io/github/stars/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt = "License" src = "https://img.shields.io/github/license/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt = "Downloads" src = "https://img.shields.io/github/downloads/iiPythonx/xpp/total.svg?color=c3e7ff&style=flat-square">
+    <img alt = "Last commit" src = "https://img.shields.io/github/last-commit/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt = "Repo size" src = "https://img.shields.io/github/repo-size/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt = "Stars" src = "https://img.shields.io/github/stars/iiPythonx/xpp?color=c3e7ff&style=flat-square">
     <hr>
 </div>
 
@@ -34,10 +34,10 @@ Welcome to the official documentation for x++! This documentation will get you s
     - [Credits and Links ▾](#credits--links)
         - [Contributors](#contributors)
         - [Resources](#resources)
-- [Tutorials](./docs/tutorials.md)
-- [Documents](./docs/documents.md)
-- [Python API](./docs/pythonAPI.md)
-- [Standard Library](./docs/standardLibrary.md)
+- [Tutorials](https://xpp.iipython.dev/tutorials.html)
+- [Documents](https://xpp.iipython.dev/documents.html)
+- [Python API](https://xpp.iipython.dev/python-api.html)
+- [Standard Library](https://xpp.iipython.dev/stdlib.html)
 
 <!-- ---- About ---- -->
 <h2 align = "center" id = "about">
@@ -77,6 +77,13 @@ Next, visit our [github repository](https://github.com/iiPythonx/xpp/) and downl
 git clone https://github.com/iiPythonx/xpp
 ```
 
+To install xpp system-wide, run the following:
+```
+pip install .
+```
+
+You will now have the `xpp` command available for use.  
+
 If you are choosing Visual Studio Code as your Integrated Development Environment, you can also install the [x++ extension](https://marketplace.visualstudio.com/items?itemName=iiPython.xpp) on the marketplace to get syntax highlighting on your x++ files.
 
 ### Step 2: Set-Up
@@ -98,14 +105,14 @@ You can edit the main entry file by editing the configuration in `.xconfig`. It 
 }
 ```
 
-> You can learn more about setting up your project in the [tutorials](./docs/tutorials.md).
+> You can learn more about setting up your project in the [tutorials](https://xpp.iipython.dev/tutorials.html).
 
 ### Step 3: Execution
 
 After you are done writing your x++ code, you can execute your x++ project immediately by opening up a terminal and typing:
 
 ```
-python main.py .
+xpp .
 ```
 
 Currently, you should see the terminal output:
@@ -113,7 +120,7 @@ Currently, you should see the terminal output:
 ```
 "Hello, world!"
 ```
-> You can also compile your xpp code into Python using [caffeine](./docs/caffeine.md).
+> You can also compile your xpp code into Python using [caffeine](https://xpp.iipython.dev/caffeine.html).
 
 <!-- ---- FAQ ---- -->
 <h2 align = "center">
@@ -127,7 +134,7 @@ Starting on March 6th, 2023, x2 was deprecated in favor of x++ as the language w
 
 ### Q: Can I use x++ for data management, game design, or simply for fun?
 
-Most of the things you could think of making are able to be created within x++. However, you can also supercharge xpp with the power of Python; [see here](./docs/pythonAPI.md).
+Most of the things you could think of making are able to be created within x++. However, you can also supercharge xpp with the power of Python; [see here](https://xpp.iipython.dev/python-api.html).
 
 <!-- ---- Contrib + resources ---- -->
 <h2 align = "center">
@@ -146,6 +153,6 @@ Most of the things you could think of making are able to be created within x++. 
 
 ---
 
-Last Updated: December 2nd, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#introduction)

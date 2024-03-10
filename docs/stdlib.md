@@ -1,4 +1,4 @@
-# [x++](README.md) / Caffeine
+# [x++](README.md) / Standard Library
 
 ## Table of Contents
 
@@ -6,16 +6,16 @@
 - [Tutorials](tutorials.md)
 - [Documents](documents.md)
 - [Python API](python-api.md)
-- **Caffeine ▾**
+- [Caffeine](caffeine.md)
+- **Standard Library ▾**
     - [Introduction](#introduction)
-- [Standard Library](stdlib.md)
 
 ## Introduction
 
-This document is coming soon.
+The x++ standard library is not currently finished, so no documentation is available yet.
 
 ---
 
 Last Updated: March 9th, 2024 by iiPython
 
-[↑ Go To Top](#x--caffeine)
+[↑ Go To Top](#x--standard-library)

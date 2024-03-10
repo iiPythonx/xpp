@@ -1,22 +1,22 @@
-# [x++](../../README.md) / [Tutorials](../tutorials.md) / 3. Branches
+# [x++](../README.md) / [Tutorials](../tutorials.md) / 3. Branches
 
 ## Table of Contents
 
-- [Home](../../README.md)
+- [Home](../README.md)
 - [Tutorials](../tutorials.md)
-    - [Table of Contents](#table-of-contents)
-    - [About](#about)
-    - [Tutorials ▾](#tutorials)
-        - [1. Hello, world!](./1helloWorld.md)
-        - [2. User Input](./2userInput.md)
-        - **3. Branches ▾**
+    - [Table of Contents](../tutorials.md#table-of-contents)
+    - [About](../tutorials.md#about)
+    - [Tutorials ▾](../tutorials.md#tutorials)
+        - [1. Hello, world!](hello-world.md)
+        - [2. User Input](user-input.md)
+        - **3. Branching ▾**
             - [Table of Contents](#table-of-contents)
             - [Lesson](#lesson)
-        - [4. Calculator](./4calculator.md)
+        - [4. Calculator](calculator.md)
 - [Documents](../documents.md)
-- [Python API](../standardLibrary.md)
-- [Caffeine](./caffeine.md)
-- [Standard Library](../pythonAPI.md)
+- [Python API](../python-api.md)
+- [Caffeine](../caffeine.md)
+- [Standard Library](../stdlib.md)
 
 ## Lesson
 
@@ -90,6 +90,6 @@ In the next lesson, you will be learning how to make a calculator using x++.
 
 ---
 
-Last Updated: July 12th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--tutorials--3-branches)

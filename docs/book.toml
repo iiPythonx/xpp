@@ -1,0 +1,9 @@
+[book]
+title = "x++ Documentation"
+description = "An interpreted, minimalistic programming language."
+authors = ["iiPython"]
+language = "en"
+src = "./"
+
+[output.html]
+git-repository-url = "https://github.com/iiPythonx/xpp"

@@ -1,36 +1,36 @@
-# [x++](../README.md) / Tutorials
+# [x++](README.md) / Tutorials
 
 ## Table of Contents
 
-- [Home](../README.md)
+- [Home](README.md)
 - **Tutorials ▾**
     - [Table of Contents](#table-of-contents)
     - [About](#about)
     - [Tutorials ▾](#tutorials)
-        - [1. Hello, world!](./tutorials/1helloWorld.md)
-        - [2. User Input](./tutorials/2userInput.md)
-        - [3. Branches](./tutorials/3branches.md)
-        - [4. Calculator](./tutorials/4calculator.md)
-- [Documents](./documents.md)
-- [Python API](./pythonAPI.md)
-- [Caffeine](./caffeine.md)
-- [Standard Library](./standardLibrary.md)
+        - [1. Hello, world!](tutorials/hello-world.md)
+        - [2. User Input](tutorials/user-input.md)
+        - [3. Branching](tutorials/branching.md)
+        - [4. Calculator](tutorials/calculator.md)
+- [Documents](documents.md)
+- [Python API](python-api.md)
+- [Caffeine](caffeine.md)
+- [Standard Library](stdlib.md)
 
 ## About
 
 Welcome to the tutorials of the official x++ documentation. In this section, you will be learning all the basics within x++, including familiaring the syntax of x++ as well as creating your first x++ project!
 
-If you are looking for information for a specific component of x++, check out the [documents](./documents.md) instead.
+If you are looking for information for a specific component of x++, check out the [documents](documents.md) instead.
 
 ## Tutorials
 
-- ### [1. Hello, world!](./tutorials/1helloWorld.md)
-- ### [2. User Input](./tutorials/2userInput.md)
-- ### [3. Branches](./tutorials/3branches.md)
-- ### [4. Calculator](./tutorials/4calculator.md)
+- [1. Hello, world!](tutorials/hello-world.md)
+- [2. User Input](tutorials/user-input.md)
+- [3. Branching](tutorials/branching.md)
+- [4. Calculator](tutorials/calculator.md)
 
 ---
 
-Last Updated: July 5th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--tutorials)

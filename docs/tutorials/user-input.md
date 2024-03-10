@@ -1,22 +1,22 @@
-# [x++](../../README.md) / [Tutorials](../tutorials.md) / 2. User Input
+# [x++](../README.md) / [Tutorials](../tutorials.md) / 2. User Input
 
 ## Table of Contents
 
-- [Home](../../README.md)
+- [Home](../README.md)
 - [Tutorials](../tutorials.md)
-    - [Table of Contents](#table-of-contents)
-    - [About](#about)
-    - [Tutorials ▾](#tutorials)
-        - [1. Hello, world!](./1helloWorld.md)
+    - [Table of Contents](../tutorials.md#table-of-contents)
+    - [About](../tutorials.md#about)
+    - [Tutorials ▾](../tutorials.md#tutorials)
+        - [1. Hello, world!](./hello-world.md)
         - **2. User Input ▾**
             - [Table of Contents](#table-of-contents)
             - [Lesson](#lesson)
-        - [3. Branches](./3branches.md)
-        - [4. Calculator](./4calculator.md)
+        - [3. Branching](branching.md)
+        - [4. Calculator](calculator.md)
 - [Documents](../documents.md)
-- [Python API](../standardLibrary.md)
-- [Caffeine](./caffeine.md)
-- [Standard Library](../pythonAPI.md)
+- [Python API](../python-api.md)
+- [Caffeine](../caffeine.md)
+- [Standard Library](../stdlib.md)
 
 ## Lesson
 
@@ -99,6 +99,6 @@ In the next lesson, you will learn how to make branches using the `if` operator.
 
 ---
 
-Last Updated: July 12th, 2023 by iiPython
+Last Updated: March 9th, 2024 by iiPython
 
 [↑ Go To Top](#x--tutorials--2-user-input)
