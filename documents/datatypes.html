@@ -274,11 +274,11 @@ prt (a + b)
 </code></pre>
 <p>It can be compared using mathematical comparators or be modified using certain operators.</p>
 <p>Unlike Python, integers do allow leading <code>0</code>s to exist:</p>
-<pre><code class="language-xt">var myInteger 05
+<pre><code class="language-xpp">var myInteger 05
 prt myInteger  :: 5
 </code></pre>
 <p>In vanilla x++, it can also be used as a boolean value, where <code>1</code> represents <code>true</code> and <code>0</code> represents <code>false</code>:</p>
-<pre><code class="language-xt">psh hamburgerIsEaten 1
+<pre><code class="language-xpp">psh hamburgerIsEaten 1
 if (hamburgerIsEaten == 1) "prt 'Someone ate my hamburger'"
 </code></pre>
 <hr />
@@ -340,7 +340,7 @@ prt "My favorite integer: " (myInteger)
 </code></pre>
 <p>Any non-string data type within a string interpolation will require the use of <code>()</code>.</p>
 <p>When being compared against using mathematical comparators, it is compared lexicographically:</p>
-<pre><code class="language-xt">if "abc" &lt; "cba" "prt 'true'"
+<pre><code class="language-xpp">if "abc" &lt; "cba" "prt 'true'"
 </code></pre>
 <hr />
 <p>Last Updated: March 9th, 2024 by iiPython</p>

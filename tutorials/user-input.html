@@ -210,17 +210,17 @@
 <pre><code class="language-xpp">:: main.xpp
 var name "Bob"
 var age 20
-prt "My name is $(name) and I am $(age) years old"
+prt "My name is $(name) and I am $(age) years old."
 </code></pre>
 <p>What if you want to ask what the user's name is instead of yours? You can use the <code>read</code> operator to get user input from the terminal. The <code>read</code> operator takes in two arguments, the <code>prompt</code> and the <code>output</code>. The prompt is what the user will see when you get a user input. You can think of it as asking a question. The output is the answer from the user input.</p>
 <p>Let's see it:</p>
 <pre><code class="language-xpp">read "What is your favorite color? " ?favoriteColor
 </code></pre>
 <p>You can replace your <code>var</code> operators and use the <code>read</code> operators instead:</p>
-<pre><code class="language-xt">:: main.xpp
+<pre><code class="language-xpp">:: main.xpp
 read "What is your name? " ?name
 read "What is your age? " ?age
-prt "Your name is $(name) and you are $(age) years old"
+prt "Your name is $(name) and you are $(age) years old."
 </code></pre>
 <p>You can also make the name more standout from the rest of the string by making it all capitalized. You can uppercase all the letters in a string by using the <code>upr</code> operator:</p>
 <pre><code class="language-xpp">var myString "Hello, world!"
@@ -232,7 +232,7 @@ prt myString  :: Outputs: "HELLO, WORLD!"
 read "What is your name? " ?name
 upr name
 read "What is your age? " ?age
-prt "Your name is $(name) and you are $(age) years old"
+prt "Your name is $(name) and you are $(age) years old."
 </code></pre>
 <p>You can also use mathematical operators to calculate the user's birth year. By subtracting the user's age from the current year, you get their birth year. You can use the <code>sub</code> operator for this purpose:</p>
 <pre><code class="language-xpp">sub 5 10 ?output
@@ -249,8 +249,8 @@ read "What is your name? " ?name
 upr name
 read "What is your age? " ?age
 int age
-sub 2023 age ?birthYear
-prt "Your name is $(name) and you were born in $(birthYear)"
+sub 2024 age ?birthYear
+prt "Your name is $(name) and you were born in $(birthYear)."
 </code></pre>
 <p>Now it will ask the user their name and age and output their name and birth year. Incredible isn't it?</p>
 <p>In the next lesson, you will learn how to make branches using the <code>if</code> operator.</p>

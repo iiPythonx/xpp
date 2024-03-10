@@ -210,12 +210,12 @@
 </ul>
 <h2 id="about"><a class="header" href="#about">About</a></h2>
 <p>Packages are x++ files written by other people that can be imported to your x++ project using the <code>imp</code> operator:</p>
-<pre><code class="language-xt">imp "examplePackage"
+<pre><code class="language-xpp">imp "examplePackage"
 </code></pre>
 <p>All packages are located in the <code>pkgs/</code> folder. If one is not found, the interpreter will automatically create one. When attempting to import a package, the interpreter will look for the <code>pkgs/&lt;package&gt;/main.xpp</code> file. If one is not found, an error is thrown.</p>
 <p>Imported packages are only available in that one specific file. When attempting to use the package elsewhere, an error is thrown.</p>
 <p>You can use an imported package by referencing the package name and then followed by a dot and the section name like so:</p>
-<pre><code class="language-xt">imp "examplePackage"
+<pre><code class="language-xpp">imp "examplePackage"
 
 examplePackage.mySection
 </code></pre>

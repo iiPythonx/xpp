@@ -394,19 +394,19 @@ prt "My name is Bob and I am 20 years old"
 <pre><code class="language-xpp">:: main.xpp
 var name "Bob"
 var age 20
-prt "My name is Bob and I am 20 years old"
+prt "My name is Bob and I am 20 years old."
 </code></pre>
 <p>Your can put your variables into your string using <code>string interpolation</code>. String interpolation is the process of inserting another statement within a string. This is usually done so by wrapping them in <code>$()</code>.</p>
 <p>The statement you can wrap inside of <code>$()</code> can be any valid x++ syntax, however it has another key feature: you can directly reference variables from inside this environment. This means you can do something like the following:</p>
 <pre><code class="language-xpp">var x 5
-prt "$(x) should be 5"
-:: 5 should be 5
+prt "$(x) should be 5."
+:: 5 should be 5.
 </code></pre>
 <p>Let's try it!</p>
 <pre><code class="language-xpp">:: main.xpp
 var name "Bob"
 var age 20
-prt "My name is $(name) and I am $(age) years old"
+prt "My name is $(name) and I am $(age) years old."
 </code></pre>
 <p>You did it! You made your first ever x++ project.</p>
 <p>In the next lesson, you will learn how to get user input and manipulate strings or numbers.</p>
@@ -447,17 +447,17 @@ prt "My name is $(name) and I am $(age) years old"
 <pre><code class="language-xpp">:: main.xpp
 var name "Bob"
 var age 20
-prt "My name is $(name) and I am $(age) years old"
+prt "My name is $(name) and I am $(age) years old."
 </code></pre>
 <p>What if you want to ask what the user's name is instead of yours? You can use the <code>read</code> operator to get user input from the terminal. The <code>read</code> operator takes in two arguments, the <code>prompt</code> and the <code>output</code>. The prompt is what the user will see when you get a user input. You can think of it as asking a question. The output is the answer from the user input.</p>
 <p>Let's see it:</p>
 <pre><code class="language-xpp">read "What is your favorite color? " ?favoriteColor
 </code></pre>
 <p>You can replace your <code>var</code> operators and use the <code>read</code> operators instead:</p>
-<pre><code class="language-xt">:: main.xpp
+<pre><code class="language-xpp">:: main.xpp
 read "What is your name? " ?name
 read "What is your age? " ?age
-prt "Your name is $(name) and you are $(age) years old"
+prt "Your name is $(name) and you are $(age) years old."
 </code></pre>
 <p>You can also make the name more standout from the rest of the string by making it all capitalized. You can uppercase all the letters in a string by using the <code>upr</code> operator:</p>
 <pre><code class="language-xpp">var myString "Hello, world!"
@@ -469,7 +469,7 @@ prt myString  :: Outputs: "HELLO, WORLD!"
 read "What is your name? " ?name
 upr name
 read "What is your age? " ?age
-prt "Your name is $(name) and you are $(age) years old"
+prt "Your name is $(name) and you are $(age) years old."
 </code></pre>
 <p>You can also use mathematical operators to calculate the user's birth year. By subtracting the user's age from the current year, you get their birth year. You can use the <code>sub</code> operator for this purpose:</p>
 <pre><code class="language-xpp">sub 5 10 ?output
@@ -486,8 +486,8 @@ read "What is your name? " ?name
 upr name
 read "What is your age? " ?age
 int age
-sub 2023 age ?birthYear
-prt "Your name is $(name) and you were born in $(birthYear)"
+sub 2024 age ?birthYear
+prt "Your name is $(name) and you were born in $(birthYear)."
 </code></pre>
 <p>Now it will ask the user their name and age and output their name and birth year. Incredible isn't it?</p>
 <p>In the next lesson, you will learn how to make branches using the <code>if</code> operator.</p>
@@ -535,35 +535,51 @@ myInteger == 5
 <p>Because the branches are strings, if you want to use another (double-quoted) string within the branch, you have to escape it. This is done by appending a backslash (<code>\</code>) right before the double-quote.</p>
 <p>Now let's put it together:</p>
 <pre><code class="language-xpp">var myAge 20
-if (myAge == 20) "prt 'I am 20 years old'" "prt 'I am not 20 years old'"
+if (myAge == 20) { prt "I am 20 years old" } { prt "I am not 20 years old" }
 </code></pre>
 <p>When you run the code, you should see it outputs <code>"I am 20 years old"</code>. Try changing the value of <code>myAge</code> and see what happens.</p>
 <p>The <code>else</code> branch is optional. If you only want to check if the expression is true, you can just use one branch instead:</p>
 <pre><code class="language-xpp">var myInteger 5
-if (myInteger == 5) "prt 'My integer is 5'"
+if (myInteger == 5) { prt "My integer is 5" }
 </code></pre>
 <p>With that knowledge, you can now output a special text if the user name matches yours:</p>
 <pre><code class="language-xpp">:: main.xpp
 read "What is your name? " ?name
-upr name
 read "What is your age? " ?age
-int age
-sub 2023 age ?birthYear
-if (name == "BOB") "prt 'Welcome, Bob!'"
-prt "Your name is $(name) and you were born in $(birthYear)"
+
+:: Keep a copy of their original string
+var ogName name
+
+:: Calculate birth year by using the current year
+int age  :: Ensure it's an integer
+sub 2024 age ?birthYear
+
+:: Convert the name to lowercase (so we can check it)
+if ((lwr name) == "bob") { prt "Welcome, Bob!" }
+
+:: Show them their info
+prt "Your name is $(ogName) and you were born in $(birthYear)."
 </code></pre>
 <p>There are many more comparators, such as the <code>greater than</code> (<code>&gt;</code>) or <code>not equal</code> (<code>!=</code>). They work the same way as the <code>equal to</code> comparator.</p>
 <p>Now's your turn. Check if the user's age is equal to or above 16 and output <code>"You can also drive a car"</code> after you output their name and their birth year if it is true.</p>
-<p>Did you get something like this:</p>
+<p>Did you get something like this?</p>
 <pre><code class="language-xpp">:: main.xpp
 read "What is your name? " ?name
-upr name
 read "What is your age? " ?age
-int age
-sub 2023 age ?birthYear
-if (name == "BOB") "prt 'Welcome, Bob!'"
-prt "Your name is $(name) and you were born in $(birthYear)"
-if (age &gt;= 16) "prt 'You can also drive a car'"
+
+:: Keep a copy of their original string
+var ogName name
+
+:: Calculate birth year by using the current year
+int age  :: Ensure it's an integer
+sub 2024 age ?birthYear
+
+:: Convert the name to lowercase (so we can check it)
+if ((lwr name) == "bob") { prt "Welcome, Bob!" }
+
+:: Show them their info
+prt "Your name is $(ogName) and you were born in $(birthYear)."
+if (age &gt;= 16) { prt "You can also drive a car." }
 </code></pre>
 <p>In the next lesson, you will be learning how to make a calculator using x++.</p>
 <hr />
@@ -600,7 +616,7 @@ if (age &gt;= 16) "prt 'You can also drive a car'"
 <h2 id="lesson-3"><a class="header" href="#lesson-3">Lesson</a></h2>
 <p>From the last three lessons, you learned how to print values into the terminal, get user inputs, modify strings and numbers, and create branches. In this lesson, you will be using all of this knowledge to construct a calculator using x++. Even though it may seem difficult at first, it is just made up of simple components. Let's break it down.</p>
 <p>Let's introduce the program and get some inputs from the user using the <code>prt</code> and <code>read</code> operators:</p>
-<pre><code class="language-xt">:: main.xpp
+<pre><code class="language-xpp">:: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
 read "Please enter your first number: " ?a
@@ -641,7 +657,7 @@ int b
 upr o
 </code></pre>
 <p>Now we can use the <code>if</code> operator to check what operator the user selected and act accordingly. Currently, there are four types of mathematical operators: <code>add</code>, <code>sub</code>, <code>mul</code>, and <code>div</code>. Let's use them:</p>
-<pre><code class="language-xt">:: main.xpp
+<pre><code class="language-xpp">:: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
 read "Please enter your first number: " ?a
@@ -657,13 +673,13 @@ prt "-----"
 int a
 int b
 upr o
-if (o == "A") "add a b ?c"
-if (o == "S") "sub a b ?c"
-if (o == "M") "mul a b ?c"
-if (o == "D") "div a b ?c"
+if (o == "A") { add a b ?c } \
+   (o == "S") { sub a b ?c } \
+   (o == "M") { mul a b ?c } \
+   (o == "D") { div a b ?c }
 </code></pre>
 <p>Since you defined <code>c</code> as the answer to the equation, you can simply output it to the terminal. Using string interpolation, you can also use variables within your strings:</p>
-<pre><code class="language-xt">:: main.xpp
+<pre><code class="language-xpp">:: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
 read "Please enter your first number: " ?a
@@ -679,11 +695,11 @@ prt "-----"
 int a
 int b
 upr o
-if (o == "A") "add a b ?c"
-if (o == "S") "sub a b ?c"
-if (o == "M") "mul a b ?c"
-if (o == "D") "div a b ?c"
-prt "The answer to that equation is $(c)"
+if (o == "A") { add a b ?c } \
+   (o == "S") { sub a b ?c } \
+   (o == "M") { mul a b ?c } \
+   (o == "D") { div a b ?c }
+prt "The answer to that equation is $(c)."
 </code></pre>
 <p>Tada! You got a working calculator. How cool is that?</p>
 <hr />
@@ -1146,11 +1162,11 @@ prt (a + b)
 </code></pre>
 <p>It can be compared using mathematical comparators or be modified using certain operators.</p>
 <p>Unlike Python, integers do allow leading <code>0</code>s to exist:</p>
-<pre><code class="language-xt">var myInteger 05
+<pre><code class="language-xpp">var myInteger 05
 prt myInteger  :: 5
 </code></pre>
 <p>In vanilla x++, it can also be used as a boolean value, where <code>1</code> represents <code>true</code> and <code>0</code> represents <code>false</code>:</p>
-<pre><code class="language-xt">psh hamburgerIsEaten 1
+<pre><code class="language-xpp">psh hamburgerIsEaten 1
 if (hamburgerIsEaten == 1) "prt 'Someone ate my hamburger'"
 </code></pre>
 <hr />
@@ -1212,7 +1228,7 @@ prt "My favorite integer: " (myInteger)
 </code></pre>
 <p>Any non-string data type within a string interpolation will require the use of <code>()</code>.</p>
 <p>When being compared against using mathematical comparators, it is compared lexicographically:</p>
-<pre><code class="language-xt">if "abc" &lt; "cba" "prt 'true'"
+<pre><code class="language-xpp">if "abc" &lt; "cba" "prt 'true'"
 </code></pre>
 <hr />
 <p>Last Updated: March 9th, 2024 by iiPython</p>
@@ -2070,12 +2086,12 @@ prt myInteger
 </ul>
 <h2 id="about-7"><a class="header" href="#about-7">About</a></h2>
 <p>Packages are x++ files written by other people that can be imported to your x++ project using the <code>imp</code> operator:</p>
-<pre><code class="language-xt">imp "examplePackage"
+<pre><code class="language-xpp">imp "examplePackage"
 </code></pre>
 <p>All packages are located in the <code>pkgs/</code> folder. If one is not found, the interpreter will automatically create one. When attempting to import a package, the interpreter will look for the <code>pkgs/&lt;package&gt;/main.xpp</code> file. If one is not found, an error is thrown.</p>
 <p>Imported packages are only available in that one specific file. When attempting to use the package elsewhere, an error is thrown.</p>
 <p>You can use an imported package by referencing the package name and then followed by a dot and the section name like so:</p>
-<pre><code class="language-xt">imp "examplePackage"
+<pre><code class="language-xpp">imp "examplePackage"
 
 examplePackage.mySection
 </code></pre>

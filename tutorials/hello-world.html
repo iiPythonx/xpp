@@ -227,19 +227,19 @@ prt "My name is Bob and I am 20 years old"
 <pre><code class="language-xpp">:: main.xpp
 var name "Bob"
 var age 20
-prt "My name is Bob and I am 20 years old"
+prt "My name is Bob and I am 20 years old."
 </code></pre>
 <p>Your can put your variables into your string using <code>string interpolation</code>. String interpolation is the process of inserting another statement within a string. This is usually done so by wrapping them in <code>$()</code>.</p>
 <p>The statement you can wrap inside of <code>$()</code> can be any valid x++ syntax, however it has another key feature: you can directly reference variables from inside this environment. This means you can do something like the following:</p>
 <pre><code class="language-xpp">var x 5
-prt "$(x) should be 5"
-:: 5 should be 5
+prt "$(x) should be 5."
+:: 5 should be 5.
 </code></pre>
 <p>Let's try it!</p>
 <pre><code class="language-xpp">:: main.xpp
 var name "Bob"
 var age 20
-prt "My name is $(name) and I am $(age) years old"
+prt "My name is $(name) and I am $(age) years old."
 </code></pre>
 <p>You did it! You made your first ever x++ project.</p>
 <p>In the next lesson, you will learn how to get user input and manipulate strings or numbers.</p>

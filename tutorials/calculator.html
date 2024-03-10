@@ -207,7 +207,7 @@
 <h2 id="lesson"><a class="header" href="#lesson">Lesson</a></h2>
 <p>From the last three lessons, you learned how to print values into the terminal, get user inputs, modify strings and numbers, and create branches. In this lesson, you will be using all of this knowledge to construct a calculator using x++. Even though it may seem difficult at first, it is just made up of simple components. Let's break it down.</p>
 <p>Let's introduce the program and get some inputs from the user using the <code>prt</code> and <code>read</code> operators:</p>
-<pre><code class="language-xt">:: main.xpp
+<pre><code class="language-xpp">:: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
 read "Please enter your first number: " ?a
@@ -248,7 +248,7 @@ int b
 upr o
 </code></pre>
 <p>Now we can use the <code>if</code> operator to check what operator the user selected and act accordingly. Currently, there are four types of mathematical operators: <code>add</code>, <code>sub</code>, <code>mul</code>, and <code>div</code>. Let's use them:</p>
-<pre><code class="language-xt">:: main.xpp
+<pre><code class="language-xpp">:: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
 read "Please enter your first number: " ?a
@@ -264,13 +264,13 @@ prt "-----"
 int a
 int b
 upr o
-if (o == "A") "add a b ?c"
-if (o == "S") "sub a b ?c"
-if (o == "M") "mul a b ?c"
-if (o == "D") "div a b ?c"
+if (o == "A") { add a b ?c } \
+   (o == "S") { sub a b ?c } \
+   (o == "M") { mul a b ?c } \
+   (o == "D") { div a b ?c }
 </code></pre>
 <p>Since you defined <code>c</code> as the answer to the equation, you can simply output it to the terminal. Using string interpolation, you can also use variables within your strings:</p>
-<pre><code class="language-xt">:: main.xpp
+<pre><code class="language-xpp">:: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
 read "Please enter your first number: " ?a
@@ -286,11 +286,11 @@ prt "-----"
 int a
 int b
 upr o
-if (o == "A") "add a b ?c"
-if (o == "S") "sub a b ?c"
-if (o == "M") "mul a b ?c"
-if (o == "D") "div a b ?c"
-prt "The answer to that equation is $(c)"
+if (o == "A") { add a b ?c } \
+   (o == "S") { sub a b ?c } \
+   (o == "M") { mul a b ?c } \
+   (o == "D") { div a b ?c }
+prt "The answer to that equation is $(c)."
 </code></pre>
 <p>Tada! You got a working calculator. How cool is that?</p>
 <hr />
