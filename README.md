@@ -99,7 +99,7 @@ Any x++ files should always end in the `.xpp` extension.
 
 You can edit the main entry file by editing the configuration in `.xconfig`. It is a JSON-like file that contains all the configurations for your x++ project. Within it, you should see:
 
-```xconfig
+```json
 {
     "main": "main.xpp"
 }

@@ -34,7 +34,7 @@
 
 The configuration file defines what the project would do on execution. It is always placed in the `.xconfig` file and should be written as if it is within a `*.json` file. If one is not found in the project, the default configuration is used internally instead:
 
-```xconfig
+```json
 {
     "main": "main.xpp"
 }
@@ -42,7 +42,7 @@ The configuration file defines what the project would do on execution. It is alw
 
 The configuration file can also contain non-essential information, such as the author, version, or description of your project:
 
-```xconfig
+```json
 {
     "author": "my-name",
     "contributors": [
@@ -61,7 +61,7 @@ The configuration file can also contain non-essential information, such as the a
 
 ### Main
 
-```xconfig
+```json
 {
     "main": <path>
 }
