@@ -26,7 +26,7 @@
 
 Packages are x++ files written by other people that can be imported to your x++ project using the `imp` operator:
 
-```xt
+```xpp
 imp "examplePackage"
 ```
 
@@ -36,7 +36,7 @@ Imported packages are only available in that one specific file. When attempting 
 
 You can use an imported package by referencing the package name and then followed by a dot and the section name like so:
 
-```xt
+```xpp
 imp "examplePackage"
 
 examplePackage.mySection

@@ -91,7 +91,11 @@ class Datastore(object):
                         elif token[1].isdigit() or token[1] in "+-":
                             break
 
-                        expr = expr.replace(token, str(self.mem.interpreter.execute(token[1:][:-1])))
+                        new_data = self.mem.interpreter.execute(token[1:][:-1])
+                        if isinstance(new_data, str):
+                            new_data = f"\"{new_data}\""
+
+                        expr = expr.replace(token, str(new_data))
 
                     return simple_eval(expr, names = self.mem.variables["scope"][self.last_stack.sid])
 

@@ -28,7 +28,7 @@ So far, you should've gotten this in your `main.xpp` file:
 :: main.xpp
 var name "Bob"
 var age 20
-prt "My name is $(name) and I am $(age) years old"
+prt "My name is $(name) and I am $(age) years old."
 ```
 
 What if you want to ask what the user's name is instead of yours? You can use the `read` operator to get user input from the terminal. The `read` operator takes in two arguments, the `prompt` and the `output`. The prompt is what the user will see when you get a user input. You can think of it as asking a question. The output is the answer from the user input.
@@ -41,11 +41,11 @@ read "What is your favorite color? " ?favoriteColor
 
 You can replace your `var` operators and use the `read` operators instead:
 
-```xt
+```xpp
 :: main.xpp
 read "What is your name? " ?name
 read "What is your age? " ?age
-prt "Your name is $(name) and you are $(age) years old"
+prt "Your name is $(name) and you are $(age) years old."
 ```
 
 You can also make the name more standout from the rest of the string by making it all capitalized. You can uppercase all the letters in a string by using the `upr` operator:
@@ -63,7 +63,7 @@ Let's try it:
 read "What is your name? " ?name
 upr name
 read "What is your age? " ?age
-prt "Your name is $(name) and you are $(age) years old"
+prt "Your name is $(name) and you are $(age) years old."
 ```
 
 You can also use mathematical operators to calculate the user's birth year. By subtracting the user's age from the current year, you get their birth year. You can use the `sub` operator for this purpose:
@@ -89,8 +89,8 @@ read "What is your name? " ?name
 upr name
 read "What is your age? " ?age
 int age
-sub 2023 age ?birthYear
-prt "Your name is $(name) and you were born in $(birthYear)"
+sub 2024 age ?birthYear
+prt "Your name is $(name) and you were born in $(birthYear)."
 ```
 
 Now it will ask the user their name and age and output their name and birth year. Incredible isn't it?

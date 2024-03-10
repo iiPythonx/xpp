@@ -43,7 +43,7 @@ Now let's put it together:
 
 ```xpp
 var myAge 20
-if (myAge == 20) "prt 'I am 20 years old'" "prt 'I am not 20 years old'"
+if (myAge == 20) { prt "I am 20 years old" } { prt "I am not 20 years old" }
 ```
 
 When you run the code, you should see it outputs `"I am 20 years old"`. Try changing the value of `myAge` and see what happens.
@@ -52,7 +52,7 @@ The `else` branch is optional. If you only want to check if the expression is tr
 
 ```xpp
 var myInteger 5
-if (myInteger == 5) "prt 'My integer is 5'"
+if (myInteger == 5) { prt "My integer is 5" }
 ```
 
 With that knowledge, you can now output a special text if the user name matches yours:
@@ -60,30 +60,46 @@ With that knowledge, you can now output a special text if the user name matches 
 ```xpp
 :: main.xpp
 read "What is your name? " ?name
-upr name
 read "What is your age? " ?age
-int age
-sub 2023 age ?birthYear
-if (name == "BOB") "prt 'Welcome, Bob!'"
-prt "Your name is $(name) and you were born in $(birthYear)"
+
+:: Keep a copy of their original string
+var ogName name
+
+:: Calculate birth year by using the current year
+int age  :: Ensure it's an integer
+sub 2024 age ?birthYear
+
+:: Convert the name to lowercase (so we can check it)
+if ((lwr name) == "bob") { prt "Welcome, Bob!" }
+
+:: Show them their info
+prt "Your name is $(ogName) and you were born in $(birthYear)."
 ```
 
 There are many more comparators, such as the `greater than` (`>`) or `not equal` (`!=`). They work the same way as the `equal to` comparator.
 
 Now's your turn. Check if the user's age is equal to or above 16 and output `"You can also drive a car"` after you output their name and their birth year if it is true.
 
-Did you get something like this:
+Did you get something like this?
 
 ```xpp
 :: main.xpp
 read "What is your name? " ?name
-upr name
 read "What is your age? " ?age
-int age
-sub 2023 age ?birthYear
-if (name == "BOB") "prt 'Welcome, Bob!'"
-prt "Your name is $(name) and you were born in $(birthYear)"
-if (age >= 16) "prt 'You can also drive a car'"
+
+:: Keep a copy of their original string
+var ogName name
+
+:: Calculate birth year by using the current year
+int age  :: Ensure it's an integer
+sub 2024 age ?birthYear
+
+:: Convert the name to lowercase (so we can check it)
+if ((lwr name) == "bob") { prt "Welcome, Bob!" }
+
+:: Show them their info
+prt "Your name is $(ogName) and you were born in $(birthYear)."
+if (age >= 16) { prt "You can also drive a car." }
 ```
 
 In the next lesson, you will be learning how to make a calculator using x++.

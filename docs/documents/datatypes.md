@@ -126,14 +126,14 @@ It can be compared using mathematical comparators or be modified using certain o
 
 Unlike Python, integers do allow leading `0`s to exist:
 
-```xt
+```xpp
 var myInteger 05
 prt myInteger  :: 5
 ```
 
 In vanilla x++, it can also be used as a boolean value, where `1` represents `true` and `0` represents `false`:
 
-```xt
+```xpp
 psh hamburgerIsEaten 1
 if (hamburgerIsEaten == 1) "prt 'Someone ate my hamburger'"
 ```
@@ -225,7 +225,7 @@ Any non-string data type within a string interpolation will require the use of `
 
 When being compared against using mathematical comparators, it is compared lexicographically:
 
-```xt
+```xpp
 if "abc" < "cba" "prt 'true'"
 ```
 

@@ -60,7 +60,7 @@ Let's put that in your code!
 :: main.xpp
 var name "Bob"
 var age 20
-prt "My name is Bob and I am 20 years old"
+prt "My name is Bob and I am 20 years old."
 ```
 
 Your can put your variables into your string using `string interpolation`. String interpolation is the process of inserting another statement within a string. This is usually done so by wrapping them in `$()`.
@@ -69,8 +69,8 @@ The statement you can wrap inside of `$()` can be any valid x++ syntax, however 
 
 ```xpp
 var x 5
-prt "$(x) should be 5"
-:: 5 should be 5
+prt "$(x) should be 5."
+:: 5 should be 5.
 ```
 
 Let's try it!
@@ -79,7 +79,7 @@ Let's try it!
 :: main.xpp
 var name "Bob"
 var age 20
-prt "My name is $(name) and I am $(age) years old"
+prt "My name is $(name) and I am $(age) years old."
 ```
 
 You did it! You made your first ever x++ project.

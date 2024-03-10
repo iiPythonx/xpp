@@ -24,7 +24,7 @@ From the last three lessons, you learned how to print values into the terminal, 
 
 Let's introduce the program and get some inputs from the user using the `prt` and `read` operators:
 
-```xt
+```xpp
 :: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
@@ -74,7 +74,7 @@ upr o
 
 Now we can use the `if` operator to check what operator the user selected and act accordingly. Currently, there are four types of mathematical operators: `add`, `sub`, `mul`, and `div`. Let's use them:
 
-```xt
+```xpp
 :: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
@@ -91,15 +91,15 @@ prt "-----"
 int a
 int b
 upr o
-if (o == "A") "add a b ?c"
-if (o == "S") "sub a b ?c"
-if (o == "M") "mul a b ?c"
-if (o == "D") "div a b ?c"
+if (o == "A") { add a b ?c } \
+   (o == "S") { sub a b ?c } \
+   (o == "M") { mul a b ?c } \
+   (o == "D") { div a b ?c }
 ```
 
 Since you defined `c` as the answer to the equation, you can simply output it to the terminal. Using string interpolation, you can also use variables within your strings:
 
-```xt
+```xpp
 :: main.xpp
 prt "Welcome to the x++ calculator!"
 prt "-----"
@@ -116,11 +116,11 @@ prt "-----"
 int a
 int b
 upr o
-if (o == "A") "add a b ?c"
-if (o == "S") "sub a b ?c"
-if (o == "M") "mul a b ?c"
-if (o == "D") "div a b ?c"
-prt "The answer to that equation is $(c)"
+if (o == "A") { add a b ?c } \
+   (o == "S") { sub a b ?c } \
+   (o == "M") { mul a b ?c } \
+   (o == "D") { div a b ?c }
+prt "The answer to that equation is $(c)."
 ```
 
 Tada! You got a working calculator. How cool is that?
