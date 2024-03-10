@@ -264,7 +264,7 @@ prt "Hello, world!"
 </code></pre>
 <p>Any x++ files should always end in the <code>.xpp</code> extension.</p>
 <p>You can edit the main entry file by editing the configuration in <code>.xconfig</code>. It is a JSON-like file that contains all the configurations for your x++ project. Within it, you should see:</p>
-<pre><code class="language-xconfig">{
+<pre><code class="language-json">{
     "main": "main.xpp"
 }
 </code></pre>
@@ -1015,12 +1015,12 @@ prt 5  :: This is an inline comment
 </ul>
 <h2 id="about-4"><a class="header" href="#about-4">About</a></h2>
 <p>The configuration file defines what the project would do on execution. It is always placed in the <code>.xconfig</code> file and should be written as if it is within a <code>*.json</code> file. If one is not found in the project, the default configuration is used internally instead:</p>
-<pre><code class="language-xconfig">{
+<pre><code class="language-json">{
     "main": "main.xpp"
 }
 </code></pre>
 <p>The configuration file can also contain non-essential information, such as the author, version, or description of your project:</p>
-<pre><code class="language-xconfig">{
+<pre><code class="language-json">{
     "author": "my-name",
     "contributors": [
         "contributor A", "contributor B"
@@ -1036,7 +1036,7 @@ prt 5  :: This is an inline comment
 </blockquote>
 <h2 id="documentation-1"><a class="header" href="#documentation-1">Documentation</a></h2>
 <h3 id="main"><a class="header" href="#main">Main</a></h3>
-<pre><code class="language-xconfig">{
+<pre><code class="language-json">{
     "main": &lt;path&gt;
 }
 </code></pre>
