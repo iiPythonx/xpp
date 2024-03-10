@@ -1,35 +1,61 @@
+# Copyright (c) 2024 iiPython
+
 # Modules
-from rich import print as rp
-from rich.table import Table
+from typing import Any, List
 from types import FunctionType
 
-# Load xpp
-from xpp import Interpreter
-from xpp.core.sections import Section
+# Fake classes
+class FakeDatastore():
+    def __init__(self, value: Any) -> None:
+        self.raw, self.value = value, value
+        self.deleted = False
 
-# Fake out the x++ interpreter
-inter = Interpreter("_tests.xpp", [])
-section = Section("_tests.main", "", [], 1, [])
-section.initialize(inter.memory)
-inter.stack.append(section)
+    def set(self, value: Any) -> None:
+        self.value = value
 
-# Start running x++ code
-def start_tests(name: str, tests: list) -> None:
-    table = Table(title = f"x++ {name} Test Results")
-    [table.add_column(c) for c in ["Expression", "x++", "Expected", "Result"]]
-    for test in tests:
-        try:
-            resp = inter.execute(test[0])
+    def delete(self) -> None:
+        self.deleted = True
 
-        except Exception as e:
-            resp = type(e).__name__
+    def refresh(self) -> None:
+        if isinstance(self.value, bool):
+            self.value = not self.value
 
-        isf = isinstance(test[1], FunctionType)
-        table.add_row(
-            str(test[0]),
-            str(resp),
-            str(test[1] if not isf else "<Function>"),
-            "[green]✓ PASS[/]" if (test[1]() if isf else (resp == test[1])) else "[red]✕ FAIL[/]"
-        )
+class FakeSection():
+    def __init__(self) -> None:
+        self.active = True
+        self.return_value = []
 
-    rp(table)
+class FakeInterpreter():
+    def __init__(self) -> None:
+        self.stack = [FakeSection()]
+        self.recently_executed = []
+
+    def execute(self, data: Any) -> None:
+        if data == "_RAISE":
+            raise ValueError
+
+        self.recently_executed.append(data)
+
+    def run_section(self, section: str, args: List[Any]) -> List[Any]:
+        return args
+
+class FakeMemory():
+    def __init__(self) -> None:
+        self.interpreter = FakeInterpreter()
+        self.variables = {}
+
+# Initialization
+global_mem = FakeMemory()
+
+# Handle running
+def run(function: FunctionType, args: List[Any]) -> Any:
+    args = [
+        FakeDatastore(a) if not isinstance(a, FakeDatastore) else a
+        for a in args
+    ]
+    return function(global_mem, args)
+
+def full_evaluate(function: FunctionType, args: List[Any], expect: Any) -> None:
+    output = FakeDatastore("?")
+    assert run(function, args + [output]) == expect
+    assert output.value == expect

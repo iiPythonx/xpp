@@ -50,3 +50,9 @@ path = "src/xpp/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/xpp", "src/caffeine"]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = "src"

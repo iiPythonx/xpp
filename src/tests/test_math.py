@@ -1,43 +1,38 @@
-# Copyright 2023-2024 iiPython
+# Copyright (c) 2024 iiPython
 
 # Modules
-import sys
-import pathlib
-sys.path.insert(1, str(pathlib.Path(__file__).parent.parent.resolve()))
+from xpp.modules.ops.stdlib.math import XOperators
 
-# Start testing
-from tests import start_tests
-start_tests("Math", [
+from . import run, full_evaluate
 
-    # Addition testing
-    ("add 2 3", 5),
-    ("add 0.1 0.2", .1 + .2),
-    ("add 0.25 (add 1 0.5)", 1.75),
-    ("add 2 (8 + 10)", 20),
-    ("add 1 (.1 + .2 + .3 + .4)", 2),
-    ("add (7 + 4 + (2 + (5 + 2))) (8 + 9 + 2)", 39),
+# Begin test definitions
+def test_add():
+    full_evaluate(XOperators.add, [1, 2, 3], 6)
 
-    # Subtraction testing
-    ("sub 2 3", -1),
-    ("sub 0.1 0.2", -.1),
-    ("sub 0.25 (sub 1 0.5)", -.25),
-    ("sub 2 (8 - 10)", 4),
-    ("sub 1 (.1 - .2 - .3 - .4)", 1.8),
-    ("sub (7 - 4 - (2 - (5 - 2))) (8 - 9 - 2)", 7),
+def test_dec():
+    full_evaluate(XOperators.dec, [5], 4)
 
-    # Multiplication testing
-    ("mul 2 3", 6),
-    ("mul 0.1 0.2", .1 * .2),
-    ("mul 0.25 (mul 1 0.5)", .125),
-    ("mul 2 (8 * 10)", 160),
-    ("mul 1 (.1 * .2 * .3 * .4)", .1 * .2 * .3 * .4),
-    ("mul (7 * 4 * (2 * (5 * 2))) (8 * 9 * 2)", 80640),
+def test_div():
+    full_evaluate(XOperators.div, [1, 2], .5)
 
-    # Division testing
-    ("div 2 3", 2 / 3),
-    ("div 0.1 0.2", .1 / .2),
-    ("div 0.25 (div 1 0.5)", .125),
-    ("div 2 (8 / 10)", 2.5),
-    ("div 1 (.1 / .2 / .3 / .4)", .24),
-    ("div (7 / 4 / (2 / (5 / 2))) (8 / 9 / 2)", 4.921875),
-])
+def test_inc():
+    full_evaluate(XOperators.inc, [5], 6)
+
+def test_mul():
+    full_evaluate(XOperators.mul, [5, 3], 15)
+
+def test_pow():
+    full_evaluate(XOperators.pow, [5, 2], 25)
+
+def test_rnd():
+    full_evaluate(XOperators.rnd, [0.3], 0)
+    full_evaluate(XOperators.rnd, [0.7], 1)
+    full_evaluate(XOperators.rnd, [0.5666, 2], .57)
+    full_evaluate(XOperators.rnd, [0.203, 3], .203)
+
+def test_rng():
+    assert isinstance(run(XOperators.rng, [1, 5]), int)
+    full_evaluate(XOperators.rng, [1, 1], 1)
+
+def test_sub():
+    full_evaluate(XOperators.sub, [1, 2], -1)
