@@ -134,8 +134,8 @@ prt myInteger  :: 5
 In vanilla x++, it can also be used as a boolean value, where `1` represents `true` and `0` represents `false`:
 
 ```xpp
-psh hamburgerIsEaten 1
-if (hamburgerIsEaten == 1) "prt 'Someone ate my hamburger'"
+var hamburgerIsEaten 1
+if (hamburgerIsEaten == 1) { prt "Someone ate my hamburger" }
 ```
 
 ---
@@ -154,7 +154,7 @@ It cannot be modified using any operators, and it cannot be used as a source or 
 
 ```xpp
 :: This will throw a parsing exception
-if (nonexistingVariable == anotherNonExistingVariable) "prt 'true'"
+if (nonexistingVariable == anotherNonExistingVariable) { prt "true" }
 ```
 
 ---
@@ -218,7 +218,7 @@ prt ("Hello, " + secondString)  :: "Hello, world!"
 
 :: If you have other datatypes:
 var myInteger 5
-prt "My favorite integer: " (myInteger)
+prt "My favorite integer:" (myInteger)
 ```
 
 Any non-string data type within a string interpolation will require the use of `()`.
@@ -226,7 +226,7 @@ Any non-string data type within a string interpolation will require the use of `
 When being compared against using mathematical comparators, it is compared lexicographically:
 
 ```xpp
-if "abc" < "cba" "prt 'true'"
+if ("abc" < "cba") { prt "true" }
 ```
 
 ---

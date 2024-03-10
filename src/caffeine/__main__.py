@@ -18,9 +18,6 @@ try:
 except ImportError:
     minify = None
 
-# Locate GCC
-GCC_PATH = which("gcc")
-
 # Initialization
 def do_run(file: str) -> None:
     file = str(file)

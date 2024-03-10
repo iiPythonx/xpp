@@ -43,13 +43,14 @@ def operator_pow(func: object, args: list) -> None:
 @operator("rnd")
 def operator_rnd(func: object, args: list) -> None:
     if len(args) == 3:
-        return func.append(f"{args[2]} = round({convert_value(args[0])}, {convert_value(args[1])})")
+        return func.append(f"{args[2].lstrip('?')} = round({convert_value(args[0])}, {convert_value(args[1])})")
 
-    func.append(f"{args[1]} = round({convert_value(args[0])})")
+    func.append(f"{args[1].lstrip('?')} = round({convert_value(args[0])})")
 
 @operator("rng")
 def operator_rng(func: object, args: list) -> None:
-    func.append(f"{args[2]} = random.randint({convert_value(args[0])}, {convert_value(args[1])})")
+    func.prepend("import random")
+    func.append(f"{args[2].lstrip('?')} = random.randint({convert_value(args[0])}, {convert_value(args[1])})")
 
 @operator("sub")
 def operator_sub(func: object, args: list) -> None:
