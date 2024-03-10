@@ -5,6 +5,7 @@ import operator
 from typing import List
 from random import randint
 from types import FunctionType
+
 from xpp.core.datastore import Datastore
 from xpp.modules.ops.shared import (
     fetch_io_args, InvalidArgument

@@ -3,6 +3,7 @@
 # Modules
 import sys
 from time import sleep
+
 from xpp.modules.ops.shared import (
     fetch_io_args, InvalidArgument
 )
