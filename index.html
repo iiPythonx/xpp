@@ -1,0 +1,354 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introduction - x++ Documentation</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="An interpreted, minimalistic programming language.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Reference Guide</li><li class="chapter-item expanded "><a href="tutorials.html"><strong aria-hidden="true">1.</strong> Tutorials</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorials/hello-world.html"><strong aria-hidden="true">1.1.</strong> Hello, world!</a></li><li class="chapter-item expanded "><a href="tutorials/user-input.html"><strong aria-hidden="true">1.2.</strong> User Input</a></li><li class="chapter-item expanded "><a href="tutorials/branching.html"><strong aria-hidden="true">1.3.</strong> Branching</a></li><li class="chapter-item expanded "><a href="tutorials/calculator.html"><strong aria-hidden="true">1.4.</strong> Calculator</a></li></ol></li><li class="chapter-item expanded "><a href="documents.html"><strong aria-hidden="true">2.</strong> Documents</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="documents/comments.html"><strong aria-hidden="true">2.1.</strong> Comments</a></li><li class="chapter-item expanded "><a href="documents/comparators.html"><strong aria-hidden="true">2.2.</strong> Comparators</a></li><li class="chapter-item expanded "><a href="documents/configuration.html"><strong aria-hidden="true">2.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="documents/datatypes.html"><strong aria-hidden="true">2.4.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="documents/operators.html"><strong aria-hidden="true">2.5.</strong> Operators</a></li><li class="chapter-item expanded "><a href="documents/packages.html"><strong aria-hidden="true">2.6.</strong> Packages</a></li><li class="chapter-item expanded "><a href="documents/sections.html"><strong aria-hidden="true">2.7.</strong> Sections</a></li><li class="chapter-item expanded "><a href="documents/variables.html"><strong aria-hidden="true">2.8.</strong> Variables</a></li></ol></li><li class="chapter-item expanded "><a href="python-api.html"><strong aria-hidden="true">3.</strong> Python API</a></li><li class="chapter-item expanded "><a href="caffeine.html"><strong aria-hidden="true">4.</strong> Caffeine</a></li><li class="chapter-item expanded "><a href="stdlib.html"><strong aria-hidden="true">5.</strong> Standard Library</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">x++ Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/iiPythonx/xpp" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <div align = "center">
+    <h1 id="xpp"><a class="header" href="#xpp">xpp</a></h1>
+    <hr>
+    <p>an interpreted, minimalistic programming language</p>
+    <img alt="License" src="https://img.shields.io/github/license/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Downloads" src="https://img.shields.io/github/downloads/iiPythonx/xpp/total.svg?color=c3e7ff&style=flat-square">
+    <img alt="Last commit" src="https://img.shields.io/github/last-commit/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Repo size" src="https://img.shields.io/github/repo-size/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <img alt="Stars" src="https://img.shields.io/github/stars/iiPythonx/xpp?color=c3e7ff&style=flat-square">
+    <hr>
+</div>
+<!-- ---- Introduction ---- -->
+<h2 align = "center" id = "introduction">
+    Introduction
+</h2>
+<p>Welcome to the official documentation for x++! This documentation will get you started in the development of your first x++ project or will help you learn more about x++ in general with in-depth explanations and tutorials.</p>
+<!-- ---- TOC ---- -->
+<h2 align = "center" id = "table-of-contents">
+    Table of Contents
+</h2>
+<ul>
+<li><strong>Home ▾</strong>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#table-of-contents">ToC</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#getting-started">Getting Started ▾</a>
+<ul>
+<li><a href="#step-1-installation">Step 1: Installation</a></li>
+<li><a href="#step-2-set-up">Step 2: Set-Up</a></li>
+<li><a href="#step-3-execution">Step 3: Execution</a></li>
+</ul>
+</li>
+<li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+<li><a href="#credits--links">Credits and Links ▾</a>
+<ul>
+<li><a href="#contributors">Contributors</a></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="tutorials.html">Tutorials</a></li>
+<li><a href="documents.html">Documents</a></li>
+<li><a href="python-api.html">Python API</a></li>
+<li><a href="stdlib.html">Standard Library</a></li>
+</ul>
+<!-- ---- About ---- -->
+<h2 align = "center" id = "about">
+    About
+</h2>
+<p>x++ (Pronounced "ex-plus-plus") is a high-level, interpreted language written in Python by <a href="https://github.com/iiPythonx">iiPython</a> with low-level syntax, similar to that of <a href="https://en.wikipedia.org/wiki/X86_assembly_language">x86 Assembly</a> (and additionally inspired by <a href="https://en.wikipedia.org/wiki/Batch_file">Batch</a>).</p>
+<p>x++ contains features such as:</p>
+<ul>
+<li>Automatic garbage collection</li>
+<li>Scoped/file/global variables</li>
+<li>Sectioning/function system</li>
+<li>Mature python integration</li>
+<li>Import/export/module system</li>
+<li>Object-oriented programming through the use of files</li>
+<li>... much more!</li>
+</ul>
+<!-- ---- Getting started ---- -->
+<h2 align = "center" id = "getting-started">
+    Getting Started
+</h2>
+<h3 id="step-1-installation"><a class="header" href="#step-1-installation">Step 1: Installation</a></h3>
+<p>First and foremost, make sure you have <a href="https://python.org/downloads/">Python</a> (Python 3.10 is required, however we recommend 3.11+) installed on your device. You can check if you have Python installed by opening up a terminal and typing:</p>
+<pre><code>python3 -V
+</code></pre>
+<p>(on NT* platforms, replace <code>python3</code> with <code>py</code>)</p>
+<p>It is highly recommended to have a text editor or Integrated Development Environment, such as <a href="https://code.visualstudio.com/">Visual Studio Code</a>, as its built-in development tools and add-ons will speed up and facilitate your development process. However, a simple text editor like notepad is sufficient.</p>
+<p>Next, visit our <a href="https://github.com/iiPythonx/xpp/">github repository</a> and download a clone of the repository by clicking on the green <code>Code ▾</code> button and the <code>Download ZIP</code> option. Optionally, if you have <a href="https://git-scm.com/">git</a> installed on your device, you can also clone the repository by opening up a terminal and typing:</p>
+<pre><code>git clone https://github.com/iiPythonx/xpp
+</code></pre>
+<p>To install xpp system-wide, run the following:</p>
+<pre><code>pip install .
+</code></pre>
+<p>You will now have the <code>xpp</code> command available for use.</p>
+<p>If you are choosing Visual Studio Code as your Integrated Development Environment, you can also install the <a href="https://marketplace.visualstudio.com/items?itemName=iiPython.xpp">x++ extension</a> on the marketplace to get syntax highlighting on your x++ files.</p>
+<h3 id="step-2-set-up"><a class="header" href="#step-2-set-up">Step 2: Set-Up</a></h3>
+<p>Once you open up your x++ project, you should be able to find a file named <code>main.xpp</code>. By default, this is your main entry file and is where you will be writing your x++ code. Within the file, you should see an example program similar to:</p>
+<pre><code class="language-xpp">:: Main
+prt "Hello, world!"
+</code></pre>
+<p>Any x++ files should always end in the <code>.xpp</code> extension.</p>
+<p>You can edit the main entry file by editing the configuration in <code>.xconfig</code>. It is a JSON-like file that contains all the configurations for your x++ project. Within it, you should see:</p>
+<pre><code class="language-xconfig">{
+    "main": "main.xpp"
+}
+</code></pre>
+<blockquote>
+<p>You can learn more about setting up your project in the <a href="tutorials.html">tutorials</a>.</p>
+</blockquote>
+<h3 id="step-3-execution"><a class="header" href="#step-3-execution">Step 3: Execution</a></h3>
+<p>After you are done writing your x++ code, you can execute your x++ project immediately by opening up a terminal and typing:</p>
+<pre><code>python main.py .
+</code></pre>
+<p>Currently, you should see the terminal output:</p>
+<pre><code>"Hello, world!"
+</code></pre>
+<blockquote>
+<p>You can also compile your xpp code into Python using <a href="caffeine.html">caffeine</a>.</p>
+</blockquote>
+<!-- ---- FAQ ---- -->
+<h2 align = "center">
+    Frequently Asked Questions
+</h2>
+<h3 id="q-why-is-it-called-x"><a class="header" href="#q-why-is-it-called-x">Q: Why is it called x++?</a></h3>
+<p>The language originally started as the "X Programming Language" because the name sounded cool. As development went on, a second revision was published and the name was changed to <code>x2</code>.<br />
+Starting on March 6th, 2023, x2 was deprecated in favor of x++ as the language was beginning to undergo major changes.</p>
+<h3 id="q-can-i-use-x-for-data-management-game-design-or-simply-for-fun"><a class="header" href="#q-can-i-use-x-for-data-management-game-design-or-simply-for-fun">Q: Can I use x++ for data management, game design, or simply for fun?</a></h3>
+<p>Most of the things you could think of making are able to be created within x++. However, you can also supercharge xpp with the power of Python; <a href="python-api.html">see here</a>.</p>
+<!-- ---- Contrib + resources ---- -->
+<h2 align = "center">
+    Credits & Links
+</h2>
+<h3 id="contributors"><a class="header" href="#contributors">Contributors</a></h3>
+<ul>
+<li><a href="https://github.com/iiPythonx">iiPython</a> - Developer, Documentation</li>
+<li><a href="https://github.com/DmmDGM">DmmD Gaming</a> - Original Documentation, Ideas, &amp; Standard Library</li>
+</ul>
+<h3 id="resources"><a class="header" href="#resources">Resources</a></h3>
+<ul>
+<li><a href="https://github.com/iiPythonx/xpp">Github Repository</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=iiPython.xplusplus">Visual Studio Code x++ Extension</a></li>
+</ul>
+<hr />
+<p>Last Updated: December 2nd, 2023 by iiPython</p>
+<p><a href="#introduction">↑ Go To Top</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="tutorials.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="tutorials.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
