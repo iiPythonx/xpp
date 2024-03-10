@@ -23,6 +23,7 @@ jobs:
       - run: |
           cd docs
           mdbook build
+          echo 'xpp.iipython.dev' > book/CNAME
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
