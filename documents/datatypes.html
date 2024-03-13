@@ -278,8 +278,8 @@ prt (a + b)
 prt myInteger  :: 5
 </code></pre>
 <p>In vanilla x++, it can also be used as a boolean value, where <code>1</code> represents <code>true</code> and <code>0</code> represents <code>false</code>:</p>
-<pre><code class="language-xpp">psh hamburgerIsEaten 1
-if (hamburgerIsEaten == 1) "prt 'Someone ate my hamburger'"
+<pre><code class="language-xpp">var hamburgerIsEaten 1
+if (hamburgerIsEaten == 1) { prt "Someone ate my hamburger" }
 </code></pre>
 <hr />
 <h3 id="null"><a class="header" href="#null">Null</a></h3>
@@ -289,7 +289,7 @@ if (hamburgerIsEaten == 1) "prt 'Someone ate my hamburger'"
 </code></pre>
 <p>It cannot be modified using any operators, and it cannot be used as a source or target within an expression:</p>
 <pre><code class="language-xpp">:: This will throw a parsing exception
-if (nonexistingVariable == anotherNonExistingVariable) "prt 'true'"
+if (nonexistingVariable == anotherNonExistingVariable) { prt "true" }
 </code></pre>
 <hr />
 <h3 id="string"><a class="header" href="#string">String</a></h3>
@@ -336,11 +336,11 @@ prt ("Hello, " + secondString)  :: "Hello, world!"
 
 :: If you have other datatypes:
 var myInteger 5
-prt "My favorite integer: " (myInteger)
+prt "My favorite integer:" (myInteger)
 </code></pre>
 <p>Any non-string data type within a string interpolation will require the use of <code>()</code>.</p>
 <p>When being compared against using mathematical comparators, it is compared lexicographically:</p>
-<pre><code class="language-xpp">if "abc" &lt; "cba" "prt 'true'"
+<pre><code class="language-xpp">if ("abc" &lt; "cba") { prt "true" }
 </code></pre>
 <hr />
 <p>Last Updated: March 9th, 2024 by iiPython</p>

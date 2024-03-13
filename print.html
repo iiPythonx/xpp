@@ -1166,8 +1166,8 @@ prt (a + b)
 prt myInteger  :: 5
 </code></pre>
 <p>In vanilla x++, it can also be used as a boolean value, where <code>1</code> represents <code>true</code> and <code>0</code> represents <code>false</code>:</p>
-<pre><code class="language-xpp">psh hamburgerIsEaten 1
-if (hamburgerIsEaten == 1) "prt 'Someone ate my hamburger'"
+<pre><code class="language-xpp">var hamburgerIsEaten 1
+if (hamburgerIsEaten == 1) { prt "Someone ate my hamburger" }
 </code></pre>
 <hr />
 <h3 id="null"><a class="header" href="#null">Null</a></h3>
@@ -1177,7 +1177,7 @@ if (hamburgerIsEaten == 1) "prt 'Someone ate my hamburger'"
 </code></pre>
 <p>It cannot be modified using any operators, and it cannot be used as a source or target within an expression:</p>
 <pre><code class="language-xpp">:: This will throw a parsing exception
-if (nonexistingVariable == anotherNonExistingVariable) "prt 'true'"
+if (nonexistingVariable == anotherNonExistingVariable) { prt "true" }
 </code></pre>
 <hr />
 <h3 id="string"><a class="header" href="#string">String</a></h3>
@@ -1224,11 +1224,11 @@ prt ("Hello, " + secondString)  :: "Hello, world!"
 
 :: If you have other datatypes:
 var myInteger 5
-prt "My favorite integer: " (myInteger)
+prt "My favorite integer:" (myInteger)
 </code></pre>
 <p>Any non-string data type within a string interpolation will require the use of <code>()</code>.</p>
 <p>When being compared against using mathematical comparators, it is compared lexicographically:</p>
-<pre><code class="language-xpp">if "abc" &lt; "cba" "prt 'true'"
+<pre><code class="language-xpp">if ("abc" &lt; "cba") { prt "true" }
 </code></pre>
 <hr />
 <p>Last Updated: March 9th, 2024 by iiPython</p>
@@ -2318,12 +2318,36 @@ some_operator
 <li><strong>Caffeine ▾</strong>
 <ul>
 <li><a href="caffeine.html#introduction">Introduction</a></li>
+<li><a href="caffeine.html#basic-usage">Basic Usage</a></li>
+<li><a href="caffeine.html#notice">Notice</a></li>
 </ul>
 </li>
 <li><a href="stdlib.html">Standard Library</a></li>
 </ul>
 <h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
-<p>This document is coming soon.</p>
+<p>Caffeine is a x++ to Python conversion module and CLI. It converts your existing code to Python for performance improvements or just general codebase migration.<br />
+It's included with x++ since version 3.1.2 and is available globally as the Python package <code>caffeine</code>.</p>
+<p>It implements <strong>all</strong> features available in xpp except for imports.</p>
+<h2 id="basic-usage"><a class="header" href="#basic-usage">Basic Usage</a></h2>
+<p>If you had a file called <code>main.xpp</code> and wanted to convert it to Python, you could do something like this:</p>
+<pre><code class="language-sh">caffeine main.xpp
+</code></pre>
+<p>This will give you a  <code>main.py</code> file in the same directory.</p>
+<hr />
+<p>Another feature is auto minification of the resulting Python code via the <code>-1</code> flag.<br />
+To convert <code>main.xpp</code> to minified Python, you would run:</p>
+<pre><code class="language-sh">caffeine -o -1 main.xpp
+</code></pre>
+<p>Notice the <code>-o</code> in there? That stands for <code>overwrite</code>, so caffeine will write over the existing <code>main.py</code> file (if it exists).</p>
+<hr />
+<p>Lastly, Caffeine supports automatic building via <a href="https://pyinstaller.org">pyinstaller</a>.<br />
+To convert <code>main.xpp</code> to an exe (or binary, depending on your OS) and then run it automatically, you can do something like this:</p>
+<pre><code class="language-sh">caffeine -o -r -b main.xpp
+</code></pre>
+<p>This will give you a <code>main</code> file and will run it automatically after pyinstaller builds it.<br />
+However, this obviouslly requires that you have pyinstaller installed and added to system PATH.</p>
+<h2 id="notice"><a class="header" href="#notice">Notice</a></h2>
+<p>Run <code>caffeine --help</code> for more up to date and accurate information then these docs can provide.</p>
 <hr />
 <p>Last Updated: March 9th, 2024 by iiPython</p>
 <p><a href="caffeine.html#x--caffeine">↑ Go To Top</a></p>

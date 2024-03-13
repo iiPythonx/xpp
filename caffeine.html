@@ -186,12 +186,36 @@
 <li><strong>Caffeine ▾</strong>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
+<li><a href="#basic-usage">Basic Usage</a></li>
+<li><a href="#notice">Notice</a></li>
 </ul>
 </li>
 <li><a href="stdlib.html">Standard Library</a></li>
 </ul>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
-<p>This document is coming soon.</p>
+<p>Caffeine is a x++ to Python conversion module and CLI. It converts your existing code to Python for performance improvements or just general codebase migration.<br />
+It's included with x++ since version 3.1.2 and is available globally as the Python package <code>caffeine</code>.</p>
+<p>It implements <strong>all</strong> features available in xpp except for imports.</p>
+<h2 id="basic-usage"><a class="header" href="#basic-usage">Basic Usage</a></h2>
+<p>If you had a file called <code>main.xpp</code> and wanted to convert it to Python, you could do something like this:</p>
+<pre><code class="language-sh">caffeine main.xpp
+</code></pre>
+<p>This will give you a  <code>main.py</code> file in the same directory.</p>
+<hr />
+<p>Another feature is auto minification of the resulting Python code via the <code>-1</code> flag.<br />
+To convert <code>main.xpp</code> to minified Python, you would run:</p>
+<pre><code class="language-sh">caffeine -o -1 main.xpp
+</code></pre>
+<p>Notice the <code>-o</code> in there? That stands for <code>overwrite</code>, so caffeine will write over the existing <code>main.py</code> file (if it exists).</p>
+<hr />
+<p>Lastly, Caffeine supports automatic building via <a href="https://pyinstaller.org">pyinstaller</a>.<br />
+To convert <code>main.xpp</code> to an exe (or binary, depending on your OS) and then run it automatically, you can do something like this:</p>
+<pre><code class="language-sh">caffeine -o -r -b main.xpp
+</code></pre>
+<p>This will give you a <code>main</code> file and will run it automatically after pyinstaller builds it.<br />
+However, this obviouslly requires that you have pyinstaller installed and added to system PATH.</p>
+<h2 id="notice"><a class="header" href="#notice">Notice</a></h2>
+<p>Run <code>caffeine --help</code> for more up to date and accurate information then these docs can provide.</p>
 <hr />
 <p>Last Updated: March 9th, 2024 by iiPython</p>
 <p><a href="#x--caffeine">↑ Go To Top</a></p>
